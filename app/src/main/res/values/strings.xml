@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">LME</string>
+    <string name="type_of_event">What type of event is this?</string>
+    <string name="assignment_checkbox_text">School/Work Assignment</string>
+    <string name="other_checkbox_text">Other</string>
+    <string name="next_button_text">Next</string>
+    <string name="only_one">Please only check one CheckBox</string>
+    <string name="choose_one">Please check one CheckBox</string>
+    <string name="attributes">Attributes</string>
+    <string name="attributes_header">Enter as many attributes as you can to get the best recommended schedule possible</string>
+    <string name="assignment_name_hint">Name of assignment</string>
+    <string name="event_name_hint">Name of event</string>
+    <string name="difficulty_hint">Assignment Difficulty (Enter 1-7)</string>
+    <string name="invalid_difficulty_value">Assignment difficulty must be a value of 1 through 7!</string>
+    <string name="error">ERROR!!!</string>
+    <string name="yes_button_text">Yes</string>
+    <string name="no_button_text">No</string>
+    <string name="add_more_text"> Would you like to add another assignment or event?</string>
+    <string name="test">test</string>
+    <string name="set_start_time_text">Set Start Time:</string>
+    <string name="set_end_time_text">Set End Time:</string>
+    <string name="default_set_time_text">12:00</string>
+    <string name="default_time_of_day">p.m.</string>
+    <string name="until_text">Until</string>
+    <string name="set_your_schedule">Please set the time to your schedule.</string>
+    <string name="please_set_the_time">Please change your time schedule.</string>
+</resources>

@@ -1,0 +1,12 @@
+com/bignerdranch/android/lme/BuildConfig.java
+ com.bignerdranch.android.lme.BuildConfig
+com/bignerdranch/android/lme/databinding/ActivityOtherAttributesPageBinding.java
+ com.bignerdranch.android.lme.databinding.ActivityOtherAttributesPageBinding
+com/bignerdranch/android/lme/databinding/ActivityTimeSchedulePageBinding.java
+ com.bignerdranch.android.lme.databinding.ActivityTimeSchedulePageBinding
+com/bignerdranch/android/lme/databinding/ActivityMainBinding.java
+ com.bignerdranch.android.lme.databinding.ActivityMainBinding
+com/bignerdranch/android/lme/databinding/ActivityAssignmentAttributesPageBinding.java
+ com.bignerdranch.android.lme.databinding.ActivityAssignmentAttributesPageBinding
+com/bignerdranch/android/lme/databinding/ActivityAddMorePageBinding.java
+ com.bignerdranch.android.lme.databinding.ActivityAddMorePageBinding
