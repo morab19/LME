@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import java.io.Serializable
 
 class AddMorePage : AppCompatActivity() {
 
@@ -17,12 +18,17 @@ class AddMorePage : AppCompatActivity() {
         noButton = findViewById(R.id.no_button)
         yesButton =  findViewById(R.id.yes_button)
 
-        noButton.setOnClickListener {
+        val listOfAssignments:MutableList<AssignmentClass> = intent.getSerializableExtra("key") as MutableList<AssignmentClass>
 
+        noButton.setOnClickListener {
+            val intent = Intent(this, RecommendedSchedulePage::class.java)
+            intent.putExtra("key", listOfAssignments as Serializable)
+            startActivity(intent)
         }
 
         yesButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("key", listOfAssignments as Serializable)
             startActivity(intent)
         }
     }

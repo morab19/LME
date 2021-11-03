@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.Toast
+import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,6 +23,8 @@ class MainActivity : AppCompatActivity() {
         assignmentCheckBox = findViewById(R.id.assignment_checkbox)
         otherCheckBox = findViewById(R.id.other_checkbox)
 
+        val listOfAssignments:MutableList<AssignmentClass> = intent.getSerializableExtra("key") as MutableList<AssignmentClass>
+
         nextButton.setOnClickListener {
             if(assignmentCheckBox.isChecked && otherCheckBox.isChecked) {
                 val messageRedId = R.string.only_one
@@ -29,10 +32,12 @@ class MainActivity : AppCompatActivity() {
             }
             else if( assignmentCheckBox.isChecked && !otherCheckBox.isChecked ){
                 val intent = Intent(this, AssignmentAttributesPage::class.java)
+                intent.putExtra("key", listOfAssignments as Serializable)
                 startActivity(intent)
             }
             else if( otherCheckBox.isChecked && !assignmentCheckBox.isChecked ) {
                 val intent = Intent(this, OtherAttributesPage::class.java)
+                intent.putExtra("key", listOfAssignments as Serializable)
                 startActivity(intent)
             }
             else{

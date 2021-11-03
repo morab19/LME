@@ -7,9 +7,10 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TimePicker
 import android.widget.Toast
+import java.io.Serializable
 import java.text.SimpleDateFormat
-import java.time.LocalTime
 import java.util.*
+import kotlin.collections.ArrayList
 
 class TimeSchedulePage : AppCompatActivity(){
 
@@ -17,11 +18,11 @@ class TimeSchedulePage : AppCompatActivity(){
     private lateinit var setEndTimeButton: Button
     private lateinit var nextButton: Button
 
-    lateinit var listOfAssignments : List<AssignmentClass>
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_time_schedule_page)
+
+        var listOfAssignments : ArrayList<AssignmentClass> = ArrayList()
 
         setBeginningTimeButton = findViewById(R.id.set_beginning_time_button)
         setEndTimeButton = findViewById(R.id.set_end_time_button)
@@ -29,7 +30,6 @@ class TimeSchedulePage : AppCompatActivity(){
 
         setBeginningTimeButton.text = SimpleDateFormat("HH:mm a").format(Calendar.getInstance().time)
         setEndTimeButton.text = SimpleDateFormat("HH:mm a").format(Calendar.getInstance().time)
-
 
         setBeginningTimeButton.setOnClickListener {
             val cal = Calendar.getInstance()
@@ -54,11 +54,13 @@ class TimeSchedulePage : AppCompatActivity(){
         nextButton.setOnClickListener {
 
             if(setBeginningTimeButton.text == setEndTimeButton.text){
+                //val messageRedId = c.name
                 val messageRedId = R.string.please_set_the_time
                 Toast.makeText(this, messageRedId, Toast.LENGTH_SHORT).show()
             }
             else{
                 val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("key", listOfAssignments as Serializable)
                 startActivity(intent)
             }
         }

@@ -7,6 +7,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
+import java.io.Serializable
 
 class OtherAttributesPage : AppCompatActivity() {
 
@@ -19,6 +20,8 @@ class OtherAttributesPage : AppCompatActivity() {
 
         nextButton = findViewById(R.id.next_button)
         nameOfEvent = findViewById(R.id.name_of_event_edit_text)
+
+        val listOfAssignments:MutableList<AssignmentClass> = intent.getSerializableExtra("key") as MutableList<AssignmentClass>
 
         nameOfEvent.addTextChangedListener(object : TextWatcher {
 
@@ -41,6 +44,15 @@ class OtherAttributesPage : AppCompatActivity() {
 
         nextButton.setOnClickListener {
             val intent = Intent(this, AddMorePage::class.java)
+
+            var c = AssignmentClass(
+                difficulty = 0,
+                name = nameOfEvent.text.toString(),
+                booleanClass = false
+            )
+
+            listOfAssignments.add(c)
+            intent.putExtra("key", listOfAssignments as Serializable)
             startActivity(intent)
         }
     }

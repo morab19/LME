@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import java.io.Serializable
 
 class AssignmentAttributesPage : AppCompatActivity() {
 
@@ -22,6 +23,8 @@ class AssignmentAttributesPage : AppCompatActivity() {
         difficultyValue = findViewById(R.id.difficulty_of_assignment_edit_text)
         nameOfAssignment = findViewById(R.id.name_of_assignment_edit_text)
         nextButton = findViewById(R.id.next_button)
+
+        val listOfAssignments:MutableList<AssignmentClass> = intent.getSerializableExtra("key") as MutableList<AssignmentClass>
 
         var num: Int
         var str: String
@@ -42,6 +45,7 @@ class AssignmentAttributesPage : AppCompatActivity() {
 
                 //This block of code was added to keep
                 //it from crashing when backspacing.
+
                 str = difficultyValue.text.toString()
                 if(!str.equals("")){
                     num = Integer.parseInt(str)
@@ -78,8 +82,16 @@ class AssignmentAttributesPage : AppCompatActivity() {
                 Toast.makeText(this, messageRedId, Toast.LENGTH_SHORT).show()
             }
             else{
-
                 val intent = Intent(this, AddMorePage::class.java)
+
+                var c = AssignmentClass(
+                    difficulty = difficultyValue.text.toString().toInt(),
+                    name = nameOfAssignment.text.toString(),
+                    booleanClass = true
+                )
+
+                listOfAssignments.add(c)
+                intent.putExtra("key", listOfAssignments as Serializable)
                 startActivity(intent)
             }
         }

@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LME">
         <activity
+            android:name=".RecommendedSchedulePage"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true" />
         <activity
@@ -24,6 +27,7 @@
         <activity android:name=".TimeSchedulePage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
