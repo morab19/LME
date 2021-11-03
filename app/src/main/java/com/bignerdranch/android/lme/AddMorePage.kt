@@ -19,16 +19,19 @@ class AddMorePage : AppCompatActivity() {
         yesButton =  findViewById(R.id.yes_button)
 
         val listOfAssignments:MutableList<AssignmentClass> = intent.getSerializableExtra("key") as MutableList<AssignmentClass>
+        val beginningAndEndTime = intent.getSerializableExtra("set")
 
         noButton.setOnClickListener {
             val intent = Intent(this, RecommendedSchedulePage::class.java)
             intent.putExtra("key", listOfAssignments as Serializable)
+            intent.putExtra("set", beginningAndEndTime)
             startActivity(intent)
         }
 
         yesButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("key", listOfAssignments as Serializable)
+            intent.putExtra("set", beginningAndEndTime)
             startActivity(intent)
         }
     }

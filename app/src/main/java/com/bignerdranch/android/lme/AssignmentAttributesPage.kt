@@ -25,6 +25,7 @@ class AssignmentAttributesPage : AppCompatActivity() {
         nextButton = findViewById(R.id.next_button)
 
         val listOfAssignments:MutableList<AssignmentClass> = intent.getSerializableExtra("key") as MutableList<AssignmentClass>
+        val beginningAndEndTime = intent.getSerializableExtra("set")
 
         var num: Int
         var str: String
@@ -92,6 +93,7 @@ class AssignmentAttributesPage : AppCompatActivity() {
 
                 listOfAssignments.add(c)
                 intent.putExtra("key", listOfAssignments as Serializable)
+                intent.putExtra("set", beginningAndEndTime)
                 startActivity(intent)
             }
         }

@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         otherCheckBox = findViewById(R.id.other_checkbox)
 
         val listOfAssignments:MutableList<AssignmentClass> = intent.getSerializableExtra("key") as MutableList<AssignmentClass>
+        val beginningAndEndTime = intent.getSerializableExtra("set")
 
         nextButton.setOnClickListener {
             if(assignmentCheckBox.isChecked && otherCheckBox.isChecked) {
@@ -33,11 +34,13 @@ class MainActivity : AppCompatActivity() {
             else if( assignmentCheckBox.isChecked && !otherCheckBox.isChecked ){
                 val intent = Intent(this, AssignmentAttributesPage::class.java)
                 intent.putExtra("key", listOfAssignments as Serializable)
+                intent.putExtra("set", beginningAndEndTime)
                 startActivity(intent)
             }
             else if( otherCheckBox.isChecked && !assignmentCheckBox.isChecked ) {
                 val intent = Intent(this, OtherAttributesPage::class.java)
                 intent.putExtra("key", listOfAssignments as Serializable)
+                intent.putExtra("set", beginningAndEndTime)
                 startActivity(intent)
             }
             else{
