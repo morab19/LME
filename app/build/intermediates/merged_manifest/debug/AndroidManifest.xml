@@ -19,6 +19,9 @@
         android:testOnly="true"
         android:theme="@style/Theme.LME" >
         <activity
+            android:name="com.bignerdranch.android.lme.RecommendedSchedulePage"
+            android:exported="true" />
+        <activity
             android:name="com.bignerdranch.android.lme.MainActivity"
             android:exported="true" />
         <activity

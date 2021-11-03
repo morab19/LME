@@ -1,3 +1,5 @@
+com/bignerdranch/android/lme/databinding/ActivityRecommendedSchedulePageBinding.java
+ com.bignerdranch.android.lme.databinding.ActivityRecommendedSchedulePageBinding
 com/bignerdranch/android/lme/BuildConfig.java
  com.bignerdranch.android.lme.BuildConfig
 com/bignerdranch/android/lme/databinding/ActivityOtherAttributesPageBinding.java

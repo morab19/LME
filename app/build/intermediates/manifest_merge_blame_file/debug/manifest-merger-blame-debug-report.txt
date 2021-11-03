@@ -11,11 +11,11 @@
 9-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml
 10
 11    <application
-11-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:5:5-30:19
+11-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:5:5-34:19
 12        android:allowBackup="true"
 12-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:6:9-35
 13        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-13-->[androidx.core:core:1.6.0] C:\Users\Bryan\.gradle\caches\transforms-3\3d9d0320da2017f49ed20d325d17bec3\transformed\core-1.6.0\AndroidManifest.xml:24:18-86
+13-->[androidx.core:core:1.6.0] C:\Users\Bryan\.gradle\caches\transforms-3\348f6d52d990d4fb4fcc5abc17a1cdcd\transformed\core-1.6.0\AndroidManifest.xml:24:18-86
 14        android:debuggable="true"
 15        android:icon="@mipmap/ic_launcher"
 15-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:7:9-43
@@ -30,42 +30,48 @@
 20-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:11:9-41
 21        <activity
 21-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:12:9-14:39
-22            android:name="com.bignerdranch.android.lme.MainActivity"
-22-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:13:13-41
+22            android:name="com.bignerdranch.android.lme.RecommendedSchedulePage"
+22-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:13:13-52
 23            android:exported="true" />
 23-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:14:13-36
 24        <activity
 24-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:15:9-17:39
-25            android:name="com.bignerdranch.android.lme.AddMorePage"
-25-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:16:13-40
+25            android:name="com.bignerdranch.android.lme.MainActivity"
+25-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:16:13-41
 26            android:exported="true" />
 26-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:17:13-36
 27        <activity
 27-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:18:9-20:39
-28            android:name="com.bignerdranch.android.lme.OtherAttributesPage"
-28-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:19:13-48
+28            android:name="com.bignerdranch.android.lme.AddMorePage"
+28-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:19:13-40
 29            android:exported="true" />
 29-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:20:13-36
 30        <activity
 30-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:21:9-23:39
-31            android:name="com.bignerdranch.android.lme.AssignmentAttributesPage"
-31-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:22:13-53
+31            android:name="com.bignerdranch.android.lme.OtherAttributesPage"
+31-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:22:13-48
 32            android:exported="true" />
 32-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:23:13-36
-33        <activity android:name="com.bignerdranch.android.lme.TimeSchedulePage" >
-33-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:24:9-29:20
-33-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:24:19-51
-34            <intent-filter>
-34-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:25:13-28:29
-35                <action android:name="android.intent.action.MAIN" />
-35-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:26:17-69
-35-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:26:25-66
-36
-37                <category android:name="android.intent.category.LAUNCHER" />
-37-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:27:17-77
-37-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:27:27-74
-38            </intent-filter>
-39        </activity>
-40    </application>
-41
-42</manifest>
+33        <activity
+33-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:24:9-26:39
+34            android:name="com.bignerdranch.android.lme.AssignmentAttributesPage"
+34-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:25:13-53
+35            android:exported="true" />
+35-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:26:13-36
+36        <activity android:name="com.bignerdranch.android.lme.TimeSchedulePage" >
+36-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:27:9-33:20
+36-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:27:19-51
+37            <intent-filter>
+37-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:28:13-32:29
+38                <action android:name="android.intent.action.MAIN" />
+38-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:29:17-69
+38-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:29:25-66
+39
+40                <category android:name="android.intent.category.LAUNCHER" />
+40-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:31:17-77
+40-->C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\AndroidManifest.xml:31:27-74
+41            </intent-filter>
+42        </activity>
+43    </application>
+44
+45</manifest>

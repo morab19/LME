@@ -2196,6 +2196,7 @@ id progress_circular
 id progress_horizontal
 id radio
 id ratio
+id recommended_schedule
 id rectangles
 id reverseSawtooth
 id right
@@ -2305,6 +2306,7 @@ id time
 id title
 id titleDividerNoCustom
 id title_template
+id toast_button
 id toggle
 id top
 id topPanel
@@ -2413,6 +2415,7 @@ layout activity_add_more_page
 layout activity_assignment_attributes_page
 layout activity_main
 layout activity_other_attributes_page
+layout activity_recommended_schedule_page
 layout activity_time_schedule_page
 layout custom_dialog
 layout design_bottom_navigation_item

@@ -16,6 +16,10 @@
         "source": "C:\\Users\\Bryan\\Desktop\\AndroidStudioProjects\\LME\\app\\build\\generated\\res\\pngs\\debug\\drawable-xxxhdpi\\ic_launcher_background.png"
     },
     {
+        "merged": "C:\\Users\\Bryan\\Desktop\\AndroidStudioProjects\\LME\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_recommended_schedule_page.xml.flat",
+        "source": "C:\\Users\\Bryan\\Desktop\\AndroidStudioProjects\\LME\\app\\src\\main\\res\\layout\\activity_recommended_schedule_page.xml"
+    },
+    {
         "merged": "C:\\Users\\Bryan\\Desktop\\AndroidStudioProjects\\LME\\app\\build\\intermediates\\merged_res\\debug\\layout_activity_assignment_attributes_page.xml.flat",
         "source": "C:\\Users\\Bryan\\Desktop\\AndroidStudioProjects\\LME\\app\\src\\main\\res\\layout\\activity_assignment_attributes_page.xml"
     },
