@@ -22,7 +22,10 @@ class OtherAttributesPage : AppCompatActivity() {
         nameOfEvent = findViewById(R.id.name_of_event_edit_text)
 
         val listOfAssignments:MutableList<AssignmentClass> = intent.getSerializableExtra("key") as MutableList<AssignmentClass>
-        val beginningAndEndTime = intent.getSerializableExtra("set")
+        val startTimeValue = intent.getStringExtra("startTimeValue")
+        val endTimeValue = intent.getStringExtra("endTimeValue")
+        val startTimeZone = intent.getStringExtra("startTimeZone")
+        val endTimeZone = intent.getStringExtra("endTimeZone")
 
         nameOfEvent.addTextChangedListener(object : TextWatcher {
 
@@ -54,7 +57,10 @@ class OtherAttributesPage : AppCompatActivity() {
 
             listOfAssignments.add(c)
             intent.putExtra("key", listOfAssignments as Serializable)
-            intent.putExtra("set", beginningAndEndTime)
+            intent.putExtra("startTimeValue", startTimeValue)
+            intent.putExtra("endTimeValue", endTimeValue)
+            intent.putExtra("startTimeZone", startTimeZone)
+            intent.putExtra("endTimeZone", endTimeZone)
             startActivity(intent)
         }
     }

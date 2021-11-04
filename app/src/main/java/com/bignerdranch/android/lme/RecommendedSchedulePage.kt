@@ -15,8 +15,11 @@ class RecommendedSchedulePage : AppCompatActivity() {
         recommendedSchedule = findViewById(R.id.recommended_schedule)
 
         val listOfAssignments:MutableList<AssignmentClass> = intent.getSerializableExtra("key") as MutableList<AssignmentClass>
-        val beginningAndEndTime = intent.getSerializableExtra("set")
+        val startTimeValue = intent.getStringExtra("startTimeValue")
+        val endTimeValue = intent.getStringExtra("endTimeValue")
+        val startTimeZone = intent.getStringExtra("startTimeZone")
+        val endTimeZone = intent.getStringExtra("endTimeZone")
 
-        recommendedSchedule.text = beginningAndEndTime.toString()
+        recommendedSchedule.text = startTimeValue
     }
 }

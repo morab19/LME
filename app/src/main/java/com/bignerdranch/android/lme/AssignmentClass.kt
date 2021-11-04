@@ -5,6 +5,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
+//This single class is used for both Assignments events and Other events
+//and uses a Boolean to distinguish between the two.
 @Entity
 data class AssignmentClass(
     @ColumnInfo(name = "id") var difficulty: Int,

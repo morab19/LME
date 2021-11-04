@@ -25,7 +25,10 @@ class AssignmentAttributesPage : AppCompatActivity() {
         nextButton = findViewById(R.id.next_button)
 
         val listOfAssignments:MutableList<AssignmentClass> = intent.getSerializableExtra("key") as MutableList<AssignmentClass>
-        val beginningAndEndTime = intent.getSerializableExtra("set")
+        val startTimeValue = intent.getStringExtra("startTimeValue")
+        val endTimeValue = intent.getStringExtra("endTimeValue")
+        val startTimeZone = intent.getStringExtra("startTimeZone")
+        val endTimeZone = intent.getStringExtra("endTimeZone")
 
         var num: Int
         var str: String
@@ -74,6 +77,17 @@ class AssignmentAttributesPage : AppCompatActivity() {
 
             override fun afterTextChanged(s: Editable?) {
 
+            /*    if(listOfAssignments.isNotEmpty()){
+
+                    for (currentIndex in listOfAssignments){
+
+                        if (currentIndex.name == nameOfAssignment.text.toString()){
+                            val messageRedId = R.string.invalid_difficulty_value
+                            Toast.makeText(this, messageRedId, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                } */
             }
         })
         nextButton.setOnClickListener {
@@ -93,7 +107,10 @@ class AssignmentAttributesPage : AppCompatActivity() {
 
                 listOfAssignments.add(c)
                 intent.putExtra("key", listOfAssignments as Serializable)
-                intent.putExtra("set", beginningAndEndTime)
+                intent.putExtra("startTimeValue", startTimeValue)
+                intent.putExtra("endTimeValue", endTimeValue)
+                intent.putExtra("startTimeZone", startTimeZone)
+                intent.putExtra("endTimeZone", endTimeZone)
                 startActivity(intent)
             }
         }

@@ -22,15 +22,14 @@ class TimeSchedulePage : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_time_schedule_page)
 
+        // Initialize the ArrayList in the beginning to be passed
+        // around throughout the entire app until we reach the end.
         var listOfAssignments : ArrayList<AssignmentClass> = ArrayList()
-        var beginningAndEndTime: ArrayList<String> = ArrayList()
 
         setBeginningTimeButton = findViewById(R.id.set_beginning_time_button)
         setEndTimeButton = findViewById(R.id.set_end_time_button)
         nextButton = findViewById(R.id.next_button)
 
-        // Initialize the ArrayLists in the beginning to be passed
-        // around throughout the entire app until we reach the end.
         setBeginningTimeButton.text = SimpleDateFormat("h:00 a").format(Calendar.getInstance().time)
         setEndTimeButton.text = SimpleDateFormat("h:00 a").format(Calendar.getInstance().time)
 
@@ -62,7 +61,6 @@ class TimeSchedulePage : AppCompatActivity(){
         }
 
         nextButton.setOnClickListener {
-
             if(setBeginningTimeButton.text == setEndTimeButton.text){
                 val messageRedId = R.string.please_set_the_time
                 Toast.makeText(this, messageRedId, Toast.LENGTH_SHORT).show()
@@ -73,11 +71,9 @@ class TimeSchedulePage : AppCompatActivity(){
 
                 if(setBeginningTimeButton.text.length == 8){
                     startTimeValue = setBeginningTimeButton.text.toString().substring(0,2)
-                    beginningAndEndTime.add(startTimeValue)
                 }
                 else{
                     startTimeValue = setBeginningTimeButton.text.toString().substring(0,1)
-                    beginningAndEndTime.add(startTimeValue)
                 }
 
                 // Checks to see the hour entered by the user.
@@ -85,11 +81,9 @@ class TimeSchedulePage : AppCompatActivity(){
 
                 if(setEndTimeButton.text.toString().length == 8){
                     endTimeValue = setEndTimeButton.text.toString().substring(0,2)
-                    beginningAndEndTime.add(endTimeValue)
                 }
                 else{
                     endTimeValue = setEndTimeButton.text.toString().substring(0,1)
-                    beginningAndEndTime.add(endTimeValue)
                 }
 
                 // Checks to see if the start time of the
@@ -98,11 +92,9 @@ class TimeSchedulePage : AppCompatActivity(){
 
                 if(setBeginningTimeButton.text.toString().endsWith("PM")){
                     startTimeZone = "pm"
-                    beginningAndEndTime.add(startTimeZone)
                 }
                 else{
                     startTimeZone = "am"
-                    beginningAndEndTime.add(startTimeZone)
                 }
 
                 // Checks to see if the start time of the
@@ -111,16 +103,17 @@ class TimeSchedulePage : AppCompatActivity(){
 
                 if(setEndTimeButton.text.toString().endsWith("PM")){
                     endTimeZone = "pm"
-                    beginningAndEndTime.add(endTimeZone)
                 }
                 else{
                     endTimeZone = "am"
-                    beginningAndEndTime.add(endTimeZone)
                 }
 
                 val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra("key", listOfAssignments as Serializable)
-                intent.putExtra("set", beginningAndEndTime)
+                intent.putExtra("startTimeValue", startTimeValue)
+                intent.putExtra("endTimeValue", endTimeValue)
+                intent.putExtra("startTimeZone", startTimeZone)
+                intent.putExtra("endTimeZone", endTimeZone)
                 startActivity(intent)
             }
         }
