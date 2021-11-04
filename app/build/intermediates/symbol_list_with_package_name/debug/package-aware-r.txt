@@ -2037,6 +2037,9 @@ id edit_query
 id elastic
 id end
 id endToStart
+id end_time
+id end_time_edit_text
+id end_toggle_button
 id enterAlways
 id enterAlwaysCollapsed
 id exitUntilCollapsed
@@ -2261,6 +2264,9 @@ id start
 id startHorizontal
 id startToEnd
 id startVertical
+id start_time
+id start_time_edit_text
+id start_toggle_button
 id staticLayout
 id staticPostLayout
 id stop
@@ -2532,6 +2538,7 @@ string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
 string add_more_text
+string am
 string app_name
 string appbar_scrolling_view_behavior
 string assignment_checkbox_text
@@ -2549,6 +2556,7 @@ string clear_text_end_icon_content_description
 string default_set_time_text
 string default_time_of_day
 string difficulty_hint
+string end_time
 string error
 string error_icon_content_description
 string event_name_hint
@@ -2614,6 +2622,7 @@ string mtrl_picker_toggle_to_calendar_input_mode
 string mtrl_picker_toggle_to_day_selection
 string mtrl_picker_toggle_to_text_input_mode
 string mtrl_picker_toggle_to_year_selection
+string name_already_exists
 string nav_app_bar_navigate_up_description
 string nav_app_bar_open_drawer_description
 string next_button_text
@@ -2626,10 +2635,12 @@ string path_password_eye_mask_strike_through
 string path_password_eye_mask_visible
 string path_password_strike_through
 string please_set_the_time
+string pm
 string search_menu_title
 string set_end_time_text
 string set_start_time_text
 string set_your_schedule
+string start_time
 string status_bar_notification_info_overflow
 string test
 string type_of_event

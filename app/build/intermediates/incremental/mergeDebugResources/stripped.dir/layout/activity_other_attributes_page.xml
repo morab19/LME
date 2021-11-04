@@ -32,6 +32,70 @@
         android:hint="@string/event_name_hint"
         android:padding="12dp" />
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="12dp"
+            android:text="@string/start_time"/>
+
+        <EditText
+            android:id="@+id/start_time_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="Enter time here"
+            android:inputType="phone"
+            android:digits="1234567890"
+            android:maxLength="2"
+            android:padding="12dp" />
+
+        <Button
+            android:id="@+id/start_toggle_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/am"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="12dp"
+            android:text="@string/end_time"/>
+
+        <EditText
+            android:id="@+id/end_time_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="Enter time here"
+            android:inputType="phone"
+            android:digits="1234567890"
+            android:maxLength="2"
+            android:padding="12dp" />
+
+        <Button
+            android:id="@+id/end_toggle_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/am"/>
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/next_button"
         android:layout_width="wrap_content"

@@ -77,17 +77,18 @@ class AssignmentAttributesPage : AppCompatActivity() {
 
             override fun afterTextChanged(s: Editable?) {
 
-            /*    if(listOfAssignments.isNotEmpty()){
+                if(listOfAssignments.isNotEmpty()){
 
                     for (currentIndex in listOfAssignments){
 
                         if (currentIndex.name == nameOfAssignment.text.toString()){
-                            val messageRedId = R.string.invalid_difficulty_value
-                            Toast.makeText(this, messageRedId, Toast.LENGTH_SHORT).show()
+                            nameOfAssignment.setText("")
+                            val messageRedId = R.string.name_already_exists
+                            Toast.makeText(baseContext, messageRedId, Toast.LENGTH_SHORT).show()
                         }
                     }
 
-                } */
+                }
             }
         })
         nextButton.setOnClickListener {

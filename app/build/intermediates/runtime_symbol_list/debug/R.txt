@@ -2036,6 +2036,9 @@ int id edit_query 0x7f0800af
 int id elastic 0x7f0800b0
 int id end 0x7f0800b1
 int id endToStart 0x7f0800b2
+int id end_time 0x7f0801e5
+int id end_time_edit_text 0x7f0801e6
+int id end_toggle_button 0x7f0801e7
 int id enterAlways 0x7f0800b3
 int id enterAlwaysCollapsed 0x7f0800b4
 int id exitUntilCollapsed 0x7f0800b5
@@ -2260,6 +2263,9 @@ int id start 0x7f08018f
 int id startHorizontal 0x7f080190
 int id startToEnd 0x7f080191
 int id startVertical 0x7f080192
+int id start_time 0x7f0801e8
+int id start_time_edit_text 0x7f0801e9
+int id start_toggle_button 0x7f0801ea
 int id staticLayout 0x7f080193
 int id staticPostLayout 0x7f080194
 int id stop 0x7f080195
@@ -2531,6 +2537,7 @@ int string abc_shareactionprovider_share_with 0x7f0e0018
 int string abc_shareactionprovider_share_with_application 0x7f0e0019
 int string abc_toolbar_collapse_description 0x7f0e001a
 int string add_more_text 0x7f0e001b
+int string am 0x7f0e0084
 int string app_name 0x7f0e001c
 int string appbar_scrolling_view_behavior 0x7f0e001d
 int string assignment_checkbox_text 0x7f0e001e
@@ -2548,6 +2555,7 @@ int string clear_text_end_icon_content_description 0x7f0e0029
 int string default_set_time_text 0x7f0e002a
 int string default_time_of_day 0x7f0e002b
 int string difficulty_hint 0x7f0e002c
+int string end_time 0x7f0e0085
 int string error 0x7f0e002d
 int string error_icon_content_description 0x7f0e002e
 int string event_name_hint 0x7f0e002f
@@ -2613,6 +2621,7 @@ int string mtrl_picker_toggle_to_calendar_input_mode 0x7f0e006a
 int string mtrl_picker_toggle_to_day_selection 0x7f0e006b
 int string mtrl_picker_toggle_to_text_input_mode 0x7f0e006c
 int string mtrl_picker_toggle_to_year_selection 0x7f0e006d
+int string name_already_exists 0x7f0e0083
 int string nav_app_bar_navigate_up_description 0x7f0e006e
 int string nav_app_bar_open_drawer_description 0x7f0e006f
 int string next_button_text 0x7f0e0070
@@ -2625,10 +2634,12 @@ int string path_password_eye_mask_strike_through 0x7f0e0076
 int string path_password_eye_mask_visible 0x7f0e0077
 int string path_password_strike_through 0x7f0e0078
 int string please_set_the_time 0x7f0e0079
+int string pm 0x7f0e0086
 int string search_menu_title 0x7f0e007a
 int string set_end_time_text 0x7f0e007b
 int string set_start_time_text 0x7f0e007c
 int string set_your_schedule 0x7f0e007d
+int string start_time 0x7f0e0087
 int string status_bar_notification_info_overflow 0x7f0e007e
 int string test 0x7f0e007f
 int string type_of_event 0x7f0e0080

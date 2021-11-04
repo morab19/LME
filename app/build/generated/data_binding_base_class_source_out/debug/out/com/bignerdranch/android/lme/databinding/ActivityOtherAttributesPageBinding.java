@@ -28,19 +28,46 @@ public final class ActivityOtherAttributesPageBinding implements ViewBinding {
   public final TextView attributeTextViewInfo;
 
   @NonNull
+  public final TextView endTime;
+
+  @NonNull
+  public final EditText endTimeEditText;
+
+  @NonNull
+  public final Button endToggleButton;
+
+  @NonNull
   public final EditText nameOfEventEditText;
 
   @NonNull
   public final Button nextButton;
 
+  @NonNull
+  public final TextView startTime;
+
+  @NonNull
+  public final EditText startTimeEditText;
+
+  @NonNull
+  public final Button startToggleButton;
+
   private ActivityOtherAttributesPageBinding(@NonNull LinearLayout rootView,
       @NonNull TextView attributeTextView, @NonNull TextView attributeTextViewInfo,
-      @NonNull EditText nameOfEventEditText, @NonNull Button nextButton) {
+      @NonNull TextView endTime, @NonNull EditText endTimeEditText, @NonNull Button endToggleButton,
+      @NonNull EditText nameOfEventEditText, @NonNull Button nextButton,
+      @NonNull TextView startTime, @NonNull EditText startTimeEditText,
+      @NonNull Button startToggleButton) {
     this.rootView = rootView;
     this.attributeTextView = attributeTextView;
     this.attributeTextViewInfo = attributeTextViewInfo;
+    this.endTime = endTime;
+    this.endTimeEditText = endTimeEditText;
+    this.endToggleButton = endToggleButton;
     this.nameOfEventEditText = nameOfEventEditText;
     this.nextButton = nextButton;
+    this.startTime = startTime;
+    this.startTimeEditText = startTimeEditText;
+    this.startToggleButton = startToggleButton;
   }
 
   @Override
@@ -82,6 +109,24 @@ public final class ActivityOtherAttributesPageBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.end_time;
+      TextView endTime = ViewBindings.findChildViewById(rootView, id);
+      if (endTime == null) {
+        break missingId;
+      }
+
+      id = R.id.end_time_edit_text;
+      EditText endTimeEditText = ViewBindings.findChildViewById(rootView, id);
+      if (endTimeEditText == null) {
+        break missingId;
+      }
+
+      id = R.id.end_toggle_button;
+      Button endToggleButton = ViewBindings.findChildViewById(rootView, id);
+      if (endToggleButton == null) {
+        break missingId;
+      }
+
       id = R.id.name_of_event_edit_text;
       EditText nameOfEventEditText = ViewBindings.findChildViewById(rootView, id);
       if (nameOfEventEditText == null) {
@@ -94,8 +139,27 @@ public final class ActivityOtherAttributesPageBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.start_time;
+      TextView startTime = ViewBindings.findChildViewById(rootView, id);
+      if (startTime == null) {
+        break missingId;
+      }
+
+      id = R.id.start_time_edit_text;
+      EditText startTimeEditText = ViewBindings.findChildViewById(rootView, id);
+      if (startTimeEditText == null) {
+        break missingId;
+      }
+
+      id = R.id.start_toggle_button;
+      Button startToggleButton = ViewBindings.findChildViewById(rootView, id);
+      if (startToggleButton == null) {
+        break missingId;
+      }
+
       return new ActivityOtherAttributesPageBinding((LinearLayout) rootView, attributeTextView,
-          attributeTextViewInfo, nameOfEventEditText, nextButton);
+          attributeTextViewInfo, endTime, endTimeEditText, endToggleButton, nameOfEventEditText,
+          nextButton, startTime, startTimeEditText, startToggleButton);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));
