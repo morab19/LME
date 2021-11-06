@@ -2556,6 +2556,7 @@ int string default_set_time_text 0x7f0e002a
 int string default_time_of_day 0x7f0e002b
 int string difficulty_hint 0x7f0e002c
 int string end_time 0x7f0e0085
+int string end_time_invalid 0x7f0e0089
 int string error 0x7f0e002d
 int string error_icon_content_description 0x7f0e002e
 int string event_name_hint 0x7f0e002f
@@ -2635,11 +2636,13 @@ int string path_password_eye_mask_visible 0x7f0e0077
 int string path_password_strike_through 0x7f0e0078
 int string please_set_the_time 0x7f0e0079
 int string pm 0x7f0e0086
+int string schedule_exceed 0x7f0e0088
 int string search_menu_title 0x7f0e007a
 int string set_end_time_text 0x7f0e007b
 int string set_start_time_text 0x7f0e007c
 int string set_your_schedule 0x7f0e007d
 int string start_time 0x7f0e0087
+int string start_time_invalid 0x7f0e008a
 int string status_bar_notification_info_overflow 0x7f0e007e
 int string test 0x7f0e007f
 int string type_of_event 0x7f0e0080

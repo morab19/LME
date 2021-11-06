@@ -66,54 +66,38 @@ class TimeSchedulePage : AppCompatActivity(){
                 Toast.makeText(this, messageRedId, Toast.LENGTH_SHORT).show()
             }
             else{
-                // Checks to see the hour entered by the user.
-                var startTimeValue : String
 
-                if(setBeginningTimeButton.text.length == 8){
-                    startTimeValue = setBeginningTimeButton.text.toString().substring(0,2)
-                }
-                else{
-                    startTimeValue = setBeginningTimeButton.text.toString().substring(0,1)
-                }
-
-                // Checks to see the hour entered by the user.
-                var endTimeValue : String
-
-                if(setEndTimeButton.text.toString().length == 8){
-                    endTimeValue = setEndTimeButton.text.toString().substring(0,2)
-                }
-                else{
-                    endTimeValue = setEndTimeButton.text.toString().substring(0,1)
-                }
+                var startTimeValue : String = setBeginningTimeButton.text.toString()
+                var endTimeValue : String = setEndTimeButton.text.toString()
 
                 // Checks to see if the start time of the
                 // schedule entered by the user is am or pm.
-                var startTimeZone : String
+                var startTimeAbbreviation : String
 
                 if(setBeginningTimeButton.text.toString().endsWith("PM")){
-                    startTimeZone = "pm"
+                    startTimeAbbreviation = "pm"
                 }
                 else{
-                    startTimeZone = "am"
+                    startTimeAbbreviation = "am"
                 }
 
                 // Checks to see if the start time of the
                 // schedule entered by the user is am or pm.
-                var endTimeZone : String
+                var endTimeAbbreviation : String
 
                 if(setEndTimeButton.text.toString().endsWith("PM")){
-                    endTimeZone = "pm"
+                    endTimeAbbreviation = "pm"
                 }
                 else{
-                    endTimeZone = "am"
+                    endTimeAbbreviation = "am"
                 }
 
                 val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra("key", listOfAssignments as Serializable)
                 intent.putExtra("startTimeValue", startTimeValue)
                 intent.putExtra("endTimeValue", endTimeValue)
-                intent.putExtra("startTimeZone", startTimeZone)
-                intent.putExtra("endTimeZone", endTimeZone)
+                intent.putExtra("startTimeZone", startTimeAbbreviation)
+                intent.putExtra("endTimeZone", endTimeAbbreviation)
                 startActivity(intent)
             }
         }

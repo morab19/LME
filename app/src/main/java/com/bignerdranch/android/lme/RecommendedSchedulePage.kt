@@ -21,5 +21,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
         val endTimeZone = intent.getStringExtra("endTimeZone")
 
         recommendedSchedule.text = startTimeValue
+        recommendedSchedule.text = endTimeValue
+
     }
 }

@@ -77,33 +77,32 @@ class AssignmentAttributesPage : AppCompatActivity() {
 
             override fun afterTextChanged(s: Editable?) {
 
-                if(listOfAssignments.isNotEmpty()){
-
-                    for (currentIndex in listOfAssignments){
-
-                        if (currentIndex.name == nameOfAssignment.text.toString()){
-                            nameOfAssignment.setText("")
-                            val messageRedId = R.string.name_already_exists
-                            Toast.makeText(baseContext, messageRedId, Toast.LENGTH_SHORT).show()
-                        }
-                    }
-
-                }
             }
         })
+
         nextButton.setOnClickListener {
 
-            if ((difficultyValue.text.toString().toInt() < 1) || (difficultyValue.text.toString().toInt() > 7)) {
+            if( (difficultyValue.text.toString().toInt() < 1) || (difficultyValue.text.toString().toInt() > 7) ){
+
                 val messageRedId = R.string.invalid_difficulty_value
                 Toast.makeText(this, messageRedId, Toast.LENGTH_SHORT).show()
             }
+            else if( checkNames(listOfAssignments) ){
+
+                nameOfAssignment.setText("")
+                val messageRedId = R.string.name_already_exists
+                Toast.makeText(baseContext, messageRedId, Toast.LENGTH_SHORT).show()
+            }
             else{
+
                 val intent = Intent(this, AddMorePage::class.java)
 
                 var c = AssignmentClass(
                     difficulty = difficultyValue.text.toString().toInt(),
                     name = nameOfAssignment.text.toString(),
-                    booleanClass = true
+                    booleanClass = true,
+                    beginningTime = "Blank",
+                    finalTime = "Blank"
                 )
 
                 listOfAssignments.add(c)
@@ -115,5 +114,20 @@ class AssignmentAttributesPage : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+    }
+
+    private fun checkNames(listOfAssignments:MutableList<AssignmentClass>): Boolean {
+
+        if(listOfAssignments.isNotEmpty()){
+
+            for (currentIndex in listOfAssignments){
+
+                if (currentIndex.name == nameOfAssignment.text.toString()){
+                    return true
+                }
+            }
+        }
+
+        return false
     }
 }

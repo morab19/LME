@@ -29,4 +29,7 @@
     <string name="end_time">End Time:</string>
     <string name="am">am</string>
     <string name="pm">pm</string>
+    <string name="schedule_exceed"></string>
+    <string name="start_time_invalid">Entered start time exceeds your schedule!</string>
+    <string name="end_time_invalid">Entered end time exceeds your schedule!</string>
 </resources>

@@ -2557,6 +2557,7 @@ string default_set_time_text
 string default_time_of_day
 string difficulty_hint
 string end_time
+string end_time_invalid
 string error
 string error_icon_content_description
 string event_name_hint
@@ -2636,11 +2637,13 @@ string path_password_eye_mask_visible
 string path_password_strike_through
 string please_set_the_time
 string pm
+string schedule_exceed
 string search_menu_title
 string set_end_time_text
 string set_start_time_text
 string set_your_schedule
 string start_time
+string start_time_invalid
 string status_bar_notification_info_overflow
 string test
 string type_of_event

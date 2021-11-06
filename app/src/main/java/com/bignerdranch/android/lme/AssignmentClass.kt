@@ -11,7 +11,9 @@ import java.io.Serializable
 data class AssignmentClass(
     @ColumnInfo(name = "id") var difficulty: Int,
     @ColumnInfo(name = "name") var name: String,
-    @ColumnInfo(name = "booleanClass") var booleanClass: Boolean
+    @ColumnInfo(name = "booleanClass") var booleanClass: Boolean,
+    @ColumnInfo(name = "beginningTime") var beginningTime: String,
+    @ColumnInfo(name = "finalTime") var finalTime : String
 ): Serializable {
     @PrimaryKey(autoGenerate = true) var id: Int? = null
 }
