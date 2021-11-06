@@ -203,12 +203,6 @@ class OtherAttributesPage : AppCompatActivity() {
                 val messageRedId2 = R.string.end_time_invalid
                 Toast.makeText(baseContext, messageRedId2, Toast.LENGTH_SHORT).show()
             }
-            else if( checkNames(listOfAssignments) ){
-
-                nameOfEvent.setText("")
-                val messageRedId = R.string.name_already_exists
-                Toast.makeText(baseContext, messageRedId, Toast.LENGTH_SHORT).show()
-            }
             else if( checkStartTime(convertedUserStartTime, originalStartTimeValue, originalEndTimeValue) ){
 
                 startOfEventEditText.setText("")
@@ -220,6 +214,29 @@ class OtherAttributesPage : AppCompatActivity() {
                 val messageRedId2 = R.string.end_time_invalid
                 Toast.makeText(baseContext, messageRedId2, Toast.LENGTH_SHORT).show()
             }
+            else if( checkNames(listOfAssignments)
+                     && checkForOverlap(listOfAssignments, convertedUserStartTime, convertedUserEndTime) ){
+
+                nameOfEvent.setText("")
+                startOfEventEditText.setText("")
+                endOfEventEditText.setText("")
+                val messageRedId1 = R.string.overlap_detected
+                Toast.makeText(baseContext, messageRedId1, Toast.LENGTH_SHORT).show()
+                val messageRedId2 = R.string.name_already_exists
+                Toast.makeText(baseContext, messageRedId2, Toast.LENGTH_SHORT).show()
+            }
+            else if( checkNames(listOfAssignments) ){
+
+                nameOfEvent.setText("")
+                val messageRedId = R.string.name_already_exists
+                Toast.makeText(baseContext, messageRedId, Toast.LENGTH_SHORT).show()
+            }
+            else if( checkForOverlap(listOfAssignments, convertedUserStartTime, convertedUserEndTime) ){
+                startOfEventEditText.setText("")
+                endOfEventEditText.setText("")
+                val messageRedId = R.string.overlap_detected
+                Toast.makeText(baseContext, messageRedId, Toast.LENGTH_SHORT).show()
+            }
             else{
 
                 val intent = Intent(this, AddMorePage::class.java)
@@ -228,8 +245,8 @@ class OtherAttributesPage : AppCompatActivity() {
                     difficulty = 0,
                     name = nameOfEvent.text.toString(),
                     booleanClass = false,
-                    beginningTime = userStartTime,
-                    finalTime = userEndTime
+                    startTime = userStartTime,
+                    endTime = userEndTime
                 )
 
                 listOfAssignments.add(c)
@@ -247,7 +264,7 @@ class OtherAttributesPage : AppCompatActivity() {
 
         if(listOfAssignments.isNotEmpty()){
 
-            for (currentIndex in listOfAssignments){
+            for(currentIndex in listOfAssignments){
 
                 if (currentIndex.name == nameOfEvent.text.toString()){
                     return true
@@ -280,5 +297,37 @@ class OtherAttributesPage : AppCompatActivity() {
         return (convertedUserEndTime.isAfter(originalEndTimeValue)
                 || convertedUserEndTime.isBefore(originalStartTimeValue)
                 || convertedUserEndTime == originalStartTimeValue)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun checkForOverlap(
+        listOfAssignments: MutableList<AssignmentClass>,
+        convertedUserStartTime: LocalTime,
+        convertedUserEndTime: LocalTime
+    ): Boolean{
+
+        if(listOfAssignments.isNotEmpty()){
+
+            for(currentIndex in listOfAssignments){
+
+                if(!currentIndex.booleanClass) {
+
+                    var currentIndexStartTime = LocalTime.parse(currentIndex.startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                    var currentIndexEndTime = LocalTime.parse(currentIndex.endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+
+                    if(convertedUserStartTime == currentIndexStartTime
+                        || convertedUserEndTime == currentIndexEndTime
+                        || ( (convertedUserStartTime == currentIndexStartTime) && (convertedUserEndTime == currentIndexEndTime) )
+                        || ( (convertedUserStartTime < currentIndexStartTime) && (convertedUserEndTime > currentIndexEndTime) ) ){
+
+                        return true
+                    }
+                }
+            }
+
+            return false
+        }
+
+        return false
     }
 }

@@ -2629,6 +2629,7 @@ int string next_button_text 0x7f0e0070
 int string no_button_text 0x7f0e0071
 int string only_one 0x7f0e0072
 int string other_checkbox_text 0x7f0e0073
+int string overlap_detected 0x7f0e008b
 int string password_toggle_content_description 0x7f0e0074
 int string path_password_eye 0x7f0e0075
 int string path_password_eye_mask_strike_through 0x7f0e0076

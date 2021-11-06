@@ -2630,6 +2630,7 @@ string next_button_text
 string no_button_text
 string only_one
 string other_checkbox_text
+string overlap_detected
 string password_toggle_content_description
 string path_password_eye
 string path_password_eye_mask_strike_through

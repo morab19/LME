@@ -12,8 +12,8 @@ data class AssignmentClass(
     @ColumnInfo(name = "id") var difficulty: Int,
     @ColumnInfo(name = "name") var name: String,
     @ColumnInfo(name = "booleanClass") var booleanClass: Boolean,
-    @ColumnInfo(name = "beginningTime") var beginningTime: String,
-    @ColumnInfo(name = "finalTime") var finalTime : String
+    @ColumnInfo(name = "startTime") var startTime: String,
+    @ColumnInfo(name = "endTime") var endTime : String
 ): Serializable {
     @PrimaryKey(autoGenerate = true) var id: Int? = null
 }

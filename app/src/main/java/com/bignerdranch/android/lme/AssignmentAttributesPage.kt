@@ -27,8 +27,8 @@ class AssignmentAttributesPage : AppCompatActivity() {
         val listOfAssignments:MutableList<AssignmentClass> = intent.getSerializableExtra("key") as MutableList<AssignmentClass>
         val startTimeValue = intent.getStringExtra("startTimeValue")
         val endTimeValue = intent.getStringExtra("endTimeValue")
-        val startTimeZone = intent.getStringExtra("startTimeZone")
-        val endTimeZone = intent.getStringExtra("endTimeZone")
+        val startTimeAbbreviation = intent.getStringExtra("startTimeZone")
+        val endTimeAbbreviation = intent.getStringExtra("endTimeZone")
 
         var num: Int
         var str: String
@@ -101,16 +101,16 @@ class AssignmentAttributesPage : AppCompatActivity() {
                     difficulty = difficultyValue.text.toString().toInt(),
                     name = nameOfAssignment.text.toString(),
                     booleanClass = true,
-                    beginningTime = "Blank",
-                    finalTime = "Blank"
+                    startTime = "Blank",
+                    endTime = "Blank"
                 )
 
                 listOfAssignments.add(c)
                 intent.putExtra("key", listOfAssignments as Serializable)
                 intent.putExtra("startTimeValue", startTimeValue)
                 intent.putExtra("endTimeValue", endTimeValue)
-                intent.putExtra("startTimeZone", startTimeZone)
-                intent.putExtra("endTimeZone", endTimeZone)
+                intent.putExtra("startTimeZone", startTimeAbbreviation)
+                intent.putExtra("endTimeZone", endTimeAbbreviation)
                 startActivity(intent)
             }
         }

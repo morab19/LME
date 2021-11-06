@@ -17,8 +17,8 @@ class RecommendedSchedulePage : AppCompatActivity() {
         val listOfAssignments:MutableList<AssignmentClass> = intent.getSerializableExtra("key") as MutableList<AssignmentClass>
         val startTimeValue = intent.getStringExtra("startTimeValue")
         val endTimeValue = intent.getStringExtra("endTimeValue")
-        val startTimeZone = intent.getStringExtra("startTimeZone")
-        val endTimeZone = intent.getStringExtra("endTimeZone")
+        val startTimeAbbreviation = intent.getStringExtra("startTimeZone")
+        val endTimeAbbreviation = intent.getStringExtra("endTimeZone")
 
         recommendedSchedule.text = startTimeValue
         recommendedSchedule.text = endTimeValue
