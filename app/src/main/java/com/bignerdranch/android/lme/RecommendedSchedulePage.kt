@@ -20,8 +20,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
         val startTimeAbbreviation = intent.getStringExtra("startTimeZone")
         val endTimeAbbreviation = intent.getStringExtra("endTimeZone")
 
-        recommendedSchedule.text = startTimeValue
-        recommendedSchedule.text = endTimeValue
+        recommendedSchedule.text = startTimeValue + "\n" + endTimeValue
 
     }
 }

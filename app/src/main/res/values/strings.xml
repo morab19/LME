@@ -33,4 +33,9 @@
     <string name="start_time_invalid">Entered start time exceeds your schedule!</string>
     <string name="end_time_invalid">Entered end time exceeds your schedule!</string>
     <string name="overlap_detected">The entered times overlaps another event!</string>
+    <string name="name_already_exists_and_both_times_invalid">The name already exists in the schedule and both times exceed your schedule!</string>
+    <string name="name_already_exists_and_start_time_invalid">The name already exists in the schedule and the entered start time exceeds your schedule!</string>
+    <string name="name_already_exists_and_end_time_invalid">The name already exists in the schedule and the entered end time exceeds your schedule!</string>
+    <string name="both_times_invalid">The entered times exceeds your schedule!</string>
+    <string name="name_already_exists_and_overlap_detected">The name already exists in the schedule and the entered times overlaps another event!</string>
 </resources>

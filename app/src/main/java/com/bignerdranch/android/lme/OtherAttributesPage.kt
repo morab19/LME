@@ -166,42 +166,32 @@ class OtherAttributesPage : AppCompatActivity() {
                 nameOfEvent.setText("")
                 startOfEventEditText.setText("")
                 endOfEventEditText.setText("")
-                val messageRedId1 = R.string.name_already_exists
-                Toast.makeText(baseContext, messageRedId1, Toast.LENGTH_SHORT).show()
-                val messageRedId2 = R.string.start_time_invalid
-                Toast.makeText(baseContext, messageRedId2, Toast.LENGTH_SHORT).show()
-                val messageRedId3 = R.string.end_time_invalid
-                Toast.makeText(baseContext, messageRedId3, Toast.LENGTH_SHORT).show()
+                val messageRedId = R.string.name_already_exists_and_both_times_invalid
+                Toast.makeText(baseContext, messageRedId, Toast.LENGTH_SHORT).show()
             }
             else if( checkNames(listOfAssignments)
                      && checkStartTime(convertedUserStartTime, originalStartTimeValue, originalEndTimeValue) ){
 
                 nameOfEvent.setText("")
                 startOfEventEditText.setText("")
-                val messageRedId1 = R.string.name_already_exists
-                Toast.makeText(baseContext, messageRedId1, Toast.LENGTH_SHORT).show()
-                val messageRedId2 = R.string.start_time_invalid
-                Toast.makeText(baseContext, messageRedId2, Toast.LENGTH_SHORT).show()
+                val messageRedId = R.string.name_already_exists_and_start_time_invalid
+                Toast.makeText(baseContext, messageRedId, Toast.LENGTH_SHORT).show()
             }
             else if( checkNames(listOfAssignments)
                      && checkEndTime(convertedUserEndTime, originalStartTimeValue, originalEndTimeValue) ){
 
                 nameOfEvent.setText("")
                 endOfEventEditText.setText("")
-                val messageRedId1 = R.string.name_already_exists
-                Toast.makeText(baseContext, messageRedId1, Toast.LENGTH_SHORT).show()
-                val messageRedId2 = R.string.end_time_invalid
-                Toast.makeText(baseContext, messageRedId2, Toast.LENGTH_SHORT).show()
+                val messageRedId = R.string.name_already_exists_and_end_time_invalid
+                Toast.makeText(baseContext, messageRedId, Toast.LENGTH_SHORT).show()
             }
             else if( checkStartTime(convertedUserStartTime, originalStartTimeValue, originalEndTimeValue)
                      && checkEndTime(convertedUserEndTime, originalStartTimeValue, originalEndTimeValue) ){
 
                 startOfEventEditText.setText("")
                 endOfEventEditText.setText("")
-                val messageRedId1 = R.string.start_time_invalid
-                Toast.makeText(baseContext, messageRedId1, Toast.LENGTH_SHORT).show()
-                val messageRedId2 = R.string.end_time_invalid
-                Toast.makeText(baseContext, messageRedId2, Toast.LENGTH_SHORT).show()
+                val messageRedId = R.string.both_times_invalid
+                Toast.makeText(baseContext, messageRedId, Toast.LENGTH_SHORT).show()
             }
             else if( checkStartTime(convertedUserStartTime, originalStartTimeValue, originalEndTimeValue) ){
 
@@ -210,6 +200,7 @@ class OtherAttributesPage : AppCompatActivity() {
                 Toast.makeText(baseContext, messageRedId, Toast.LENGTH_SHORT).show()
             }
             else if( checkEndTime(convertedUserEndTime, originalStartTimeValue, originalEndTimeValue) ){
+
                 endOfEventEditText.setText("")
                 val messageRedId2 = R.string.end_time_invalid
                 Toast.makeText(baseContext, messageRedId2, Toast.LENGTH_SHORT).show()
@@ -220,10 +211,8 @@ class OtherAttributesPage : AppCompatActivity() {
                 nameOfEvent.setText("")
                 startOfEventEditText.setText("")
                 endOfEventEditText.setText("")
-                val messageRedId1 = R.string.overlap_detected
-                Toast.makeText(baseContext, messageRedId1, Toast.LENGTH_SHORT).show()
-                val messageRedId2 = R.string.name_already_exists
-                Toast.makeText(baseContext, messageRedId2, Toast.LENGTH_SHORT).show()
+                val messageRedId2 = R.string.name_already_exists_and_overlap_detected
+                Toast.makeText(baseContext, messageRedId2, Toast.LENGTH_LONG).show()
             }
             else if( checkNames(listOfAssignments) ){
 
