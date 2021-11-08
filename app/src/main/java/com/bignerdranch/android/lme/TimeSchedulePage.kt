@@ -1,22 +1,21 @@
 package com.bignerdranch.android.lme
 
-import android.app.TimePickerDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TimePicker
-import android.widget.Toast
+import android.widget.*
 import java.io.Serializable
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 class TimeSchedulePage : AppCompatActivity(){
 
-    private lateinit var setBeginningTimeButton: Button
-    private lateinit var setEndTimeButton: Button
     private lateinit var nextButton: Button
+    private lateinit var startHourTimeSpinner: Spinner
+    private lateinit var endHourTimeSpinner: Spinner
+    private lateinit var startHalfHourTimeSpinner: Spinner
+    private lateinit var endHalfHourTimeSpinner: Spinner
+    private lateinit var startTimeOfDaySpinner: Spinner
+    private lateinit var endTimeOfDaySpinner: Spinner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,68 +23,58 @@ class TimeSchedulePage : AppCompatActivity(){
 
         // Initialize the ArrayList in the beginning to be passed
         // around throughout the entire app until we reach the end.
-        var listOfAssignments : ArrayList<AssignmentClass> = ArrayList()
+        val listOfAssignments : ArrayList<AssignmentClass> = ArrayList()
 
-        setBeginningTimeButton = findViewById(R.id.set_beginning_time_button)
-        setEndTimeButton = findViewById(R.id.set_end_time_button)
         nextButton = findViewById(R.id.next_button)
+        startHourTimeSpinner = findViewById(R.id.starting_hour_spinner)
+        endHourTimeSpinner = findViewById(R.id.ending_hour_spinner)
+        startHalfHourTimeSpinner = findViewById(R.id.starting_half_hour_spinner)
+        endHalfHourTimeSpinner = findViewById(R.id.ending_half_hour_spinner)
+        startTimeOfDaySpinner = findViewById(R.id.starting_time_of_day_spinner)
+        endTimeOfDaySpinner = findViewById(R.id.ending_time_of_day_spinner)
 
-        setBeginningTimeButton.text = SimpleDateFormat("h:00 a").format(Calendar.getInstance().time)
-        setEndTimeButton.text = SimpleDateFormat("h:00 a").format(Calendar.getInstance().time)
+        val hoursArray = resources.getStringArray(R.array.hour_array)
+        val hoursAdapter: ArrayAdapter<String> = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, hoursArray)
+        startHourTimeSpinner.adapter = hoursAdapter
+        endHourTimeSpinner.adapter = hoursAdapter
 
-        // This Button is for the user to set the time for when
-        // they want their schedule to begin.
-        setBeginningTimeButton.setOnClickListener {
-            val cal = Calendar.getInstance()
-            val timeSetListener = TimePickerDialog.OnTimeSetListener { _: TimePicker?, hour: Int, minute: Int ->
-                cal.set(Calendar.HOUR_OF_DAY, hour)
-                cal.set(Calendar.MINUTE, minute)
-                setBeginningTimeButton.text = SimpleDateFormat("h:00 a").format(cal.time)
-            }
-            TimePickerDialog(this, timeSetListener,
-                cal.get(Calendar.HOUR_OF_DAY),
-                cal.get(Calendar.MINUTE), false ).show()
-        }
+        val halfHourArray = resources.getStringArray(R.array.half_hour_array)
+        val halfHourAdapter: ArrayAdapter<String> = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, halfHourArray)
+        startHalfHourTimeSpinner.adapter = halfHourAdapter
+        endHalfHourTimeSpinner.adapter = halfHourAdapter
 
-        // This Button is for the user to set the time for when
-        // they want their schedule to end.
-        setEndTimeButton.setOnClickListener {
-            val cal = Calendar.getInstance()
-            val timeSetListener = TimePickerDialog.OnTimeSetListener { _: TimePicker?, hour: Int, minute: Int ->
-                cal.set(Calendar.HOUR_OF_DAY, hour)
-                setEndTimeButton.text = SimpleDateFormat("h:00 a").format(cal.time)
-            }
-            TimePickerDialog(this, timeSetListener,
-                cal.get(Calendar.HOUR_OF_DAY),
-                cal.get(Calendar.MINUTE), false ).show()
-        }
+        val timeOfDayArray = resources.getStringArray(R.array.am_pm_array)
+        val timeOfDayAdapter: ArrayAdapter<String> = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, timeOfDayArray)
+        startTimeOfDaySpinner.adapter = timeOfDayAdapter
+        endTimeOfDaySpinner.adapter = timeOfDayAdapter
 
         nextButton.setOnClickListener {
-            if(setBeginningTimeButton.text == setEndTimeButton.text){
+
+            val beginningTime: String = startHourTimeSpinner.selectedItem.toString() + ":" + startHalfHourTimeSpinner.selectedItem.toString() + " " + startTimeOfDaySpinner.selectedItem.toString()
+            val endTime: String = endHourTimeSpinner.selectedItem.toString() + ":" + endHalfHourTimeSpinner.selectedItem.toString() + " " + endTimeOfDaySpinner.selectedItem.toString()
+
+            if(beginningTime == endTime){
+
                 val messageRedId = R.string.please_set_the_time
                 Toast.makeText(this, messageRedId, Toast.LENGTH_SHORT).show()
             }
             else{
-
-                var startTimeValue : String = setBeginningTimeButton.text.toString()
-                var endTimeValue : String = setEndTimeButton.text.toString()
-
                 // Checks to see if the start time of the
                 // schedule entered by the user is am or pm.
-                var startTimeAbbreviation : String
+                val startTimeAbbreviation : String
 
-                if(setBeginningTimeButton.text.toString().endsWith("PM")){
+                if(beginningTime.endsWith("PM")){
                     startTimeAbbreviation = "pm"
                 }
                 else{
                     startTimeAbbreviation = "am"
                 }
 
-                // Checks to see if the start time of the
+                // Checks to see if the end time of the
                 // schedule entered by the user is am or pm.
-                var endTimeAbbreviation : String
+                val endTimeAbbreviation : String
 
-                if(setEndTimeButton.text.toString().endsWith("PM")){
+                if(endTime.endsWith("PM")){
                     endTimeAbbreviation = "pm"
                 }
                 else{
@@ -93,9 +82,10 @@ class TimeSchedulePage : AppCompatActivity(){
                 }
 
                 val intent = Intent(this, MainActivity::class.java)
+                //Information being passed around throughout the app.
                 intent.putExtra("key", listOfAssignments as Serializable)
-                intent.putExtra("startTimeValue", startTimeValue)
-                intent.putExtra("endTimeValue", endTimeValue)
+                intent.putExtra("startTimeValue", beginningTime)
+                intent.putExtra("endTimeValue", endTime)
                 intent.putExtra("startTimeZone", startTimeAbbreviation)
                 intent.putExtra("endTimeZone", endTimeAbbreviation)
                 startActivity(intent)

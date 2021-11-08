@@ -1,0 +1,6 @@
+<resources>
+    <string-array name="half_hour_array">
+        <item>00</item>
+        <item>30</item>
+    </string-array>
+</resources>

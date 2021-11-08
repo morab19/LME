@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import java.io.Serializable
+import com.bignerdranch.android.lme.AssignmentClass as AssignmentClass1
 
 class AddMorePage : AppCompatActivity() {
 
@@ -18,7 +19,7 @@ class AddMorePage : AppCompatActivity() {
         noButton = findViewById(R.id.no_button)
         yesButton =  findViewById(R.id.yes_button)
 
-        val listOfAssignments:MutableList<AssignmentClass> = intent.getSerializableExtra("key") as MutableList<AssignmentClass>
+        val listOfAssignments:MutableList<AssignmentClass1> = intent.getSerializableExtra("key") as MutableList<AssignmentClass1>
         val startTimeValue = intent.getStringExtra("startTimeValue")
         val endTimeValue = intent.getStringExtra("endTimeValue")
         val startTimeAbbreviation = intent.getStringExtra("startTimeZone")

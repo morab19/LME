@@ -2,7 +2,7 @@
     <string name="app_name">LME</string>
     <string name="type_of_event">What type of event is this?</string>
     <string name="assignment_checkbox_text">School/Work Assignment</string>
-    <string name="other_checkbox_text">Other</string>
+    <string name="other_checkbox_text">Scheduled Event</string>
     <string name="next_button_text">Next</string>
     <string name="only_one">Please only check one CheckBox</string>
     <string name="choose_one">Please check one CheckBox</string>
@@ -38,4 +38,5 @@
     <string name="name_already_exists_and_end_time_invalid">The name already exists in the schedule and the entered end time exceeds your schedule!</string>
     <string name="both_times_invalid">The entered times exceeds your schedule!</string>
     <string name="name_already_exists_and_overlap_detected">The name already exists in the schedule and the entered times overlaps another event!</string>
+    <string name="restart_button_text">Restart</string>
 </resources>

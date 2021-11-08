@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
@@ -20,21 +21,39 @@ public final class ActivityTimeSchedulePageBinding implements ViewBinding {
   private final LinearLayout rootView;
 
   @NonNull
+  public final Spinner endingHalfHourSpinner;
+
+  @NonNull
+  public final Spinner endingHourSpinner;
+
+  @NonNull
+  public final Spinner endingTimeOfDaySpinner;
+
+  @NonNull
   public final Button nextButton;
 
   @NonNull
-  public final Button setBeginningTimeButton;
+  public final Spinner startingHalfHourSpinner;
 
   @NonNull
-  public final Button setEndTimeButton;
+  public final Spinner startingHourSpinner;
+
+  @NonNull
+  public final Spinner startingTimeOfDaySpinner;
 
   private ActivityTimeSchedulePageBinding(@NonNull LinearLayout rootView,
-      @NonNull Button nextButton, @NonNull Button setBeginningTimeButton,
-      @NonNull Button setEndTimeButton) {
+      @NonNull Spinner endingHalfHourSpinner, @NonNull Spinner endingHourSpinner,
+      @NonNull Spinner endingTimeOfDaySpinner, @NonNull Button nextButton,
+      @NonNull Spinner startingHalfHourSpinner, @NonNull Spinner startingHourSpinner,
+      @NonNull Spinner startingTimeOfDaySpinner) {
     this.rootView = rootView;
+    this.endingHalfHourSpinner = endingHalfHourSpinner;
+    this.endingHourSpinner = endingHourSpinner;
+    this.endingTimeOfDaySpinner = endingTimeOfDaySpinner;
     this.nextButton = nextButton;
-    this.setBeginningTimeButton = setBeginningTimeButton;
-    this.setEndTimeButton = setEndTimeButton;
+    this.startingHalfHourSpinner = startingHalfHourSpinner;
+    this.startingHourSpinner = startingHourSpinner;
+    this.startingTimeOfDaySpinner = startingTimeOfDaySpinner;
   }
 
   @Override
@@ -64,26 +83,51 @@ public final class ActivityTimeSchedulePageBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.ending_half_hour_spinner;
+      Spinner endingHalfHourSpinner = ViewBindings.findChildViewById(rootView, id);
+      if (endingHalfHourSpinner == null) {
+        break missingId;
+      }
+
+      id = R.id.ending_hour_spinner;
+      Spinner endingHourSpinner = ViewBindings.findChildViewById(rootView, id);
+      if (endingHourSpinner == null) {
+        break missingId;
+      }
+
+      id = R.id.ending_time_of_day_spinner;
+      Spinner endingTimeOfDaySpinner = ViewBindings.findChildViewById(rootView, id);
+      if (endingTimeOfDaySpinner == null) {
+        break missingId;
+      }
+
       id = R.id.next_button;
       Button nextButton = ViewBindings.findChildViewById(rootView, id);
       if (nextButton == null) {
         break missingId;
       }
 
-      id = R.id.set_beginning_time_button;
-      Button setBeginningTimeButton = ViewBindings.findChildViewById(rootView, id);
-      if (setBeginningTimeButton == null) {
+      id = R.id.starting_half_hour_spinner;
+      Spinner startingHalfHourSpinner = ViewBindings.findChildViewById(rootView, id);
+      if (startingHalfHourSpinner == null) {
         break missingId;
       }
 
-      id = R.id.set_end_time_button;
-      Button setEndTimeButton = ViewBindings.findChildViewById(rootView, id);
-      if (setEndTimeButton == null) {
+      id = R.id.starting_hour_spinner;
+      Spinner startingHourSpinner = ViewBindings.findChildViewById(rootView, id);
+      if (startingHourSpinner == null) {
         break missingId;
       }
 
-      return new ActivityTimeSchedulePageBinding((LinearLayout) rootView, nextButton,
-          setBeginningTimeButton, setEndTimeButton);
+      id = R.id.starting_time_of_day_spinner;
+      Spinner startingTimeOfDaySpinner = ViewBindings.findChildViewById(rootView, id);
+      if (startingTimeOfDaySpinner == null) {
+        break missingId;
+      }
+
+      return new ActivityTimeSchedulePageBinding((LinearLayout) rootView, endingHalfHourSpinner,
+          endingHourSpinner, endingTimeOfDaySpinner, nextButton, startingHalfHourSpinner,
+          startingHourSpinner, startingTimeOfDaySpinner);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

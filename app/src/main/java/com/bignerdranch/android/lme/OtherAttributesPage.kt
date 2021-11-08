@@ -36,6 +36,7 @@ class OtherAttributesPage : AppCompatActivity() {
         startTimeToggleButton = findViewById(R.id.start_toggle_button)
         endTimeToggleButton = findViewById(R.id.end_toggle_button)
 
+        //Information being passed around throughout the app.
         val listOfAssignments:MutableList<AssignmentClass> = intent.getSerializableExtra("key") as MutableList<AssignmentClass>
         val startTimeValue = intent.getStringExtra("startTimeValue")
         val endTimeValue = intent.getStringExtra("endTimeValue")
@@ -50,9 +51,11 @@ class OtherAttributesPage : AppCompatActivity() {
             if(startTimeAbbreviation != endTimeAbbreviation){
 
                 if(startTimeToggleButton.text.toString() == "am"){
+
                     startTimeToggleButton.text = "pm"
                 }
                 else{
+
                     startTimeToggleButton.text = "am"
                 }
             }
@@ -63,8 +66,11 @@ class OtherAttributesPage : AppCompatActivity() {
             if(startTimeAbbreviation != endTimeAbbreviation) {
 
                 if (endTimeToggleButton.text.toString() == "am") {
+
                     endTimeToggleButton.text = "pm"
-                } else {
+                }
+                else {
+
                     endTimeToggleButton.text = "am"
                 }
             }
@@ -150,14 +156,14 @@ class OtherAttributesPage : AppCompatActivity() {
 
         nextButton.setOnClickListener {
 
-            var userStartTime : String = startOfEventEditText.text.toString() + ":00 " + startTimeToggleButton.text.toString().uppercase()
-            var convertedUserStartTime = LocalTime.parse(userStartTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+            val userStartTime : String = startOfEventEditText.text.toString() + ":00 " + startTimeToggleButton.text.toString().uppercase()
+            val convertedUserStartTime = LocalTime.parse(userStartTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
 
-            var originalStartTimeValue = LocalTime.parse(startTimeValue, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-            var originalEndTimeValue = LocalTime.parse(endTimeValue, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+            val originalStartTimeValue = LocalTime.parse(startTimeValue, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+            val originalEndTimeValue = LocalTime.parse(endTimeValue, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
 
-            var userEndTime : String = endOfEventEditText.text.toString() + ":00 " + endTimeToggleButton.text.toString().uppercase()
-            var convertedUserEndTime = LocalTime.parse(userEndTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+            val userEndTime : String = endOfEventEditText.text.toString() + ":00 " + endTimeToggleButton.text.toString().uppercase()
+            val convertedUserEndTime = LocalTime.parse(userEndTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
 
             if( checkNames(listOfAssignments)
                 && checkStartTime(convertedUserStartTime, originalStartTimeValue, originalEndTimeValue)
@@ -221,6 +227,7 @@ class OtherAttributesPage : AppCompatActivity() {
                 Toast.makeText(baseContext, messageRedId, Toast.LENGTH_SHORT).show()
             }
             else if( checkForOverlap(listOfAssignments, convertedUserStartTime, convertedUserEndTime) ){
+
                 startOfEventEditText.setText("")
                 endOfEventEditText.setText("")
                 val messageRedId = R.string.overlap_detected
@@ -230,7 +237,7 @@ class OtherAttributesPage : AppCompatActivity() {
 
                 val intent = Intent(this, AddMorePage::class.java)
 
-                var c = AssignmentClass(
+                val c = AssignmentClass(
                     difficulty = 0,
                     name = nameOfEvent.text.toString(),
                     booleanClass = false,
@@ -301,8 +308,8 @@ class OtherAttributesPage : AppCompatActivity() {
 
                 if(!currentIndex.booleanClass) {
 
-                    var currentIndexStartTime = LocalTime.parse(currentIndex.startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                    var currentIndexEndTime = LocalTime.parse(currentIndex.endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                    val currentIndexStartTime = LocalTime.parse(currentIndex.startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                    val currentIndexEndTime = LocalTime.parse(currentIndex.endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
 
                     if(convertedUserStartTime == currentIndexStartTime
                         || convertedUserEndTime == currentIndexEndTime

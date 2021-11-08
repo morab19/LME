@@ -24,6 +24,7 @@ class AssignmentAttributesPage : AppCompatActivity() {
         nameOfAssignment = findViewById(R.id.name_of_assignment_edit_text)
         nextButton = findViewById(R.id.next_button)
 
+        //Information being passed around throughout the app.
         val listOfAssignments:MutableList<AssignmentClass> = intent.getSerializableExtra("key") as MutableList<AssignmentClass>
         val startTimeValue = intent.getStringExtra("startTimeValue")
         val endTimeValue = intent.getStringExtra("endTimeValue")
@@ -33,6 +34,7 @@ class AssignmentAttributesPage : AppCompatActivity() {
         var num: Int
         var str: String
 
+        //This editText will hold the difficulty of an assignment 
         difficultyValue.addTextChangedListener(object : TextWatcher {
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -51,7 +53,7 @@ class AssignmentAttributesPage : AppCompatActivity() {
                 //it from crashing when backspacing.
 
                 str = difficultyValue.text.toString()
-                if(!str.equals("")){
+                if(str != ""){
                     num = Integer.parseInt(str)
                 }
             }
@@ -97,7 +99,7 @@ class AssignmentAttributesPage : AppCompatActivity() {
 
                 val intent = Intent(this, AddMorePage::class.java)
 
-                var c = AssignmentClass(
+                val c = AssignmentClass(
                     difficulty = difficultyValue.text.toString().toInt(),
                     name = nameOfAssignment.text.toString(),
                     booleanClass = true,
