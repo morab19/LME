@@ -1,5 +1,6 @@
 package com.bignerdranch.android.lme
 
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -36,12 +37,13 @@ class RecommendedSchedulePage : AppCompatActivity() {
         val onlyAssignmentsIndicator : Boolean = onlyAssignmentsDeterminer(listOfAssignments)
         val onlyEventsIndicator : Boolean = onlyEventsDeterminer(listOfAssignments)
 
+        //If statement executes if the user only inputs 1 assignment.
         if((listOfAssignments.size == 1) && (listOfAssignments[0].booleanClass) ){
 
             recommendedSchedule.text = startTimeValue + " - " + endTimeValue + ": " + listOfAssignments[0].name
         }
-
-        if( (listOfAssignments.size == 1) && (!listOfAssignments[0].booleanClass) ){
+        //If statement executes if the user only inputs 1 scheduled event.
+        else if( (listOfAssignments.size == 1) && (!listOfAssignments[0].booleanClass) ){
 
             var eventStartTime = LocalTime.parse(listOfAssignments[0].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
             var eventEndTime = LocalTime.parse(listOfAssignments[0].endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
@@ -50,15 +52,32 @@ class RecommendedSchedulePage : AppCompatActivity() {
 
                 recommendedSchedule.text = startTimeValue + " - " + endTimeValue + ": " + listOfAssignments[0].name
             }
+            else if(scheduleStartTime.isBefore(eventStartTime) && scheduleEndTime.isAfter(eventEndTime)){
+
+                recommendedSchedule.text = startTimeValue + " - " + listOfAssignments[0].startTime + ": Blank\n" + listOfAssignments[0].startTime + " - " + listOfAssignments[0].endTime + ": " + listOfAssignments[0].name +"\n" + listOfAssignments[0].endTime + " - " + endTimeValue + ": Blank"
+            }
             else if(eventStartTime == scheduleStartTime){
+
                 recommendedSchedule.text = startTimeValue + " - " + listOfAssignments[0].endTime +": " + listOfAssignments[0].name + "\n" + listOfAssignments[0].endTime + " - " + endTimeValue + ": Blank"
             }
             else{
-                recommendedSchedule.text = startTimeValue + " - " + endTimeValue + ": " + listOfAssignments[0].name
+                recommendedSchedule.text = startTimeValue + " - " + listOfAssignments[0].startTime + ": Blank\n" + listOfAssignments[0].startTime + " - " + listOfAssignments[0].endTime + ": " + listOfAssignments[0].name
             }
+        }
+        //If statement executes if the user only inputs scheduled Events
+        else if(onlyEventsDeterminer(listOfAssignments)){
+            recommendedSchedule.text = listOfAssignments.size.toString() + " number of Assignments"
+        }
+        //If statements executes if the user only inputs assignments.
+        else if(onlyAssignmentsDeterminer(listOfAssignments)){
+            recommendedSchedule.text = listOfAssignments.size.toString() + " number of scheduled events"
         }
         //recommendedSchedule.text = startTimeValue + "\n" + endTimeValue
 
+        restartButton.setOnClickListener{
+            val intent = Intent(this, TimeSchedulePage::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun onlyAssignmentsDeterminer(listOfAssignments: MutableList<AssignmentClass>): Boolean{
@@ -87,5 +106,32 @@ class RecommendedSchedulePage : AppCompatActivity() {
         }
 
         return indicator == 0
+    }
+
+    private fun checkMatchingStartTimes(listOfAssignments: MutableList<AssignmentClass>, startTimeValue: String?): Boolean{
+
+        for (currentIndex in listOfAssignments){
+
+            if(currentIndex.startTime == startTimeValue){
+                return true
+            }
+        }
+
+        return false
+    }
+
+    private fun countNumberOfInputtedEvents(listOfAssignments: MutableList<AssignmentClass>): Int{
+
+        var count : Int = 0
+
+        for (currentIndex in listOfAssignments){
+
+            if(currentIndex.booleanClass){
+
+                count++
+            }
+        }
+
+        return count
     }
 }
