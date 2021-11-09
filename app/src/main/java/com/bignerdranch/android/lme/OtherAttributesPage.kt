@@ -6,9 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
 import java.io.Serializable
 import java.time.LocalTime
@@ -19,22 +17,17 @@ class OtherAttributesPage : AppCompatActivity() {
 
     private lateinit var nextButton: Button
     private lateinit var nameOfEvent: EditText
-    private lateinit var startOfEventEditText: EditText
-    private lateinit var endOfEventEditText: EditText
-    private lateinit var startTimeToggleButton: Button
-    private lateinit var endTimeToggleButton: Button
+    private lateinit var startHourTimeSpinner: Spinner
+    private lateinit var endHourTimeSpinner: Spinner
+    private lateinit var startHalfHourTimeSpinner: Spinner
+    private lateinit var endHalfHourTimeSpinner: Spinner
+    private lateinit var startTimeOfDaySpinner: Spinner
+    private lateinit var endTimeOfDaySpinner: Spinner
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_other_attributes_page)
-
-        nextButton = findViewById(R.id.next_button)
-        nameOfEvent = findViewById(R.id.name_of_event_edit_text)
-        startOfEventEditText = findViewById(R.id.start_time_edit_text)
-        endOfEventEditText = findViewById(R.id.end_time_edit_text)
-        startTimeToggleButton = findViewById(R.id.start_toggle_button)
-        endTimeToggleButton = findViewById(R.id.end_toggle_button)
 
         //Information being passed around throughout the app.
         val listOfAssignments:MutableList<AssignmentClass> = intent.getSerializableExtra("key") as MutableList<AssignmentClass>
@@ -43,37 +36,50 @@ class OtherAttributesPage : AppCompatActivity() {
         val startTimeAbbreviation = intent.getStringExtra("startTimeZone")
         val endTimeAbbreviation = intent.getStringExtra("endTimeZone")
 
-        startTimeToggleButton.text = startTimeAbbreviation
-        endTimeToggleButton.text = endTimeAbbreviation
+        nextButton = findViewById(R.id.next_button)
+        nameOfEvent = findViewById(R.id.name_of_event_edit_text)
+        startHourTimeSpinner = findViewById(R.id.starting_hour_spinner)
+        startHalfHourTimeSpinner = findViewById(R.id.starting_half_hour_spinner)
+        startTimeOfDaySpinner = findViewById(R.id.starting_time_of_day_spinner)
+        endHourTimeSpinner = findViewById(R.id.ending_hour_spinner)
+        endHalfHourTimeSpinner = findViewById(R.id.ending_half_hour_spinner)
+        endTimeOfDaySpinner = findViewById(R.id.ending_time_of_day_spinner)
 
-        startTimeToggleButton.setOnClickListener{
+        val hoursArray = resources.getStringArray(R.array.hour_array)
+        val hoursAdapter: ArrayAdapter<String> = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, hoursArray)
+        startHourTimeSpinner.adapter = hoursAdapter
+        endHourTimeSpinner.adapter = hoursAdapter
 
-            if(startTimeAbbreviation != endTimeAbbreviation){
+        val halfHourArray = resources.getStringArray(R.array.half_hour_array)
+        val halfHourAdapter: ArrayAdapter<String> = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, halfHourArray)
+        startHalfHourTimeSpinner.adapter = halfHourAdapter
+        endHalfHourTimeSpinner.adapter = halfHourAdapter
 
-                if(startTimeToggleButton.text.toString() == "am"){
+        val timeOfDayArray = resources.getStringArray(R.array.am_pm_array)
+        val timeOfDayAdapter: ArrayAdapter<String> = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, timeOfDayArray)
+        startTimeOfDaySpinner.adapter = timeOfDayAdapter
+        endTimeOfDaySpinner.adapter = timeOfDayAdapter
 
-                    startTimeToggleButton.text = "pm"
-                }
-                else{
+        if(startTimeAbbreviation != endTimeAbbreviation){
 
-                    startTimeToggleButton.text = "am"
-                }
-            }
+            val timeOfDayArray = resources.getStringArray(R.array.am_pm_array)
+            val timeOfDayAdapter: ArrayAdapter<String> = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, timeOfDayArray)
+            startTimeOfDaySpinner.adapter = timeOfDayAdapter
+            endTimeOfDaySpinner.adapter = timeOfDayAdapter
         }
+        else if( ((startTimeAbbreviation == "PM") && (endTimeAbbreviation == "PM")) ){
 
-        endTimeToggleButton.setOnClickListener{
+            val pmTimeOfDay = resources.getStringArray(R.array.pm_array)
+            val pmTimeOfDayAdapter: ArrayAdapter<String> = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, pmTimeOfDay)
+            startTimeOfDaySpinner.adapter = pmTimeOfDayAdapter
+            endTimeOfDaySpinner.adapter = pmTimeOfDayAdapter
+        }
+        else{
 
-            if(startTimeAbbreviation != endTimeAbbreviation) {
-
-                if (endTimeToggleButton.text.toString() == "am") {
-
-                    endTimeToggleButton.text = "pm"
-                }
-                else {
-
-                    endTimeToggleButton.text = "am"
-                }
-            }
+            val amTimeOfDay = resources.getStringArray(R.array.am_array)
+            val amTimeOfDayAdapter: ArrayAdapter<String> = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, amTimeOfDay)
+            startTimeOfDaySpinner.adapter = amTimeOfDayAdapter
+            endTimeOfDaySpinner.adapter = amTimeOfDayAdapter
         }
 
         nameOfEvent.addTextChangedListener(object : TextWatcher {
@@ -83,67 +89,11 @@ class OtherAttributesPage : AppCompatActivity() {
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
-                if( nameOfEvent.text.isNotEmpty()
-                    && startOfEventEditText.text.isNotEmpty()
-                    && endOfEventEditText.text.isNotEmpty()) {
+                if( nameOfEvent.text.isNotEmpty()) {
 
                         nextButton.isEnabled = true
                 }
-                if( nameOfEvent.text.isEmpty()
-                    || startOfEventEditText.text.isEmpty()
-                    || endOfEventEditText.text.isEmpty()) {
-
-                        nextButton.isEnabled = false
-                }
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-
-            }
-        })
-
-        startOfEventEditText.addTextChangedListener(object : TextWatcher {
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-                if( nameOfEvent.text.isNotEmpty()
-                    && startOfEventEditText.text.isNotEmpty()
-                    && endOfEventEditText.text.isNotEmpty()) {
-
-                        nextButton.isEnabled = true
-                }
-                if( nameOfEvent.text.isEmpty()
-                    || startOfEventEditText.text.isEmpty()
-                    || endOfEventEditText.text.isEmpty()) {
-
-                        nextButton.isEnabled = false
-                }
-            }
-            override fun afterTextChanged(s: Editable?) {
-
-            }
-        })
-
-        endOfEventEditText.addTextChangedListener(object : TextWatcher {
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-                if( nameOfEvent.text.isNotEmpty()
-                    && startOfEventEditText.text.isNotEmpty()
-                    && endOfEventEditText.text.isNotEmpty()) {
-
-                        nextButton.isEnabled = true
-                }
-                if( nameOfEvent.text.isEmpty()
-                    || startOfEventEditText.text.isEmpty()
-                    || endOfEventEditText.text.isEmpty()) {
+                if( nameOfEvent.text.isEmpty()) {
 
                         nextButton.isEnabled = false
                 }
@@ -156,13 +106,13 @@ class OtherAttributesPage : AppCompatActivity() {
 
         nextButton.setOnClickListener {
 
-            val userStartTime : String = startOfEventEditText.text.toString() + ":00 " + startTimeToggleButton.text.toString().uppercase()
+            val userStartTime : String = startHourTimeSpinner.selectedItem.toString() + ":" + startHalfHourTimeSpinner.selectedItem.toString() + " " + startTimeOfDaySpinner.selectedItem.toString()
             val convertedUserStartTime = LocalTime.parse(userStartTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
 
             val originalStartTimeValue = LocalTime.parse(startTimeValue, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
             val originalEndTimeValue = LocalTime.parse(endTimeValue, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
 
-            val userEndTime : String = endOfEventEditText.text.toString() + ":00 " + endTimeToggleButton.text.toString().uppercase()
+            val userEndTime : String = endHourTimeSpinner.selectedItem.toString() + ":" + endHalfHourTimeSpinner.selectedItem.toString() + " " + endTimeOfDaySpinner.selectedItem.toString()
             val convertedUserEndTime = LocalTime.parse(userEndTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
 
             if( checkNames(listOfAssignments)
@@ -170,8 +120,6 @@ class OtherAttributesPage : AppCompatActivity() {
                 && checkEndTime(convertedUserEndTime, originalStartTimeValue, originalEndTimeValue)) {
 
                 nameOfEvent.setText("")
-                startOfEventEditText.setText("")
-                endOfEventEditText.setText("")
                 val messageRedId = R.string.name_already_exists_and_both_times_invalid
                 Toast.makeText(baseContext, messageRedId, Toast.LENGTH_SHORT).show()
             }
@@ -179,7 +127,6 @@ class OtherAttributesPage : AppCompatActivity() {
                      && checkStartTime(convertedUserStartTime, originalStartTimeValue, originalEndTimeValue) ){
 
                 nameOfEvent.setText("")
-                startOfEventEditText.setText("")
                 val messageRedId = R.string.name_already_exists_and_start_time_invalid
                 Toast.makeText(baseContext, messageRedId, Toast.LENGTH_SHORT).show()
             }
@@ -187,27 +134,22 @@ class OtherAttributesPage : AppCompatActivity() {
                      && checkEndTime(convertedUserEndTime, originalStartTimeValue, originalEndTimeValue) ){
 
                 nameOfEvent.setText("")
-                endOfEventEditText.setText("")
                 val messageRedId = R.string.name_already_exists_and_end_time_invalid
                 Toast.makeText(baseContext, messageRedId, Toast.LENGTH_SHORT).show()
             }
             else if( checkStartTime(convertedUserStartTime, originalStartTimeValue, originalEndTimeValue)
                      && checkEndTime(convertedUserEndTime, originalStartTimeValue, originalEndTimeValue) ){
 
-                startOfEventEditText.setText("")
-                endOfEventEditText.setText("")
                 val messageRedId = R.string.both_times_invalid
                 Toast.makeText(baseContext, messageRedId, Toast.LENGTH_SHORT).show()
             }
             else if( checkStartTime(convertedUserStartTime, originalStartTimeValue, originalEndTimeValue) ){
 
-                startOfEventEditText.setText("")
                 val messageRedId = R.string.start_time_invalid
                 Toast.makeText(baseContext, messageRedId, Toast.LENGTH_SHORT).show()
             }
             else if( checkEndTime(convertedUserEndTime, originalStartTimeValue, originalEndTimeValue) ){
 
-                endOfEventEditText.setText("")
                 val messageRedId2 = R.string.end_time_invalid
                 Toast.makeText(baseContext, messageRedId2, Toast.LENGTH_SHORT).show()
             }
@@ -215,8 +157,6 @@ class OtherAttributesPage : AppCompatActivity() {
                      && checkForOverlap(listOfAssignments, convertedUserStartTime, convertedUserEndTime) ){
 
                 nameOfEvent.setText("")
-                startOfEventEditText.setText("")
-                endOfEventEditText.setText("")
                 val messageRedId2 = R.string.name_already_exists_and_overlap_detected
                 Toast.makeText(baseContext, messageRedId2, Toast.LENGTH_LONG).show()
             }
@@ -228,8 +168,6 @@ class OtherAttributesPage : AppCompatActivity() {
             }
             else if( checkForOverlap(listOfAssignments, convertedUserStartTime, convertedUserEndTime) ){
 
-                startOfEventEditText.setText("")
-                endOfEventEditText.setText("")
                 val messageRedId = R.string.overlap_detected
                 Toast.makeText(baseContext, messageRedId, Toast.LENGTH_SHORT).show()
             }

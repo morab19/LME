@@ -7765,6 +7765,10 @@
     </string-array></file><file path="C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\res\values\am_pm_array.xml" qualifiers=""><string-array name="am_pm_array">
         <item>AM</item>
         <item>PM</item>
+    </string-array></file><file path="C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\res\values\am_array.xml" qualifiers=""><string-array name="am_array">
+        <item>AM</item>
+    </string-array></file><file path="C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\main\res\values\pm_array.xml" qualifiers=""><string-array name="pm_array">
+        <item>PM</item>
     </string-array></file></source><source path="C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\build\generated\res\rs\debug"/><source path="C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\build\generated\res\resValues\debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\debug\res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug" generated-set="debug$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\Users\Bryan\Desktop\AndroidStudioProjects\LME\app\src\debug\res"/></dataSet><mergedItems><configuration qualifiers=""><declare-styleable name="AlertDialog">
         <attr name="android:layout"/>
         <attr format="reference" name="buttonPanelSideLayout"/>

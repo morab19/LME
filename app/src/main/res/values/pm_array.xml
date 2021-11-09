@@ -1,0 +1,5 @@
+<resources>
+    <string-array name="pm_array">
+        <item>PM</item>
+    </string-array>
+</resources>

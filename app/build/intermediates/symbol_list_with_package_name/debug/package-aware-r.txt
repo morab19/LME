@@ -65,9 +65,11 @@ animator nav_default_enter_anim
 animator nav_default_exit_anim
 animator nav_default_pop_enter_anim
 animator nav_default_pop_exit_anim
+array am_array
 array am_pm_array
 array half_hour_array
 array hour_array
+array pm_array
 attr ConstraintRotate
 attr SharedValue
 attr SharedValueId
@@ -2040,9 +2042,6 @@ id edit_query
 id elastic
 id end
 id endToStart
-id end_time
-id end_time_edit_text
-id end_toggle_button
 id ending_half_hour_spinner
 id ending_hour_spinner
 id ending_time_of_day_spinner
@@ -2269,9 +2268,6 @@ id start
 id startHorizontal
 id startToEnd
 id startVertical
-id start_time
-id start_time_edit_text
-id start_toggle_button
 id starting_half_hour_spinner
 id starting_hour_spinner
 id starting_time_of_day_spinner

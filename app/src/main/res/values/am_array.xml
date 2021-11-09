@@ -1,0 +1,5 @@
+<resources>
+    <string-array name="am_array">
+        <item>AM</item>
+    </string-array>
+</resources>

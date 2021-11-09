@@ -37,30 +37,20 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/start_time"
+        <Spinner
+            android:id="@+id/starting_hour_spinner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="12dp"
-            android:text="@string/start_time"/>
+            android:layout_height="wrap_content"/>
 
-        <EditText
-            android:id="@+id/start_time_edit_text"
+        <Spinner
+            android:id="@+id/starting_half_hour_spinner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:hint="Enter time here"
-            android:inputType="phone"
-            android:digits="1234567890"
-            android:maxLength="2"
-            android:padding="12dp" />
+            android:layout_height="wrap_content"/>
 
-        <Button
-            android:id="@+id/start_toggle_button"
+        <Spinner
+            android:id="@+id/starting_time_of_day_spinner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/am"/>
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
@@ -69,31 +59,20 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/end_time"
+        <Spinner
+            android:id="@+id/ending_hour_spinner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="12dp"
-            android:text="@string/end_time"/>
+            android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/end_time_edit_text"
+        <Spinner
+            android:id="@+id/ending_half_hour_spinner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:hint="Enter time here"
-            android:inputType="phone"
-            android:digits="1234567890"
-            android:maxLength="2"
-            android:padding="12dp" />
+            android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/end_toggle_button"
+        <Spinner
+            android:id="@+id/ending_time_of_day_spinner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/am"/>
-
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <Button

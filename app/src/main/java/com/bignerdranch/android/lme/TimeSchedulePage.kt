@@ -50,10 +50,10 @@ class TimeSchedulePage : AppCompatActivity(){
 
         nextButton.setOnClickListener {
 
-            val beginningTime: String = startHourTimeSpinner.selectedItem.toString() + ":" + startHalfHourTimeSpinner.selectedItem.toString() + " " + startTimeOfDaySpinner.selectedItem.toString()
-            val endTime: String = endHourTimeSpinner.selectedItem.toString() + ":" + endHalfHourTimeSpinner.selectedItem.toString() + " " + endTimeOfDaySpinner.selectedItem.toString()
+            val startTimeValue: String = startHourTimeSpinner.selectedItem.toString() + ":" + startHalfHourTimeSpinner.selectedItem.toString() + " " + startTimeOfDaySpinner.selectedItem.toString()
+            val endTimeValue: String = endHourTimeSpinner.selectedItem.toString() + ":" + endHalfHourTimeSpinner.selectedItem.toString() + " " + endTimeOfDaySpinner.selectedItem.toString()
 
-            if(beginningTime == endTime){
+            if(startTimeValue == endTimeValue){
 
                 val messageRedId = R.string.please_set_the_time
                 Toast.makeText(this, messageRedId, Toast.LENGTH_SHORT).show()
@@ -63,29 +63,29 @@ class TimeSchedulePage : AppCompatActivity(){
                 // schedule entered by the user is am or pm.
                 val startTimeAbbreviation : String
 
-                if(beginningTime.endsWith("PM")){
-                    startTimeAbbreviation = "pm"
+                if(startTimeValue.endsWith("PM")){
+                    startTimeAbbreviation = "PM"
                 }
                 else{
-                    startTimeAbbreviation = "am"
+                    startTimeAbbreviation = "AM"
                 }
 
                 // Checks to see if the end time of the
                 // schedule entered by the user is am or pm.
                 val endTimeAbbreviation : String
 
-                if(endTime.endsWith("PM")){
-                    endTimeAbbreviation = "pm"
+                if(endTimeValue.endsWith("PM")){
+                    endTimeAbbreviation = "PM"
                 }
                 else{
-                    endTimeAbbreviation = "am"
+                    endTimeAbbreviation = "AM"
                 }
 
                 val intent = Intent(this, MainActivity::class.java)
                 //Information being passed around throughout the app.
                 intent.putExtra("key", listOfAssignments as Serializable)
-                intent.putExtra("startTimeValue", beginningTime)
-                intent.putExtra("endTimeValue", endTime)
+                intent.putExtra("startTimeValue", startTimeValue)
+                intent.putExtra("endTimeValue", endTimeValue)
                 intent.putExtra("startTimeZone", startTimeAbbreviation)
                 intent.putExtra("endTimeZone", endTimeAbbreviation)
                 startActivity(intent)

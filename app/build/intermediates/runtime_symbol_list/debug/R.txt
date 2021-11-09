@@ -64,9 +64,11 @@ int animator nav_default_enter_anim 0x7f02001a
 int animator nav_default_exit_anim 0x7f02001b
 int animator nav_default_pop_enter_anim 0x7f02001c
 int animator nav_default_pop_exit_anim 0x7f02001d
+int array am_array 0x7f120003
 int array am_pm_array 0x7f120002
 int array half_hour_array 0x7f120000
 int array hour_array 0x7f120001
+int array pm_array 0x7f120004
 int attr ConstraintRotate 0x7f030000
 int attr SharedValue 0x7f030001
 int attr SharedValueId 0x7f030002
@@ -2039,9 +2041,6 @@ int id edit_query 0x7f0800af
 int id elastic 0x7f0800b0
 int id end 0x7f0800b1
 int id endToStart 0x7f0800b2
-int id end_time 0x7f0801e5
-int id end_time_edit_text 0x7f0801e6
-int id end_toggle_button 0x7f0801e7
 int id ending_half_hour_spinner 0x7f0801ee
 int id ending_hour_spinner 0x7f0801ed
 int id ending_time_of_day_spinner 0x7f0801ef
@@ -2268,9 +2267,6 @@ int id start 0x7f08018f
 int id startHorizontal 0x7f080190
 int id startToEnd 0x7f080191
 int id startVertical 0x7f080192
-int id start_time 0x7f0801e8
-int id start_time_edit_text 0x7f0801e9
-int id start_toggle_button 0x7f0801ea
 int id starting_half_hour_spinner 0x7f0801f0
 int id starting_hour_spinner 0x7f0801ec
 int id starting_time_of_day_spinner 0x7f0801f1

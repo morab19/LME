@@ -51,7 +51,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
                 recommendedSchedule.text = startTimeValue + " - " + endTimeValue + ": " + listOfAssignments[0].name
             }
             else if(eventStartTime == scheduleStartTime){
-                recommendedSchedule.text = startTimeValue + " - " + listOfAssignments[0].endTime + "\n" + listOfAssignments[0].endTime + " - " + endTimeValue
+                recommendedSchedule.text = startTimeValue + " - " + listOfAssignments[0].endTime +": " + listOfAssignments[0].name + "\n" + listOfAssignments[0].endTime + " - " + endTimeValue + ": Blank"
             }
             else{
                 recommendedSchedule.text = startTimeValue + " - " + endTimeValue + ": " + listOfAssignments[0].name

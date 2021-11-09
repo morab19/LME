@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,13 +29,13 @@ public final class ActivityOtherAttributesPageBinding implements ViewBinding {
   public final TextView attributeTextViewInfo;
 
   @NonNull
-  public final TextView endTime;
+  public final Spinner endingHalfHourSpinner;
 
   @NonNull
-  public final EditText endTimeEditText;
+  public final Spinner endingHourSpinner;
 
   @NonNull
-  public final Button endToggleButton;
+  public final Spinner endingTimeOfDaySpinner;
 
   @NonNull
   public final EditText nameOfEventEditText;
@@ -43,31 +44,31 @@ public final class ActivityOtherAttributesPageBinding implements ViewBinding {
   public final Button nextButton;
 
   @NonNull
-  public final TextView startTime;
+  public final Spinner startingHalfHourSpinner;
 
   @NonNull
-  public final EditText startTimeEditText;
+  public final Spinner startingHourSpinner;
 
   @NonNull
-  public final Button startToggleButton;
+  public final Spinner startingTimeOfDaySpinner;
 
   private ActivityOtherAttributesPageBinding(@NonNull LinearLayout rootView,
       @NonNull TextView attributeTextView, @NonNull TextView attributeTextViewInfo,
-      @NonNull TextView endTime, @NonNull EditText endTimeEditText, @NonNull Button endToggleButton,
-      @NonNull EditText nameOfEventEditText, @NonNull Button nextButton,
-      @NonNull TextView startTime, @NonNull EditText startTimeEditText,
-      @NonNull Button startToggleButton) {
+      @NonNull Spinner endingHalfHourSpinner, @NonNull Spinner endingHourSpinner,
+      @NonNull Spinner endingTimeOfDaySpinner, @NonNull EditText nameOfEventEditText,
+      @NonNull Button nextButton, @NonNull Spinner startingHalfHourSpinner,
+      @NonNull Spinner startingHourSpinner, @NonNull Spinner startingTimeOfDaySpinner) {
     this.rootView = rootView;
     this.attributeTextView = attributeTextView;
     this.attributeTextViewInfo = attributeTextViewInfo;
-    this.endTime = endTime;
-    this.endTimeEditText = endTimeEditText;
-    this.endToggleButton = endToggleButton;
+    this.endingHalfHourSpinner = endingHalfHourSpinner;
+    this.endingHourSpinner = endingHourSpinner;
+    this.endingTimeOfDaySpinner = endingTimeOfDaySpinner;
     this.nameOfEventEditText = nameOfEventEditText;
     this.nextButton = nextButton;
-    this.startTime = startTime;
-    this.startTimeEditText = startTimeEditText;
-    this.startToggleButton = startToggleButton;
+    this.startingHalfHourSpinner = startingHalfHourSpinner;
+    this.startingHourSpinner = startingHourSpinner;
+    this.startingTimeOfDaySpinner = startingTimeOfDaySpinner;
   }
 
   @Override
@@ -109,21 +110,21 @@ public final class ActivityOtherAttributesPageBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.end_time;
-      TextView endTime = ViewBindings.findChildViewById(rootView, id);
-      if (endTime == null) {
+      id = R.id.ending_half_hour_spinner;
+      Spinner endingHalfHourSpinner = ViewBindings.findChildViewById(rootView, id);
+      if (endingHalfHourSpinner == null) {
         break missingId;
       }
 
-      id = R.id.end_time_edit_text;
-      EditText endTimeEditText = ViewBindings.findChildViewById(rootView, id);
-      if (endTimeEditText == null) {
+      id = R.id.ending_hour_spinner;
+      Spinner endingHourSpinner = ViewBindings.findChildViewById(rootView, id);
+      if (endingHourSpinner == null) {
         break missingId;
       }
 
-      id = R.id.end_toggle_button;
-      Button endToggleButton = ViewBindings.findChildViewById(rootView, id);
-      if (endToggleButton == null) {
+      id = R.id.ending_time_of_day_spinner;
+      Spinner endingTimeOfDaySpinner = ViewBindings.findChildViewById(rootView, id);
+      if (endingTimeOfDaySpinner == null) {
         break missingId;
       }
 
@@ -139,27 +140,28 @@ public final class ActivityOtherAttributesPageBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.start_time;
-      TextView startTime = ViewBindings.findChildViewById(rootView, id);
-      if (startTime == null) {
+      id = R.id.starting_half_hour_spinner;
+      Spinner startingHalfHourSpinner = ViewBindings.findChildViewById(rootView, id);
+      if (startingHalfHourSpinner == null) {
         break missingId;
       }
 
-      id = R.id.start_time_edit_text;
-      EditText startTimeEditText = ViewBindings.findChildViewById(rootView, id);
-      if (startTimeEditText == null) {
+      id = R.id.starting_hour_spinner;
+      Spinner startingHourSpinner = ViewBindings.findChildViewById(rootView, id);
+      if (startingHourSpinner == null) {
         break missingId;
       }
 
-      id = R.id.start_toggle_button;
-      Button startToggleButton = ViewBindings.findChildViewById(rootView, id);
-      if (startToggleButton == null) {
+      id = R.id.starting_time_of_day_spinner;
+      Spinner startingTimeOfDaySpinner = ViewBindings.findChildViewById(rootView, id);
+      if (startingTimeOfDaySpinner == null) {
         break missingId;
       }
 
       return new ActivityOtherAttributesPageBinding((LinearLayout) rootView, attributeTextView,
-          attributeTextViewInfo, endTime, endTimeEditText, endToggleButton, nameOfEventEditText,
-          nextButton, startTime, startTimeEditText, startToggleButton);
+          attributeTextViewInfo, endingHalfHourSpinner, endingHourSpinner, endingTimeOfDaySpinner,
+          nameOfEventEditText, nextButton, startingHalfHourSpinner, startingHourSpinner,
+          startingTimeOfDaySpinner);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));
