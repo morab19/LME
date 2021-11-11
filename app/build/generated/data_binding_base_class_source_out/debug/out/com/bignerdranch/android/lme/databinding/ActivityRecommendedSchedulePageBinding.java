@@ -21,14 +21,19 @@ public final class ActivityRecommendedSchedulePageBinding implements ViewBinding
   private final LinearLayout rootView;
 
   @NonNull
+  public final TextView loopTest;
+
+  @NonNull
   public final TextView recommendedSchedule;
 
   @NonNull
   public final Button restartButton;
 
   private ActivityRecommendedSchedulePageBinding(@NonNull LinearLayout rootView,
-      @NonNull TextView recommendedSchedule, @NonNull Button restartButton) {
+      @NonNull TextView loopTest, @NonNull TextView recommendedSchedule,
+      @NonNull Button restartButton) {
     this.rootView = rootView;
+    this.loopTest = loopTest;
     this.recommendedSchedule = recommendedSchedule;
     this.restartButton = restartButton;
   }
@@ -60,6 +65,12 @@ public final class ActivityRecommendedSchedulePageBinding implements ViewBinding
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.loop_test;
+      TextView loopTest = ViewBindings.findChildViewById(rootView, id);
+      if (loopTest == null) {
+        break missingId;
+      }
+
       id = R.id.recommended_schedule;
       TextView recommendedSchedule = ViewBindings.findChildViewById(rootView, id);
       if (recommendedSchedule == null) {
@@ -72,7 +83,7 @@ public final class ActivityRecommendedSchedulePageBinding implements ViewBinding
         break missingId;
       }
 
-      return new ActivityRecommendedSchedulePageBinding((LinearLayout) rootView,
+      return new ActivityRecommendedSchedulePageBinding((LinearLayout) rootView, loopTest,
           recommendedSchedule, restartButton);
     }
     String missingId = rootView.getResources().getResourceName(id);

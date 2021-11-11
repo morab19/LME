@@ -58,6 +58,11 @@ class TimeSchedulePage : AppCompatActivity(){
                 val messageRedId = R.string.please_set_the_time
                 Toast.makeText(this, messageRedId, Toast.LENGTH_SHORT).show()
             }
+            else if(startTimeValue.endsWith("PM") && (endTimeValue.endsWith("AM"))) {
+
+                val messageRedId = R.string.pm_to_am_invalid
+                Toast.makeText(this, messageRedId, Toast.LENGTH_SHORT).show()
+            }
             else{
                 // Checks to see if the start time of the
                 // schedule entered by the user is am or pm.

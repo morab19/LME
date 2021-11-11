@@ -2102,6 +2102,7 @@ id line3
 id linear
 id listMode
 id list_item
+id loop_test
 id masked
 id match_constraint
 id match_parent
@@ -2646,6 +2647,7 @@ string path_password_eye_mask_visible
 string path_password_strike_through
 string please_set_the_time
 string pm
+string pm_to_am_invalid
 string restart_button_text
 string schedule_exceed
 string search_menu_title

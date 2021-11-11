@@ -39,4 +39,5 @@
     <string name="both_times_invalid">The entered times exceeds your schedule!</string>
     <string name="name_already_exists_and_overlap_detected">The name already exists in the schedule and the entered times overlaps another event!</string>
     <string name="restart_button_text">Restart</string>
+    <string name="pm_to_am_invalid">Cannot set it from pm to am!</string>
 </resources>
