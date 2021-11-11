@@ -28,7 +28,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
         restartButton = findViewById(R.id.restart_button)
         loopTest = findViewById(R.id.loop_test)
 
-        //Information being passed around throughout the app.
+        //The information being passed around throughout the app.
         val listOfAssignments: MutableList<AssignmentClass> = intent.getSerializableExtra("key") as MutableList<AssignmentClass>
         val startTimeValue = intent.getStringExtra("startTimeValue")
         val endTimeValue = intent.getStringExtra("endTimeValue")
@@ -43,21 +43,13 @@ class RecommendedSchedulePage : AppCompatActivity() {
 
         //If statement executes if the user only inputs 1 assignment.
         if ((listOfAssignments.size == 1) && (listOfAssignments[0].booleanClass)) {
-
             recommendedSchedule.text = startTimeValue + " - " + endTimeValue + ": " + listOfAssignments[0].name
         }
-        //////////////////////////////////////////////////////////////////////////////////////////////////////
-        //If statement executes if the user only inputs 1 scheduled event.
+        //Else if statement executes if the user only inputs 1 scheduled event.
         else if ((listOfAssignments.size == 1) && (!listOfAssignments[0].booleanClass)) {
 
-            var eventStartTime = LocalTime.parse(
-                listOfAssignments[0].startTime,
-                DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
-            )
-            var eventEndTime = LocalTime.parse(
-                listOfAssignments[0].endTime,
-                DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
-            )
+            var eventStartTime = LocalTime.parse(listOfAssignments[0].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+            var eventEndTime = LocalTime.parse(listOfAssignments[0].endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
 
             if ((eventStartTime == scheduleStartTime) && (eventEndTime == scheduleEndTime)) {
                 recommendedSchedule.text = startTimeValue + " - " + endTimeValue + ": " + listOfAssignments[0].name
@@ -72,19 +64,20 @@ class RecommendedSchedulePage : AppCompatActivity() {
                 recommendedSchedule.text = startTimeValue + " - " + listOfAssignments[0].startTime + ": Blank\n" + listOfAssignments[0].startTime + " - " + listOfAssignments[0].endTime + ": " + listOfAssignments[0].name
             }
         }
-        //////////////////////////////////////////////////////////////////////////////////////////////////////
-        //If statement executes if the user only inputs scheduled Events
+        //Else if statement executes if the user only inputs scheduled events.
         else if (onlyEventsDeterminer(listOfAssignments)) {
-
-            recommendedSchedule.text = createEventsOnlyString(listOfAssignments, startTimeValue, endTimeValue)
+            recommendedSchedule.text = eventsOnlyString(listOfAssignments, startTimeValue, endTimeValue)
         }
-        //////////////////////////////////////////////////////////////////////////////////////////////////////
-        //If statements executes if the user only inputs assignments.
+        //Else if statement executes if the user only inputs assignments.
         else if (onlyAssignmentsDeterminer(listOfAssignments)) {
 
             if(startTimeAbbreviation != endTimeAbbreviation){
 
             }
+        }
+        //Else statement executes if there is a mix of assignments and scheduled events.
+        else{
+
         }
         //recommendedSchedule.text = startTimeValue + "\n" + endTimeValue
 
@@ -97,7 +90,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
 
     //This function is used when we are dealing with only scheduled events.
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun createEventsOnlyString(listOfAssignments: MutableList<AssignmentClass>, startTimeValue: String?, endTimeValue: String?): String {
+    private fun eventsOnlyString(listOfAssignments: MutableList<AssignmentClass>, startTimeValue: String?, endTimeValue: String?): String {
 
         var loopBoolean: Int = 1
 
@@ -123,7 +116,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
             loopBoolean++
         }
 
-        //In this for loop we check to see if there are any gaps between the scheduled events.
+        //In this for loop we check to see if there are any unscheduled times between the scheduled events.
         for (i in listOfAssignments.indices) {
 
             var outerStringTime = LocalTime.parse(listOfAssignments[i].endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
@@ -134,7 +127,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
                 val c = AssignmentClass(
                     difficulty = 0,
                     name = "Blank",
-                    booleanClass = false,
+                    booleanClass = true,
                     startTime = listOfAssignments[i].endTime,
                     endTime = listOfAssignments[i+1].startTime
                 )
@@ -148,12 +141,13 @@ class RecommendedSchedulePage : AppCompatActivity() {
         var sortedStartTimeValue = LocalTime.parse(listOfAssignments[0].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
         var sortedEndTimeValue = LocalTime.parse(listOfAssignments[listOfAssignments.size - 1].endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
 
+        //We check to see if there is an unscheduled time at the beginning of the schedule
         if(passedStartTimeValue != sortedStartTimeValue){
 
             val c = AssignmentClass(
                 difficulty = 0,
                 name = "Blank",
-                booleanClass = false,
+                booleanClass = true,
                 startTime = startTimeValue.toString(),
                 endTime = listOfAssignments[0].startTime
             )
@@ -161,12 +155,13 @@ class RecommendedSchedulePage : AppCompatActivity() {
             listOfAssignments.add(0, c)
         }
 
+        //We check to see if there is an unscheduled time at the end of the schedule
         if(passedEndTimeValue != sortedEndTimeValue){
 
             val c = AssignmentClass(
                 difficulty = 0,
                 name = "Blank",
-                booleanClass = false,
+                booleanClass = true,
                 startTime = listOfAssignments[listOfAssignments.size - 1].endTime,
                 endTime = endTimeValue.toString()
             )

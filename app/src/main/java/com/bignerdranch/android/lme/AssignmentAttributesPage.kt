@@ -12,6 +12,7 @@ import java.io.Serializable
 
 class AssignmentAttributesPage : AppCompatActivity() {
 
+    //Initialize all objects on the android screen we will be interacting with.
     private lateinit var nextButton: Button
     private lateinit var difficultyValue: EditText
     private lateinit var nameOfAssignment: EditText
@@ -20,6 +21,8 @@ class AssignmentAttributesPage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_assignment_attributes_page)
 
+        //Connecting all objects on the android screen to
+        //variable names we will be interacting with.
         difficultyValue = findViewById(R.id.difficulty_of_assignment_edit_text)
         nameOfAssignment = findViewById(R.id.name_of_assignment_edit_text)
         nextButton = findViewById(R.id.next_button)
@@ -34,7 +37,7 @@ class AssignmentAttributesPage : AppCompatActivity() {
         var num: Int
         var str: String
 
-        //This editText will hold the difficulty of an assignment 
+        //This editText holds the difficulty of the assignment
         difficultyValue.addTextChangedListener(object : TextWatcher {
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -42,16 +45,15 @@ class AssignmentAttributesPage : AppCompatActivity() {
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
+                //Enables the "NEXT" button when there are no empty editTexts
                 if( difficultyValue.text.isNotEmpty() && nameOfAssignment.text.isNotEmpty()){
                     nextButton.isEnabled = true
                 }
                 if( difficultyValue.text.isEmpty() || nameOfAssignment.text.isEmpty() ){
                     nextButton.isEnabled = false
                 }
-
                 //This block of code was added to keep
                 //it from crashing when backspacing.
-
                 str = difficultyValue.text.toString()
                 if(str != ""){
                     num = Integer.parseInt(str)
@@ -62,6 +64,7 @@ class AssignmentAttributesPage : AppCompatActivity() {
             }
         })
 
+        //This editText holds the name of the Assignment
         nameOfAssignment.addTextChangedListener(object : TextWatcher {
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -69,6 +72,7 @@ class AssignmentAttributesPage : AppCompatActivity() {
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
+                //Enables the "NEXT" button when there are no empty editTexts
                 if( difficultyValue.text.isNotEmpty() && nameOfAssignment.text.isNotEmpty()){
                     nextButton.isEnabled = true
                 }
@@ -76,27 +80,30 @@ class AssignmentAttributesPage : AppCompatActivity() {
                     nextButton.isEnabled = false
                 }
             }
-
             override fun afterTextChanged(s: Editable?) {
 
             }
         })
 
+        //The following code executes when the user clicks the "NEXT" Button
         nextButton.setOnClickListener {
 
+            //If statement executes if the set difficulty is not a
+            //value ranging from 1-7 preventing the user from continuing.
             if( (difficultyValue.text.toString().toInt() < 1) || (difficultyValue.text.toString().toInt() > 7) ){
-
                 val messageRedId = R.string.invalid_difficulty_value
                 Toast.makeText(this, messageRedId, Toast.LENGTH_SHORT).show()
             }
+            //Else if statement executes if there's another assignment or scheduled event with the
+            //same name as the name just inputted by the user preventing them from continuing.
             else if( checkNames(listOfAssignments) ){
-
                 nameOfAssignment.setText("")
                 val messageRedId = R.string.name_already_exists
                 Toast.makeText(baseContext, messageRedId, Toast.LENGTH_SHORT).show()
             }
             else{
 
+                //The assignment is then added to an ArrayList.
                 val intent = Intent(this, AddMorePage::class.java)
 
                 val c = AssignmentClass(
@@ -108,6 +115,7 @@ class AssignmentAttributesPage : AppCompatActivity() {
                 )
 
                 listOfAssignments.add(c)
+                //Moving on to the next screen.
                 intent.putExtra("key", listOfAssignments as Serializable)
                 intent.putExtra("startTimeValue", startTimeValue)
                 intent.putExtra("endTimeValue", endTimeValue)
@@ -118,6 +126,8 @@ class AssignmentAttributesPage : AppCompatActivity() {
         }
     }
 
+    //This function takes an ArrayList of events and checks to see if the user inputs a
+    //name that already exists in the list. If it does return true otherwise return false.
     private fun checkNames(listOfAssignments:MutableList<AssignmentClass>): Boolean {
 
         if(listOfAssignments.isNotEmpty()){
