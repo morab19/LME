@@ -14,6 +14,7 @@ import java.time.format.FormatStyle
 
 class RecommendedSchedulePage : AppCompatActivity() {
 
+    //Initialize all objects on the android screen we will be interacting with.
     private lateinit var recommendedSchedule: TextView
     private lateinit var restartButton: Button
     private lateinit var loopTest: TextView
@@ -24,6 +25,8 @@ class RecommendedSchedulePage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recommended_schedule_page)
 
+        // Initialize the ArrayList in the beginning to be passed
+        // around throughout the entire app until we reach the end.
         recommendedSchedule = findViewById(R.id.recommended_schedule)
         restartButton = findViewById(R.id.restart_button)
         loopTest = findViewById(R.id.loop_test)
@@ -35,11 +38,9 @@ class RecommendedSchedulePage : AppCompatActivity() {
         val startTimeAbbreviation = intent.getStringExtra("startTimeZone")
         val endTimeAbbreviation = intent.getStringExtra("endTimeZone")
 
+        //The start time and end time of the overall schedule is turned into time variables.
         val scheduleStartTime = LocalTime.parse(startTimeValue, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
         val scheduleEndTime = LocalTime.parse(endTimeValue, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-
-        val onlyAssignmentsIndicator: Boolean = onlyAssignmentsDeterminer(listOfAssignments)
-        val onlyEventsIndicator: Boolean = onlyEventsDeterminer(listOfAssignments)
 
         //If statement executes if the user only inputs 1 assignment.
         if ((listOfAssignments.size == 1) && (listOfAssignments[0].booleanClass)) {
@@ -79,10 +80,10 @@ class RecommendedSchedulePage : AppCompatActivity() {
         else{
 
         }
-        //recommendedSchedule.text = startTimeValue + "\n" + endTimeValue
 
+        //This button is for testing purposes and makes it easier to go back
+        //and create a new scheduled instead of having to restart numerous times.
         restartButton.setOnClickListener {
-
             val intent = Intent(this, TimeSchedulePage::class.java)
             startActivity(intent)
         }
@@ -123,7 +124,6 @@ class RecommendedSchedulePage : AppCompatActivity() {
             var innerStringTime = LocalTime.parse(listOfAssignments[i+1].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
 
             if (outerStringTime != innerStringTime) {
-
                 val c = AssignmentClass(
                     difficulty = 0,
                     name = "Blank",
@@ -143,7 +143,6 @@ class RecommendedSchedulePage : AppCompatActivity() {
 
         //We check to see if there is an unscheduled time at the beginning of the schedule
         if(passedStartTimeValue != sortedStartTimeValue){
-
             val c = AssignmentClass(
                 difficulty = 0,
                 name = "Blank",
@@ -157,7 +156,6 @@ class RecommendedSchedulePage : AppCompatActivity() {
 
         //We check to see if there is an unscheduled time at the end of the schedule
         if(passedEndTimeValue != sortedEndTimeValue){
-
             val c = AssignmentClass(
                 difficulty = 0,
                 name = "Blank",
@@ -169,10 +167,11 @@ class RecommendedSchedulePage : AppCompatActivity() {
             listOfAssignments.add(listOfAssignments.size, c)
         }
 
-
+        //We create a String of the now sorted to schedule
+        //to be returned and displayed on the android screen.
         var varStr : String = ""
 
-         for(index in listOfAssignments){
+        for(index in listOfAssignments){
             varStr = varStr + index.startTime + " - " + index.endTime + ": " + index.name + "\n"
         }
 

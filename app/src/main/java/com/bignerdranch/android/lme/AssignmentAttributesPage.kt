@@ -44,7 +44,6 @@ class AssignmentAttributesPage : AppCompatActivity() {
 
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
                 //Enables the "NEXT" button when there are no empty editTexts
                 if( difficultyValue.text.isNotEmpty() && nameOfAssignment.text.isNotEmpty()){
                     nextButton.isEnabled = true
@@ -71,7 +70,6 @@ class AssignmentAttributesPage : AppCompatActivity() {
 
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
                 //Enables the "NEXT" button when there are no empty editTexts
                 if( difficultyValue.text.isNotEmpty() && nameOfAssignment.text.isNotEmpty()){
                     nextButton.isEnabled = true
