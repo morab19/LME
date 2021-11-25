@@ -95,11 +95,9 @@ class OtherAttributesPage : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 //Enables the "NEXT" button when the name editText is not empty.
                 if( nameOfEvent.text.isNotEmpty()) {
-
                         nextButton.isEnabled = true
                 }
                 if( nameOfEvent.text.isEmpty()) {
-
                         nextButton.isEnabled = false
                 }
             }
@@ -167,8 +165,8 @@ class OtherAttributesPage : AppCompatActivity() {
             //Else if statement executes if the entered end time exceeds
             //the overall schedule. Preventing the user from continuing.
             else if(checkEndTime(convertedUserEndTime, originalStartTimeValue, originalEndTimeValue)){
-                val messageRedId2 = R.string.end_time_invalid
-                Toast.makeText(baseContext, messageRedId2, Toast.LENGTH_SHORT).show()
+                val messageRedId = R.string.end_time_invalid
+                Toast.makeText(baseContext, messageRedId, Toast.LENGTH_SHORT).show()
             }
             //Else if statement executes if there's another assignment or scheduled event with the same name as the name just inputted
             //by the user and if there is any overlap detected from previously entered scheduled events. Preventing them from continuing.
@@ -176,8 +174,8 @@ class OtherAttributesPage : AppCompatActivity() {
                      && checkForOverlap(listOfAssignments, convertedUserStartTime, convertedUserEndTime)){
 
                 nameOfEvent.setText("")
-                val messageRedId2 = R.string.name_already_exists_and_overlap_detected
-                Toast.makeText(baseContext, messageRedId2, Toast.LENGTH_LONG).show()
+                val messageRedId = R.string.name_already_exists_and_overlap_detected
+                Toast.makeText(baseContext, messageRedId, Toast.LENGTH_LONG).show()
             }
             //Else if statement executes if there's another assignment or scheduled event with
             //the same name as the name just inputted by the user. Preventing them from continuing.
