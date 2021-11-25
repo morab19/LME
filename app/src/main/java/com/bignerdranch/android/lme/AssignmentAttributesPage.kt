@@ -88,7 +88,7 @@ class AssignmentAttributesPage : AppCompatActivity() {
 
             //If statement executes if the set difficulty is not a
             //value ranging from 1-7 preventing the user from continuing.
-            if( (difficultyValue.text.toString().toInt() < 1) || (difficultyValue.text.toString().toInt() > 7) ){
+            if( (difficultyValue.text.toString().toInt() < 1) || (difficultyValue.text.toString().toInt() > 5) ){
                 val messageRedId = R.string.invalid_difficulty_value
                 Toast.makeText(this, messageRedId, Toast.LENGTH_SHORT).show()
             }

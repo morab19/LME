@@ -50,7 +50,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
         else if ((listOfAssignments.size == 1) && (!listOfAssignments[0].booleanClass)) {
 
             var eventStartTime = LocalTime.parse(listOfAssignments[0].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-            var eventEndTime = LocalTime.parse(listOfAssignments[0].endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+            val eventEndTime = LocalTime.parse(listOfAssignments[0].endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
 
             if ((eventStartTime == scheduleStartTime) && (eventEndTime == scheduleEndTime)) {
                 recommendedSchedule.text = startTimeValue + " - " + endTimeValue + ": " + listOfAssignments[0].name
@@ -96,7 +96,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
         startTimeAbbreviation: String?,
         endTimeAbbreviation: String?): String {
 
-        var loopBoolean: Int = 1
+        var loopBoolean = 1
 
         //In this while loop we first sort the scheduled events.
         while (loopBoolean <= 5) {
@@ -187,11 +187,13 @@ class RecommendedSchedulePage : AppCompatActivity() {
         var sameIntOperationBoolean : Boolean = sameIntAcrossAllAssignmentsDeterminer(sameIntAcrossAllAssignments, listOfAssignments)
         var totalMinutes : Int = assignmentsOnlyTotalMinutesDeterminer(startTimeValue, endTimeValue)
 
+        //If statement executes if the all assignments have matching difficulties
         if(sameIntOperationBoolean){
 
             if(listOfAssignments.size == 2){
 
                 var minutesPerAssignment : Int = totalMinutes / 2
+
                 listOfAssignments[0].startTime = startTimeValue.toString()
                 listOfAssignments[0].endTime = addTime(listOfAssignments[0].startTime, minutesPerAssignment)
                 listOfAssignments[1].startTime = listOfAssignments[0].endTime
@@ -199,10 +201,46 @@ class RecommendedSchedulePage : AppCompatActivity() {
             }
             else{
 
+                var minutesPerAssignment : Int = totalMinutes / listOfAssignments.size
+                listOfAssignments[0].startTime = startTimeValue.toString()
+
+                for(i in listOfAssignments.indices){
+
+                    if(i == listOfAssignments.size - 1){
+                        break
+                    }
+
+                    listOfAssignments[i].endTime = addTime(listOfAssignments[i].startTime, minutesPerAssignment)
+                    listOfAssignments[i + 1].startTime = listOfAssignments[i].endTime
+                }
+
+                listOfAssignments[listOfAssignments.size - 1].endTime = endTimeValue.toString()
             }
         }
         else{
 
+            var loopBoolean = 1
+
+            while (loopBoolean <= 5) {
+
+                for (i in listOfAssignments.indices) {
+
+                    var outerDifficulty = listOfAssignments[i].difficulty
+
+                    for (j in i until listOfAssignments.size) {
+
+                        var innerDifficulty = listOfAssignments[j].difficulty
+
+                        if (innerDifficulty < outerDifficulty) {
+                            var temp = listOfAssignments[i]
+                            listOfAssignments[i] = listOfAssignments[j]
+                            listOfAssignments[j] = temp
+                        }
+                    }
+                }
+
+                loopBoolean++
+            }
         }
 
         var varStr : String = ""
@@ -325,19 +363,6 @@ class RecommendedSchedulePage : AppCompatActivity() {
 
         return true
     }
-
-    /*    for(currentIndex in listOfAssignments){
-
-            if(currentIndex.difficulty == sameIntAcrossAllAssignments){
-                continue
-            }
-            else{
-
-                var minutesPerAssignment : Int = difference / listOfAssignments.size
-
-            }
-        } */
-
 
     //This function is used when we are dealing with only scheduled events.
     @RequiresApi(Build.VERSION_CODES.O)
