@@ -10,8 +10,8 @@
     <string name="attributes_header">Enter as many attributes as you can to get the best recommended schedule possible</string>
     <string name="assignment_name_hint">Name of assignment</string>
     <string name="event_name_hint">Name of event</string>
-    <string name="difficulty_hint">Assignment Difficulty (Enter 1-7)</string>
-    <string name="invalid_difficulty_value">Assignment difficulty must be a value of 1 through 7!</string>
+    <string name="difficulty_hint">Assignment Difficulty (Enter 1-5)</string>
+    <string name="invalid_difficulty_value">Assignment difficulty must be a value of 1 through 5!</string>
     <string name="error">ERROR!!!</string>
     <string name="yes_button_text">Yes</string>
     <string name="no_button_text">No</string>

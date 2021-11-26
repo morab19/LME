@@ -11,6 +11,8 @@ import androidx.annotation.RequiresApi
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import java.util.*
+import kotlin.collections.ArrayList
 
 class RecommendedSchedulePage : AppCompatActivity() {
 
@@ -187,9 +189,10 @@ class RecommendedSchedulePage : AppCompatActivity() {
         var sameIntOperationBoolean : Boolean = sameIntAcrossAllAssignmentsDeterminer(sameIntAcrossAllAssignments, listOfAssignments)
         var totalMinutes : Int = assignmentsOnlyTotalMinutesDeterminer(startTimeValue, endTimeValue)
 
-        //If statement executes if the all assignments have matching difficulties
+        //If statement executes if all assignments have matching difficulties
         if(sameIntOperationBoolean){
 
+            //If statement executes if the user only put 2 assignments.
             if(listOfAssignments.size == 2){
 
                 var minutesPerAssignment : Int = totalMinutes / 2
@@ -199,6 +202,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
                 listOfAssignments[1].startTime = listOfAssignments[0].endTime
                 listOfAssignments[1].endTime = addTime(listOfAssignments[1].startTime, minutesPerAssignment)
             }
+            //Else statement executes if the user put more than 2 assignments.
             else{
 
                 var minutesPerAssignment : Int = totalMinutes / listOfAssignments.size
@@ -217,6 +221,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
                 listOfAssignments[listOfAssignments.size - 1].endTime = endTimeValue.toString()
             }
         }
+        //Else statement executes if we're dealing with more than 1 unique difficulty.
         else{
 
             var loopBoolean = 1
@@ -241,6 +246,34 @@ class RecommendedSchedulePage : AppCompatActivity() {
 
                 loopBoolean++
             }
+
+            var difficultyArrayList = arrayListOf<Int>()
+
+            for(currentIndex in listOfAssignments){
+                difficultyArrayList.add(currentIndex.difficulty)
+            }
+
+     //       return difficultyArrayList.toString()
+
+            var difficultyMinuteArrayList = difficultyMinuteAssigner(difficultyArrayList, totalMinutes)
+
+          //  return difficultyArrayList.toString() + "\n" + difficultyMinuteArrayList.toString()
+
+            listOfAssignments[0].startTime = startTimeValue.toString()
+
+            for(i in listOfAssignments.indices){
+
+                if(i == listOfAssignments.size - 1){
+                    break
+                }
+
+
+                listOfAssignments[i].endTime = addTime(listOfAssignments[i].startTime, difficultyMinuteArrayList[i])
+                listOfAssignments[i + 1].startTime = listOfAssignments[i].endTime
+            }
+
+            listOfAssignments[listOfAssignments.size - 1].endTime = endTimeValue.toString()
+
         }
 
         var varStr : String = ""
@@ -250,6 +283,46 @@ class RecommendedSchedulePage : AppCompatActivity() {
         }
 
         return varStr
+    }
+
+    private fun difficultyMinuteAssigner(
+        difficultyArrayList: ArrayList<Int>,
+        totalMinutes: Int,
+        ): ArrayList<Int> {
+
+        val timeArrayList = arrayListOf<Int>()
+
+        for(i in difficultyArrayList){
+
+            if(i == 1){
+                timeArrayList.add(1)
+            }
+            else if(i == 2){
+                timeArrayList.add(2)
+            }
+            else if(i == 3){
+                timeArrayList.add(4)
+            }
+            else if(i == 4){
+                timeArrayList.add(7)
+            }
+            else{//(i == 5)
+                timeArrayList.add(10)
+            }
+        }
+
+        while(timeArrayList.sum() != totalMinutes){
+
+            for(i in timeArrayList.indices){
+                timeArrayList[i]++
+
+                if(timeArrayList.sum() == totalMinutes){
+                    break
+                }
+            }
+        }
+
+        return timeArrayList
     }
 
     //This function is used to add minutes onto a given time.
