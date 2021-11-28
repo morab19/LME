@@ -96,23 +96,26 @@ class RecommendedSchedulePage : AppCompatActivity() {
         endTimeValue: String?
     ): String {
 
+        var listOfOnlyEvents : ArrayList<AssignmentClass> = grabEvents(listOfAssignments)
+        var listOfOnlyAssignments : ArrayList<AssignmentClass> = grabAssignments(listOfAssignments)
+
         var loopBoolean = 1
 
         //In this while loop we first sort the scheduled events.
         while (loopBoolean <= 5) {
 
-            for (i in listOfAssignments.indices) {
+            for (i in listOfOnlyEvents.indices) {
 
-                val outerStringTime = LocalTime.parse(listOfAssignments[i].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                val outerStringTime = LocalTime.parse(listOfOnlyEvents[i].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
 
-                for (j in i until listOfAssignments.size) {
+                for (j in i until listOfOnlyEvents.size) {
 
-                    val innerStringTime = LocalTime.parse(listOfAssignments[j].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                    val innerStringTime = LocalTime.parse(listOfOnlyEvents[j].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
 
                     if (outerStringTime.isAfter(innerStringTime)) {
-                        val temp = listOfAssignments[i]
-                        listOfAssignments[i] = listOfAssignments[j]
-                        listOfAssignments[j] = temp
+                        val temp = listOfOnlyEvents[i]
+                        listOfOnlyEvents[i] = listOfOnlyEvents[j]
+                        listOfOnlyEvents[j] = temp
                     }
                 }
             }
@@ -121,28 +124,28 @@ class RecommendedSchedulePage : AppCompatActivity() {
         }
 
         //In this for loop we check to see if there are any unscheduled times between the scheduled events.
-        for (i in listOfAssignments.indices) {
+        for (i in listOfOnlyEvents.indices) {
 
-            val outerStringTime = LocalTime.parse(listOfAssignments[i].endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-            val innerStringTime = LocalTime.parse(listOfAssignments[i+1].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+            val outerStringTime = LocalTime.parse(listOfOnlyEvents[i].endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+            val innerStringTime = LocalTime.parse(listOfOnlyEvents[i+1].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
 
             if (outerStringTime != innerStringTime) {
                 val c = AssignmentClass(
                     difficulty = 0,
                     name = "Blank",
                     booleanClass = true,
-                    startTime = listOfAssignments[i].endTime,
-                    endTime = listOfAssignments[i+1].startTime
+                    startTime = listOfOnlyEvents[i].endTime,
+                    endTime = listOfOnlyEvents[i+1].startTime
                 )
 
-                listOfAssignments.add(i+1, c)
+                listOfOnlyEvents.add(i+1, c)
             }
         }
 
         val passedStartTimeValue = LocalTime.parse(startTimeValue, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
         val passedEndTimeValue = LocalTime.parse(endTimeValue, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-        val sortedStartTimeValue = LocalTime.parse(listOfAssignments[0].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-        val sortedEndTimeValue = LocalTime.parse(listOfAssignments[listOfAssignments.size - 1].endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+        val sortedStartTimeValue = LocalTime.parse(listOfOnlyEvents[0].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+        val sortedEndTimeValue = LocalTime.parse(listOfOnlyEvents[listOfOnlyEvents.size - 1].endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
 
         //We check to see if there is an unscheduled time at the beginning of the schedule
         if(passedStartTimeValue != sortedStartTimeValue){
@@ -151,10 +154,10 @@ class RecommendedSchedulePage : AppCompatActivity() {
                 name = "Blank",
                 booleanClass = true,
                 startTime = startTimeValue.toString(),
-                endTime = listOfAssignments[0].startTime
+                endTime = listOfOnlyEvents[0].startTime
             )
 
-            listOfAssignments.add(0, c)
+            listOfOnlyEvents.add(0, c)
         }
 
         //We check to see if there is an unscheduled time at the end of the schedule
@@ -163,14 +166,78 @@ class RecommendedSchedulePage : AppCompatActivity() {
                 difficulty = 0,
                 name = "Blank",
                 booleanClass = true,
-                startTime = listOfAssignments[listOfAssignments.size - 1].endTime,
+                startTime = listOfOnlyEvents[listOfOnlyEvents.size - 1].endTime,
                 endTime = endTimeValue.toString()
             )
 
-            listOfAssignments.add(listOfAssignments.size, c)
+            listOfOnlyEvents.add(listOfOnlyEvents.size, c)
         }
 
-        return "test"
+        val totalMinutes : Int = mixedOnlyTotalMinutesDeterminer(listOfOnlyEvents)
+
+        loopTest.text = totalMinutes.toString()
+
+        return recommendedScheduleString(listOfOnlyEvents)
+    }
+
+    private fun grabEvents(
+        listOfAssignments: MutableList<AssignmentClass>
+    ): ArrayList<AssignmentClass> {
+
+        val listOfOnlyEvents : ArrayList<AssignmentClass> = ArrayList()
+
+        for(currentIndex in listOfAssignments){
+
+            if(!currentIndex.booleanClass){
+                listOfOnlyEvents.add(currentIndex)
+            }
+        }
+
+        return listOfOnlyEvents
+    }
+
+    private fun grabAssignments(
+        listOfAssignments: MutableList<AssignmentClass>
+    ): ArrayList<AssignmentClass> {
+
+        val listOfOnlyAssignments : ArrayList<AssignmentClass> = ArrayList()
+
+        for(currentIndex in listOfAssignments){
+
+            if(currentIndex.booleanClass){
+                listOfOnlyAssignments.add(currentIndex)
+            }
+        }
+
+        return listOfOnlyAssignments
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun mixedOnlyTotalMinutesDeterminer(
+        listOfEvents: MutableList<AssignmentClass>
+    ): Int {
+
+        var totalMinutes = 0
+
+        for(currentIndex in listOfEvents){
+
+            if(currentIndex.name == "Blank"){
+                var currentIndexStartTime = LocalTime.parse(currentIndex.startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                var currentIndexEndTime = LocalTime.parse(currentIndex.endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+
+                var finalHour = currentIndexEndTime.hour - currentIndexStartTime.hour
+                var finalMinute = currentIndexEndTime.minute - currentIndexStartTime.minute
+
+                if(finalMinute < 0){
+                    finalMinute = finalMinute + 60
+                    finalHour = finalHour - 1
+                }
+
+                totalMinutes = totalMinutes + (finalHour * 60) + finalMinute
+            }
+        }
+
+        return totalMinutes
     }
 
     //This function is used when we are dealing with only assignments.
@@ -274,7 +341,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
     private fun difficultyMinuteAssigner(
         difficultyArrayList: ArrayList<Int>,
         totalMinutes: Int,
-        ): ArrayList<Int> {
+    ): ArrayList<Int> {
 
         val timeArrayList = arrayListOf<Int>()
 
@@ -316,7 +383,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
     private fun addTime(
         currentTime: String,
         minutes: Int
-        ): String {
+    ): String {
 
         val previousHourSubstring : String
         val previousMinuteSubstring : String
@@ -512,7 +579,9 @@ class RecommendedSchedulePage : AppCompatActivity() {
     }
 
     //Checks to see if there are only Assignments in the schedule.
-    private fun onlyAssignmentsDeterminer(listOfAssignments: MutableList<AssignmentClass>): Boolean{
+    private fun onlyAssignmentsDeterminer(
+        listOfAssignments: MutableList<AssignmentClass>
+    ): Boolean{
 
         var indicator = 0
 
@@ -527,7 +596,9 @@ class RecommendedSchedulePage : AppCompatActivity() {
     }
 
     //Checks to see if there are only scheduled events in the schedule.
-    private fun onlyEventsDeterminer(listOfAssignments: MutableList<AssignmentClass>): Boolean{
+    private fun onlyEventsDeterminer(
+        listOfAssignments: MutableList<AssignmentClass>
+    ): Boolean{
 
         var indicator = 0
 
@@ -544,7 +615,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
     //This function is used to print out and display the recommended schedule.
     private fun recommendedScheduleString(
         listOfAssignments: MutableList<AssignmentClass>
-        ): String {
+    ): String {
 
         var varStr = ""
 
@@ -558,7 +629,8 @@ class RecommendedSchedulePage : AppCompatActivity() {
     //Checks to see if any events begin at the beginning of the schedule.
     private fun checkMatchingStartTimes(
         listOfAssignments: MutableList<AssignmentClass>,
-        startTimeValue: String?): Boolean{
+        startTimeValue: String?
+    ): Boolean{
 
         for (currentIndex in listOfAssignments){
 
@@ -571,7 +643,10 @@ class RecommendedSchedulePage : AppCompatActivity() {
     }
 
     //Check to see if any events end at the end of the schedule.
-    private fun checkMatchingEndTimes(listOfAssignments: MutableList<AssignmentClass>, endTimeValue: String?): Boolean{
+    private fun checkMatchingEndTimes(
+        listOfAssignments: MutableList<AssignmentClass>,
+        endTimeValue: String?
+    ): Boolean{
 
         for (currentIndex in listOfAssignments){
 
@@ -584,7 +659,9 @@ class RecommendedSchedulePage : AppCompatActivity() {
     }
 
     //Counts the number of scheduled events in the schedule.
-    private fun countNumberOfInputtedEvents(listOfAssignments: MutableList<AssignmentClass>): Int{
+    private fun countNumberOfInputtedEvents(
+        listOfAssignments: MutableList<AssignmentClass>
+    ): Int{
 
         var count = 0
 
@@ -600,7 +677,9 @@ class RecommendedSchedulePage : AppCompatActivity() {
     }
 
     //Counts the number of assignments in the schedule.
-    private fun countNumberOfAssignments(listOfAssignments: MutableList<AssignmentClass>): Int{
+    private fun countNumberOfAssignments(
+        listOfAssignments: MutableList<AssignmentClass>
+    ): Int{
 
         var count = 0
 
