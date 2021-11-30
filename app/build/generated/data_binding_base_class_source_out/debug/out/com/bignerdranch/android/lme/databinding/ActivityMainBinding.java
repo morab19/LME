@@ -25,21 +25,29 @@ public final class ActivityMainBinding implements ViewBinding {
   public final CheckBox assignmentCheckbox;
 
   @NonNull
+  public final TextView currentList;
+
+  @NonNull
   public final Button nextButton;
 
   @NonNull
   public final CheckBox otherCheckbox;
 
   @NonNull
+  public final TextView timeSchedule;
+
+  @NonNull
   public final TextView typeOfEventTextView;
 
   private ActivityMainBinding(@NonNull LinearLayout rootView, @NonNull CheckBox assignmentCheckbox,
-      @NonNull Button nextButton, @NonNull CheckBox otherCheckbox,
-      @NonNull TextView typeOfEventTextView) {
+      @NonNull TextView currentList, @NonNull Button nextButton, @NonNull CheckBox otherCheckbox,
+      @NonNull TextView timeSchedule, @NonNull TextView typeOfEventTextView) {
     this.rootView = rootView;
     this.assignmentCheckbox = assignmentCheckbox;
+    this.currentList = currentList;
     this.nextButton = nextButton;
     this.otherCheckbox = otherCheckbox;
+    this.timeSchedule = timeSchedule;
     this.typeOfEventTextView = typeOfEventTextView;
   }
 
@@ -76,6 +84,12 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.current_list;
+      TextView currentList = ViewBindings.findChildViewById(rootView, id);
+      if (currentList == null) {
+        break missingId;
+      }
+
       id = R.id.next_button;
       Button nextButton = ViewBindings.findChildViewById(rootView, id);
       if (nextButton == null) {
@@ -88,14 +102,20 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.time_schedule;
+      TextView timeSchedule = ViewBindings.findChildViewById(rootView, id);
+      if (timeSchedule == null) {
+        break missingId;
+      }
+
       id = R.id.type_of_event_text_view;
       TextView typeOfEventTextView = ViewBindings.findChildViewById(rootView, id);
       if (typeOfEventTextView == null) {
         break missingId;
       }
 
-      return new ActivityMainBinding((LinearLayout) rootView, assignmentCheckbox, nextButton,
-          otherCheckbox, typeOfEventTextView);
+      return new ActivityMainBinding((LinearLayout) rootView, assignmentCheckbox, currentList,
+          nextButton, otherCheckbox, timeSchedule, typeOfEventTextView);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

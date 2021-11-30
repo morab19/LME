@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.TextView
 import android.widget.Toast
 import java.io.Serializable
 
@@ -14,6 +15,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var nextButton: Button
     private lateinit var assignmentCheckBox: CheckBox
     private lateinit var otherCheckBox: CheckBox
+    private lateinit var scheduleTextView: TextView
+    private lateinit var currentListTextView: TextView
 
     @Override
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +28,8 @@ class MainActivity : AppCompatActivity() {
         nextButton = findViewById(R.id.next_button)
         assignmentCheckBox = findViewById(R.id.assignment_checkbox)
         otherCheckBox = findViewById(R.id.other_checkbox)
+        scheduleTextView = findViewById(R.id.time_schedule)
+        currentListTextView = findViewById(R.id.current_list)
 
         //Information being passed around throughout the app.
         val listOfAssignments:MutableList<AssignmentClass> = intent.getSerializableExtra("key") as MutableList<AssignmentClass>
@@ -32,6 +37,12 @@ class MainActivity : AppCompatActivity() {
         val endTimeValue = intent.getStringExtra("endTimeValue")
         val startTimeAbbreviation = intent.getStringExtra("startTimeZone")
         val endTimeAbbreviation = intent.getStringExtra("endTimeZone")
+
+        scheduleTextView.text = "Schedule: " + startTimeValue + " - " + endTimeValue
+
+        if(listOfAssignments.size > 0){
+            currentListTextView.text = currentListString(listOfAssignments)
+        }
 
         // The user is asked what type of event they are adding next.
         nextButton.setOnClickListener {
@@ -73,5 +84,25 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, messageRedId, Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    //This function is used to print out and display the current list.
+    private fun currentListString(
+        listOfAssignments: MutableList<AssignmentClass>
+    ): String {
+
+        var varStr = ""
+
+        for(index in listOfAssignments){
+
+            if(index.booleanClass){
+                varStr = varStr + index.name + ": Difficulty: " + index.difficulty + "\n"
+            }
+            else{
+                varStr = varStr + index.name + ": " + index.startTime + " - " + index.endTime + "\n"
+            }
+        }
+
+        return varStr
     }
 }

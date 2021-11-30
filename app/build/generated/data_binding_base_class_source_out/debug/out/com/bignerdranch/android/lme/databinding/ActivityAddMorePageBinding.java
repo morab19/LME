@@ -24,16 +24,25 @@ public final class ActivityAddMorePageBinding implements ViewBinding {
   public final TextView addMoreTextView;
 
   @NonNull
+  public final TextView currentList;
+
+  @NonNull
   public final Button noButton;
+
+  @NonNull
+  public final TextView timeSchedule;
 
   @NonNull
   public final Button yesButton;
 
   private ActivityAddMorePageBinding(@NonNull LinearLayout rootView,
-      @NonNull TextView addMoreTextView, @NonNull Button noButton, @NonNull Button yesButton) {
+      @NonNull TextView addMoreTextView, @NonNull TextView currentList, @NonNull Button noButton,
+      @NonNull TextView timeSchedule, @NonNull Button yesButton) {
     this.rootView = rootView;
     this.addMoreTextView = addMoreTextView;
+    this.currentList = currentList;
     this.noButton = noButton;
+    this.timeSchedule = timeSchedule;
     this.yesButton = yesButton;
   }
 
@@ -70,9 +79,21 @@ public final class ActivityAddMorePageBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.current_list;
+      TextView currentList = ViewBindings.findChildViewById(rootView, id);
+      if (currentList == null) {
+        break missingId;
+      }
+
       id = R.id.no_button;
       Button noButton = ViewBindings.findChildViewById(rootView, id);
       if (noButton == null) {
+        break missingId;
+      }
+
+      id = R.id.time_schedule;
+      TextView timeSchedule = ViewBindings.findChildViewById(rootView, id);
+      if (timeSchedule == null) {
         break missingId;
       }
 
@@ -82,8 +103,8 @@ public final class ActivityAddMorePageBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivityAddMorePageBinding((LinearLayout) rootView, addMoreTextView, noButton,
-          yesButton);
+      return new ActivityAddMorePageBinding((LinearLayout) rootView, addMoreTextView, currentList,
+          noButton, timeSchedule, yesButton);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

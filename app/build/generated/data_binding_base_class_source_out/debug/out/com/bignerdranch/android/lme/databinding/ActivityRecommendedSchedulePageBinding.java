@@ -29,13 +29,17 @@ public final class ActivityRecommendedSchedulePageBinding implements ViewBinding
   @NonNull
   public final Button restartButton;
 
+  @NonNull
+  public final TextView timeSchedule;
+
   private ActivityRecommendedSchedulePageBinding(@NonNull LinearLayout rootView,
       @NonNull TextView loopTest, @NonNull TextView recommendedSchedule,
-      @NonNull Button restartButton) {
+      @NonNull Button restartButton, @NonNull TextView timeSchedule) {
     this.rootView = rootView;
     this.loopTest = loopTest;
     this.recommendedSchedule = recommendedSchedule;
     this.restartButton = restartButton;
+    this.timeSchedule = timeSchedule;
   }
 
   @Override
@@ -83,8 +87,14 @@ public final class ActivityRecommendedSchedulePageBinding implements ViewBinding
         break missingId;
       }
 
+      id = R.id.time_schedule;
+      TextView timeSchedule = ViewBindings.findChildViewById(rootView, id);
+      if (timeSchedule == null) {
+        break missingId;
+      }
+
       return new ActivityRecommendedSchedulePageBinding((LinearLayout) rootView, loopTest,
-          recommendedSchedule, restartButton);
+          recommendedSchedule, restartButton, timeSchedule);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

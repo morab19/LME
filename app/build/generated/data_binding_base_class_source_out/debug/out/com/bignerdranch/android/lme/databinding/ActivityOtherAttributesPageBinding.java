@@ -29,6 +29,9 @@ public final class ActivityOtherAttributesPageBinding implements ViewBinding {
   public final TextView attributeTextViewInfo;
 
   @NonNull
+  public final TextView currentList;
+
+  @NonNull
   public final Spinner endingHalfHourSpinner;
 
   @NonNull
@@ -52,15 +55,20 @@ public final class ActivityOtherAttributesPageBinding implements ViewBinding {
   @NonNull
   public final Spinner startingTimeOfDaySpinner;
 
+  @NonNull
+  public final TextView timeSchedule;
+
   private ActivityOtherAttributesPageBinding(@NonNull LinearLayout rootView,
       @NonNull TextView attributeTextView, @NonNull TextView attributeTextViewInfo,
-      @NonNull Spinner endingHalfHourSpinner, @NonNull Spinner endingHourSpinner,
-      @NonNull Spinner endingTimeOfDaySpinner, @NonNull EditText nameOfEventEditText,
-      @NonNull Button nextButton, @NonNull Spinner startingHalfHourSpinner,
-      @NonNull Spinner startingHourSpinner, @NonNull Spinner startingTimeOfDaySpinner) {
+      @NonNull TextView currentList, @NonNull Spinner endingHalfHourSpinner,
+      @NonNull Spinner endingHourSpinner, @NonNull Spinner endingTimeOfDaySpinner,
+      @NonNull EditText nameOfEventEditText, @NonNull Button nextButton,
+      @NonNull Spinner startingHalfHourSpinner, @NonNull Spinner startingHourSpinner,
+      @NonNull Spinner startingTimeOfDaySpinner, @NonNull TextView timeSchedule) {
     this.rootView = rootView;
     this.attributeTextView = attributeTextView;
     this.attributeTextViewInfo = attributeTextViewInfo;
+    this.currentList = currentList;
     this.endingHalfHourSpinner = endingHalfHourSpinner;
     this.endingHourSpinner = endingHourSpinner;
     this.endingTimeOfDaySpinner = endingTimeOfDaySpinner;
@@ -69,6 +77,7 @@ public final class ActivityOtherAttributesPageBinding implements ViewBinding {
     this.startingHalfHourSpinner = startingHalfHourSpinner;
     this.startingHourSpinner = startingHourSpinner;
     this.startingTimeOfDaySpinner = startingTimeOfDaySpinner;
+    this.timeSchedule = timeSchedule;
   }
 
   @Override
@@ -107,6 +116,12 @@ public final class ActivityOtherAttributesPageBinding implements ViewBinding {
       id = R.id.attribute_text_view_info;
       TextView attributeTextViewInfo = ViewBindings.findChildViewById(rootView, id);
       if (attributeTextViewInfo == null) {
+        break missingId;
+      }
+
+      id = R.id.current_list;
+      TextView currentList = ViewBindings.findChildViewById(rootView, id);
+      if (currentList == null) {
         break missingId;
       }
 
@@ -158,10 +173,16 @@ public final class ActivityOtherAttributesPageBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.time_schedule;
+      TextView timeSchedule = ViewBindings.findChildViewById(rootView, id);
+      if (timeSchedule == null) {
+        break missingId;
+      }
+
       return new ActivityOtherAttributesPageBinding((LinearLayout) rootView, attributeTextView,
-          attributeTextViewInfo, endingHalfHourSpinner, endingHourSpinner, endingTimeOfDaySpinner,
-          nameOfEventEditText, nextButton, startingHalfHourSpinner, startingHourSpinner,
-          startingTimeOfDaySpinner);
+          attributeTextViewInfo, currentList, endingHalfHourSpinner, endingHourSpinner,
+          endingTimeOfDaySpinner, nameOfEventEditText, nextButton, startingHalfHourSpinner,
+          startingHourSpinner, startingTimeOfDaySpinner, timeSchedule);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

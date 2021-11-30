@@ -7,6 +7,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import java.io.Serializable
 
@@ -16,6 +17,8 @@ class AssignmentAttributesPage : AppCompatActivity() {
     private lateinit var nextButton: Button
     private lateinit var difficultyValue: EditText
     private lateinit var nameOfAssignment: EditText
+    private lateinit var scheduleTextView: TextView
+    private lateinit var currentListTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +29,8 @@ class AssignmentAttributesPage : AppCompatActivity() {
         difficultyValue = findViewById(R.id.difficulty_of_assignment_edit_text)
         nameOfAssignment = findViewById(R.id.name_of_assignment_edit_text)
         nextButton = findViewById(R.id.next_button)
+        scheduleTextView = findViewById(R.id.time_schedule)
+        currentListTextView = findViewById(R.id.current_list)
 
         //Information being passed around throughout the app.
         val listOfAssignments:MutableList<AssignmentClass> = intent.getSerializableExtra("key") as MutableList<AssignmentClass>
@@ -33,6 +38,12 @@ class AssignmentAttributesPage : AppCompatActivity() {
         val endTimeValue = intent.getStringExtra("endTimeValue")
         val startTimeAbbreviation = intent.getStringExtra("startTimeZone")
         val endTimeAbbreviation = intent.getStringExtra("endTimeZone")
+
+        scheduleTextView.text = "Schedule: " + startTimeValue + " - " + endTimeValue
+
+        if(listOfAssignments.size > 0){
+            currentListTextView.text = currentAssignmentsString(listOfAssignments)
+        }
 
         var num: Int
         var str: String
@@ -139,5 +150,22 @@ class AssignmentAttributesPage : AppCompatActivity() {
         }
 
         return false
+    }
+
+    //This function is used to print out and display the assignments already entered.
+    private fun currentAssignmentsString(
+        listOfAssignments: MutableList<AssignmentClass>
+    ): String {
+
+        var varStr = ""
+
+        for(index in listOfAssignments){
+
+            if(index.booleanClass){
+                varStr = varStr + index.name + ": Difficulty: " + index.difficulty + "\n"
+            }
+        }
+
+        return varStr
     }
 }

@@ -24,6 +24,8 @@ class OtherAttributesPage : AppCompatActivity() {
     private lateinit var endHalfHourTimeSpinner: Spinner
     private lateinit var startTimeOfDaySpinner: Spinner
     private lateinit var endTimeOfDaySpinner: Spinner
+    private lateinit var scheduleTextView: TextView
+    private lateinit var currentListTextView: TextView
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +49,14 @@ class OtherAttributesPage : AppCompatActivity() {
         endHourTimeSpinner = findViewById(R.id.ending_hour_spinner)
         endHalfHourTimeSpinner = findViewById(R.id.ending_half_hour_spinner)
         endTimeOfDaySpinner = findViewById(R.id.ending_time_of_day_spinner)
+        scheduleTextView = findViewById(R.id.time_schedule)
+        currentListTextView = findViewById(R.id.current_list)
+
+        scheduleTextView.text = "Schedule: " + startTimeValue + " - " + endTimeValue
+
+        if(listOfAssignments.size > 0){
+            currentListTextView.text = currentScheduledEventsString(listOfAssignments)
+        }
 
         //The spinner the user interacts with to set the hour.
         val hoursArray = resources.getStringArray(R.array.hour_array)
@@ -293,4 +303,22 @@ class OtherAttributesPage : AppCompatActivity() {
 
         return false
     }
+
+    //This function is used to print out and display the scheduled events already entered.
+    private fun currentScheduledEventsString(
+        listOfAssignments: MutableList<AssignmentClass>
+    ): String {
+
+        var varStr = ""
+
+        for(index in listOfAssignments){
+
+            if(!index.booleanClass){
+                varStr = varStr + index.name + ": " + index.startTime + " - " + index.endTime + "\n"
+            }
+        }
+
+        return varStr
+    }
 }
+

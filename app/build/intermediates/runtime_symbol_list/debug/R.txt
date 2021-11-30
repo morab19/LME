@@ -1999,6 +1999,7 @@ int id coordinator 0x7f090085
 int id cos 0x7f090086
 int id counterclockwise 0x7f090087
 int id currentState 0x7f090088
+int id current_list 0x7f0901ec
 int id custom 0x7f090089
 int id customPanel 0x7f09008a
 int id cut 0x7f09008b
@@ -2313,6 +2314,7 @@ int id textinput_placeholder 0x7f0901bf
 int id textinput_prefix_text 0x7f0901c0
 int id textinput_suffix_text 0x7f0901c1
 int id time 0x7f0901c2
+int id time_schedule 0x7f0901eb
 int id title 0x7f0901c3
 int id titleDividerNoCustom 0x7f0901c4
 int id title_template 0x7f0901c5

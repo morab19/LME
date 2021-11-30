@@ -8,6 +8,20 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/time_schedule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="12dp"/>
+
+    <TextView
+        android:id="@+id/current_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="12dp"/>
+
+    <TextView
         android:id="@+id/add_more_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

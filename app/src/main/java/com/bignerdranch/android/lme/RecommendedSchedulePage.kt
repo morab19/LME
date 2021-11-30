@@ -19,6 +19,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
     private lateinit var recommendedSchedule: TextView
     private lateinit var restartButton: Button
     private lateinit var loopTest: TextView
+    private lateinit var scheduleTextView: TextView
 
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
@@ -31,13 +32,14 @@ class RecommendedSchedulePage : AppCompatActivity() {
         recommendedSchedule = findViewById(R.id.recommended_schedule)
         restartButton = findViewById(R.id.restart_button)
         loopTest = findViewById(R.id.loop_test)
+        scheduleTextView = findViewById(R.id.time_schedule)
 
         //The information being passed around throughout the app.
         val listOfAssignments: MutableList<AssignmentClass> = intent.getSerializableExtra("key") as MutableList<AssignmentClass>
         val startTimeValue = intent.getStringExtra("startTimeValue")
         val endTimeValue = intent.getStringExtra("endTimeValue")
-        val startTimeAbbreviation = intent.getStringExtra("startTimeZone")
-        val endTimeAbbreviation = intent.getStringExtra("endTimeZone")
+
+        scheduleTextView.text = "Schedule: " + startTimeValue + " - " + endTimeValue
 
         //The start time and end time of the overall schedule is turned into time variables.
         val scheduleStartTime = LocalTime.parse(startTimeValue, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
@@ -87,407 +89,38 @@ class RecommendedSchedulePage : AppCompatActivity() {
         }
     }
 
-    //This function is used when we are dealing with
-    //a mix of assignments and scheduled events.
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun assignmentsAndEventsString(
-        listOfAssignments: MutableList<AssignmentClass>,
-        startTimeValue: String?,
-        endTimeValue: String?
-    ): String {
-
-        var listOfOnlyEvents : ArrayList<AssignmentClass> = grabEvents(listOfAssignments)
-        var listOfOnlyAssignments : ArrayList<AssignmentClass> = grabAssignments(listOfAssignments)
-
-        var loopBoolean = 1
-
-        //In this while loop we first sort the scheduled events.
-        while (loopBoolean <= 5) {
-
-            for (i in listOfOnlyEvents.indices) {
-
-                val outerStringTime = LocalTime.parse(listOfOnlyEvents[i].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-
-                for (j in i until listOfOnlyEvents.size) {
-
-                    val innerStringTime = LocalTime.parse(listOfOnlyEvents[j].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-
-                    if (outerStringTime.isAfter(innerStringTime)) {
-                        val temp = listOfOnlyEvents[i]
-                        listOfOnlyEvents[i] = listOfOnlyEvents[j]
-                        listOfOnlyEvents[j] = temp
-                    }
-                }
-            }
-
-            loopBoolean++
-        }
-
-        //In this for loop we check to see if there are any unscheduled times between the scheduled events.
-        for (i in listOfOnlyEvents.indices) {
-
-            val outerStringTime = LocalTime.parse(listOfOnlyEvents[i].endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-            val innerStringTime = LocalTime.parse(listOfOnlyEvents[i+1].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-
-            if (outerStringTime != innerStringTime) {
-                val c = AssignmentClass(
-                    difficulty = 0,
-                    name = "Blank",
-                    booleanClass = true,
-                    startTime = listOfOnlyEvents[i].endTime,
-                    endTime = listOfOnlyEvents[i+1].startTime
-                )
-
-                listOfOnlyEvents.add(i+1, c)
-            }
-        }
-
-        val passedStartTimeValue = LocalTime.parse(startTimeValue, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-        val passedEndTimeValue = LocalTime.parse(endTimeValue, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-        val sortedStartTimeValue = LocalTime.parse(listOfOnlyEvents[0].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-        val sortedEndTimeValue = LocalTime.parse(listOfOnlyEvents[listOfOnlyEvents.size - 1].endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-
-        //We check to see if there is an unscheduled time at the beginning of the schedule
-        if(passedStartTimeValue != sortedStartTimeValue){
-            val c = AssignmentClass(
-                difficulty = 0,
-                name = "Blank",
-                booleanClass = true,
-                startTime = startTimeValue.toString(),
-                endTime = listOfOnlyEvents[0].startTime
-            )
-
-            listOfOnlyEvents.add(0, c)
-        }
-
-        //We check to see if there is an unscheduled time at the end of the schedule
-        if(passedEndTimeValue != sortedEndTimeValue){
-            val c = AssignmentClass(
-                difficulty = 0,
-                name = "Blank",
-                booleanClass = true,
-                startTime = listOfOnlyEvents[listOfOnlyEvents.size - 1].endTime,
-                endTime = endTimeValue.toString()
-            )
-
-            listOfOnlyEvents.add(listOfOnlyEvents.size, c)
-        }
-
-        val totalMinutes : Int = mixedOnlyTotalMinutesDeterminer(listOfOnlyEvents)
-
-        loopTest.text = totalMinutes.toString()
-
-        return recommendedScheduleString(listOfOnlyEvents)
-    }
-
-    private fun grabEvents(
+    //Checks to see if there are only scheduled events in the schedule.
+    private fun onlyEventsDeterminer(
         listOfAssignments: MutableList<AssignmentClass>
-    ): ArrayList<AssignmentClass> {
+    ): Boolean{
 
-        val listOfOnlyEvents : ArrayList<AssignmentClass> = ArrayList()
+        var indicator = 0
 
-        for(currentIndex in listOfAssignments){
-
-            if(!currentIndex.booleanClass){
-                listOfOnlyEvents.add(currentIndex)
-            }
-        }
-
-        return listOfOnlyEvents
-    }
-
-    private fun grabAssignments(
-        listOfAssignments: MutableList<AssignmentClass>
-    ): ArrayList<AssignmentClass> {
-
-        val listOfOnlyAssignments : ArrayList<AssignmentClass> = ArrayList()
-
-        for(currentIndex in listOfAssignments){
+        for (currentIndex in listOfAssignments) {
 
             if(currentIndex.booleanClass){
-                listOfOnlyAssignments.add(currentIndex)
+                indicator = 1
             }
         }
 
-        return listOfOnlyAssignments
+        return indicator == 0
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun mixedOnlyTotalMinutesDeterminer(
-        listOfEvents: MutableList<AssignmentClass>
-    ): Int {
-
-        var totalMinutes = 0
-
-        for(currentIndex in listOfEvents){
-
-            if(currentIndex.name == "Blank"){
-                var currentIndexStartTime = LocalTime.parse(currentIndex.startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-                var currentIndexEndTime = LocalTime.parse(currentIndex.endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-
-                var finalHour = currentIndexEndTime.hour - currentIndexStartTime.hour
-                var finalMinute = currentIndexEndTime.minute - currentIndexStartTime.minute
-
-                if(finalMinute < 0){
-                    finalMinute = finalMinute + 60
-                    finalHour = finalHour - 1
-                }
-
-                totalMinutes = totalMinutes + (finalHour * 60) + finalMinute
-            }
-        }
-
-        return totalMinutes
-    }
-
-    //This function is used when we are dealing with only assignments.
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun assignmentsOnlyString(
-        listOfAssignments: MutableList<AssignmentClass>,
-        startTimeValue: String?,
-        endTimeValue: String?
-    ): String {
-
-        val sameIntAcrossAllAssignments : Int = listOfAssignments[0].difficulty
-        val sameIntOperationBoolean : Boolean = sameIntAcrossAllAssignmentsDeterminer(sameIntAcrossAllAssignments, listOfAssignments)
-        val totalMinutes : Int = assignmentsOnlyTotalMinutesDeterminer(startTimeValue, endTimeValue)
-
-        //If statement executes if all assignments have matching difficulties
-        if(sameIntOperationBoolean){
-
-            //If statement executes if the user only put 2 assignments.
-            if(listOfAssignments.size == 2){
-
-                val minutesPerAssignment : Int = totalMinutes / 2
-
-                listOfAssignments[0].startTime = startTimeValue.toString()
-                listOfAssignments[0].endTime = addTime(listOfAssignments[0].startTime, minutesPerAssignment)
-                listOfAssignments[1].startTime = listOfAssignments[0].endTime
-                listOfAssignments[1].endTime = addTime(listOfAssignments[1].startTime, minutesPerAssignment)
-            }
-            //Else statement executes if the user put more than 2 assignments.
-            else{
-
-                val minutesPerAssignment : Int = totalMinutes / listOfAssignments.size
-                listOfAssignments[0].startTime = startTimeValue.toString()
-
-                for(i in listOfAssignments.indices){
-
-                    if(i == listOfAssignments.size - 1){
-                        break
-                    }
-
-                    listOfAssignments[i].endTime = addTime(listOfAssignments[i].startTime, minutesPerAssignment)
-                    listOfAssignments[i + 1].startTime = listOfAssignments[i].endTime
-                }
-
-                listOfAssignments[listOfAssignments.size - 1].endTime = endTimeValue.toString()
-            }
-        }
-        //Else statement executes if we're dealing with more than 1 unique difficulty.
-        else{
-
-            var loopBoolean = 1
-
-            while (loopBoolean <= 5) {
-
-                for (i in listOfAssignments.indices) {
-
-                    val outerDifficulty = listOfAssignments[i].difficulty
-
-                    for (j in i until listOfAssignments.size) {
-
-                        val innerDifficulty = listOfAssignments[j].difficulty
-
-                        if (innerDifficulty < outerDifficulty) {
-                            val temp = listOfAssignments[i]
-                            listOfAssignments[i] = listOfAssignments[j]
-                            listOfAssignments[j] = temp
-                        }
-                    }
-                }
-
-                loopBoolean++
-            }
-
-            val difficultyArrayList = arrayListOf<Int>()
-
-            for(currentIndex in listOfAssignments){
-                difficultyArrayList.add(currentIndex.difficulty)
-            }
-
-            val difficultyMinuteArrayList = difficultyMinuteAssigner(difficultyArrayList, totalMinutes)
-
-            listOfAssignments[0].startTime = startTimeValue.toString()
-
-            for(i in listOfAssignments.indices){
-
-                if(i == listOfAssignments.size - 1){
-                    break
-                }
-
-
-                listOfAssignments[i].endTime = addTime(listOfAssignments[i].startTime, difficultyMinuteArrayList[i])
-                listOfAssignments[i + 1].startTime = listOfAssignments[i].endTime
-            }
-
-            listOfAssignments[listOfAssignments.size - 1].endTime = endTimeValue.toString()
-
-        }
-
-        return recommendedScheduleString(listOfAssignments)
-    }
-
-    private fun difficultyMinuteAssigner(
-        difficultyArrayList: ArrayList<Int>,
-        totalMinutes: Int,
-    ): ArrayList<Int> {
-
-        val timeArrayList = arrayListOf<Int>()
-
-        for(i in difficultyArrayList){
-
-            if(i == 1){
-                timeArrayList.add(1)
-            }
-            else if(i == 2){
-                timeArrayList.add(2)
-            }
-            else if(i == 3){
-                timeArrayList.add(4)
-            }
-            else if(i == 4){
-                timeArrayList.add(7)
-            }
-            else{//(i == 5)
-                timeArrayList.add(10)
-            }
-        }
-
-        while(timeArrayList.sum() != totalMinutes){
-
-            for(i in timeArrayList.indices){
-                timeArrayList[i]++
-
-                if(timeArrayList.sum() == totalMinutes){
-                    break
-                }
-            }
-        }
-
-        return timeArrayList
-    }
-
-    //This function is used to add minutes onto a given time.
-    //(Ex. Adding 30 minutes to '11:45 AM' should give '12:15 PM'.
-    private fun addTime(
-        currentTime: String,
-        minutes: Int
-    ): String {
-
-        val previousHourSubstring : String
-        val previousMinuteSubstring : String
-        var previousAbbreviationSubstring : String
-
-        if(currentTime.length == 7){
-
-            previousHourSubstring = currentTime.substring(0,1)			//grabs the '3' part in '3:00 PM'
-            previousMinuteSubstring = currentTime.substring(2,4)		//grabs the '00' part in '3:00 PM'
-            previousAbbreviationSubstring = currentTime.substring(5,7)	//grabs the 'PM' part in '3:00 PM'
-        }
-        else{
-            previousHourSubstring = currentTime.substring(0,2)          //grabs the '10' part in '10:00 PM'
-            previousMinuteSubstring = currentTime.substring(3,5)        //grabs the '00' part in '10:00 PM'
-            previousAbbreviationSubstring = currentTime.substring(6,8)  //grabs the 'PM' part in '10:00 PM'
-        }
-
-        val newMinute : Int = previousMinuteSubstring.toInt() + minutes
-
-        val remainderHours : Int
-        val remainderMinutes : Int
-
-        var finalHour : String
-        var finalMinute : String
-
-        if(newMinute >= 60){
-
-            remainderHours = newMinute / 60
-            remainderMinutes = newMinute % 60
-
-            finalHour = (remainderHours + previousHourSubstring.toInt()).toString()
-            finalMinute = remainderMinutes.toString()
-
-            if(finalHour.toInt() >= 12){
-                previousAbbreviationSubstring = "PM"
-            }
-
-            if(finalHour.toInt() > 12){
-                finalHour = (finalHour.toInt() - 12).toString()
-            }
-
-            if(finalMinute.toInt() <= 9){
-                finalMinute = "0" + finalMinute
-            }
-
-            return finalHour + ":" + finalMinute + " " + previousAbbreviationSubstring
-        }
-        else{
-
-            finalHour = previousHourSubstring
-            finalMinute = newMinute.toString()
-
-            if(finalMinute.toInt() <= 9){
-                finalMinute = "0" + finalMinute
-            }
-
-            return finalHour + ":" + finalMinute + " " + previousAbbreviationSubstring
-        }
-    }
-
-    //This function is used when we are dealing with only assignments.
-    //This returns how many total minutes there are in the schedule.
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun assignmentsOnlyTotalMinutesDeterminer(
-        startTimeValue: String?,
-        endTimeValue: String?
-    ): Int {
-
-        val scheduleStartTime = LocalTime.parse(startTimeValue, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-        val scheduleEndTime = LocalTime.parse(endTimeValue, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-
-        if(scheduleStartTime.minute.toString() == "30" && scheduleEndTime.minute.toString() != "30"){
-            val difference = scheduleEndTime.hour - scheduleStartTime.hour + 1
-            val finalDifference = difference - 1
-            return finalDifference * 60 - 30
-        }
-        else if(scheduleStartTime.minute.toString() != "30" && scheduleEndTime.minute.toString() == "30"){
-            val difference = scheduleEndTime.hour - scheduleStartTime.hour
-            return difference * 60 + 30
-        }
-        else{
-            val difference = scheduleEndTime.hour - scheduleStartTime.hour
-            return difference * 60
-        }
-    }
-
-    //This function is used when we are dealing with only assignments. We check to see if
-    //all assignments share the same difficulty. If so return true otherwise return false.
-    private fun sameIntAcrossAllAssignmentsDeterminer(
-        sameIntAcrossAllAssignments: Int,
+    //Checks to see if there are only Assignments in the schedule.
+    private fun onlyAssignmentsDeterminer(
         listOfAssignments: MutableList<AssignmentClass>
-    ): Boolean {
+    ): Boolean{
 
-        for(currentIndex in listOfAssignments){
+        var indicator = 0
 
-            if(currentIndex.difficulty == sameIntAcrossAllAssignments){
-                continue
-            }
-            else{
-                return false
+        for (currentIndex in listOfAssignments) {
+
+            if(!currentIndex.booleanClass){
+                indicator = 1
             }
         }
 
-        return true
+        return indicator == 0
     }
 
     //This function is used when we are dealing with only scheduled events.
@@ -575,41 +208,614 @@ class RecommendedSchedulePage : AppCompatActivity() {
         //We create a String of the now sorted schedule to
         //be returned and displayed on the android screen.
         return recommendedScheduleString(listOfAssignments)
-
     }
 
-    //Checks to see if there are only Assignments in the schedule.
-    private fun onlyAssignmentsDeterminer(
+    //This function is used when we are dealing with only assignments.
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun assignmentsOnlyString(
+        listOfAssignments: MutableList<AssignmentClass>,
+        startTimeValue: String?,
+        endTimeValue: String?
+    ): String {
+
+        val sameIntAcrossAllAssignments : Int = listOfAssignments[0].difficulty
+        val sameIntOperationBoolean : Boolean = sameIntAcrossAllAssignmentsDeterminer(sameIntAcrossAllAssignments, listOfAssignments)
+        val totalMinutes : Int = assignmentsOnlyTotalMinutesDeterminer(startTimeValue, endTimeValue)
+
+        //If statement executes if all assignments have matching difficulties
+        if(sameIntOperationBoolean){
+
+            //If statement executes if the user only put 2 assignments.
+            if(listOfAssignments.size == 2){
+
+                val minutesPerAssignment : Int = totalMinutes / 2
+
+                listOfAssignments[0].startTime = startTimeValue.toString()
+                listOfAssignments[0].endTime = addTime(listOfAssignments[0].startTime, minutesPerAssignment)
+                listOfAssignments[1].startTime = listOfAssignments[0].endTime
+                listOfAssignments[1].endTime = addTime(listOfAssignments[1].startTime, minutesPerAssignment)
+            }
+            //Else statement executes if the user put more than 2 assignments.
+            else{
+
+                val minutesPerAssignment : Int = totalMinutes / listOfAssignments.size
+                listOfAssignments[0].startTime = startTimeValue.toString()
+
+                for(i in listOfAssignments.indices){
+
+                    if(i == listOfAssignments.size - 1){
+                        break
+                    }
+
+                    listOfAssignments[i].endTime = addTime(listOfAssignments[i].startTime, minutesPerAssignment)
+                    listOfAssignments[i + 1].startTime = listOfAssignments[i].endTime
+                }
+
+                listOfAssignments[listOfAssignments.size - 1].endTime = endTimeValue.toString()
+            }
+        }
+        //Else statement executes if we're dealing with more than 1 unique difficulty.
+        else{
+
+            var loopBoolean = 1
+
+            //In this while loop we sort the assignments based on ascending difficulty.
+            while (loopBoolean <= 5) {
+
+                for (i in listOfAssignments.indices) {
+
+                    val outerDifficulty = listOfAssignments[i].difficulty
+
+                    for (j in i until listOfAssignments.size) {
+
+                        val innerDifficulty = listOfAssignments[j].difficulty
+
+                        if (innerDifficulty < outerDifficulty) {
+                            val temp = listOfAssignments[i]
+                            listOfAssignments[i] = listOfAssignments[j]
+                            listOfAssignments[j] = temp
+                        }
+                    }
+                }
+
+                loopBoolean++
+            }
+
+            val difficultyArrayList = arrayListOf<Int>()
+
+            //In this for loop we are grabbing the difficulty of each assignment.
+            for(currentIndex in listOfAssignments){
+                difficultyArrayList.add(currentIndex.difficulty)
+            }
+
+            val difficultyMinuteArrayList = difficultyMinuteAssigner(difficultyArrayList, totalMinutes)
+
+            listOfAssignments[0].startTime = startTimeValue.toString()
+
+            for(i in listOfAssignments.indices){
+
+                if(i == listOfAssignments.size - 1){
+                    break
+                }
+
+                listOfAssignments[i].endTime = addTime(listOfAssignments[i].startTime, difficultyMinuteArrayList[i])
+                listOfAssignments[i + 1].startTime = listOfAssignments[i].endTime
+            }
+
+            listOfAssignments[listOfAssignments.size - 1].endTime = endTimeValue.toString()
+        }
+
+        return recommendedScheduleString(listOfAssignments)
+    }
+
+    //This function is used when we are dealing with
+    //a mix of assignments and scheduled events.
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun assignmentsAndEventsString(
+        listOfAssignments: MutableList<AssignmentClass>,
+        startTimeValue: String?,
+        endTimeValue: String?
+    ): String {
+
+        val scheduleStartTime = LocalTime.parse(startTimeValue.toString(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+        val scheduleEndTime = LocalTime.parse(endTimeValue.toString(), DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+
+        var listOfOnlyEvents : ArrayList<AssignmentClass> = grabEvents(listOfAssignments)
+        var listOfOnlyAssignments : ArrayList<AssignmentClass> = grabAssignments(listOfAssignments)
+
+        //This if statement executes if we are dealing with
+        //only one scheduled event and only one assignment.
+        if(listOfOnlyEvents.size == 1 && listOfOnlyAssignments.size == 1){
+
+            val eventStartTime = LocalTime.parse(listOfOnlyEvents[0].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+            val eventEndTime = LocalTime.parse(listOfOnlyEvents[0].endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+
+            if((eventStartTime == scheduleStartTime) && (eventEndTime == scheduleEndTime)){
+                loopTest.text = "There is no extra blank space to assign the assignments."
+                return startTimeValue + " - " + endTimeValue + ": " + listOfAssignments[0].name
+            }
+            else if(scheduleStartTime.isBefore(eventStartTime) && scheduleEndTime.isAfter(eventEndTime)){
+
+                val newList : ArrayList<AssignmentClass> = ArrayList()
+
+                val a = AssignmentClass(
+                    difficulty = 0,
+                    name = listOfOnlyAssignments[0].name,
+                    booleanClass = true,
+                    startTime = startTimeValue.toString(),
+                    endTime = listOfOnlyEvents[0].startTime
+                )
+
+                val b = AssignmentClass(
+                    difficulty = 0,
+                    name = listOfOnlyEvents[0].name,
+                    booleanClass = true,
+                    startTime = listOfOnlyEvents[0].startTime,
+                    endTime = listOfOnlyEvents[0].endTime
+                )
+
+                val c = AssignmentClass(
+                    difficulty = 0,
+                    name = listOfOnlyAssignments[0].name,
+                    booleanClass = true,
+                    startTime =  listOfOnlyEvents[0].endTime,
+                    endTime = endTimeValue.toString()
+                )
+
+                newList.add(a)
+                newList.add(b)
+                newList.add(c)
+
+                return recommendedScheduleString(newList)
+            }
+            else if(eventStartTime == scheduleStartTime){
+
+                val newList : ArrayList<AssignmentClass> = ArrayList()
+
+                val a = AssignmentClass(
+                    difficulty = 0,
+                    name = listOfOnlyEvents[0].name,
+                    booleanClass = true,
+                    startTime = listOfOnlyEvents[0].startTime,
+                    endTime = listOfOnlyEvents[0].endTime
+                )
+
+                val b = AssignmentClass(
+                    difficulty = 0,
+                    name = listOfOnlyAssignments[0].name,
+                    booleanClass = true,
+                    startTime = listOfOnlyEvents[0].endTime,
+                    endTime = endTimeValue.toString()
+                )
+
+                newList.add(a)
+                newList.add(b)
+
+                return recommendedScheduleString(newList)
+            }
+            else {
+
+                val newList : ArrayList<AssignmentClass> = ArrayList()
+
+                val a = AssignmentClass(
+                    difficulty = 0,
+                    name = listOfOnlyAssignments[0].name,
+                    booleanClass = true,
+                    startTime = startTimeValue.toString(),
+                    endTime = listOfOnlyEvents[0].startTime
+                )
+
+                val b = AssignmentClass(
+                    difficulty = 0,
+                    name = listOfOnlyEvents[0].name,
+                    booleanClass = true,
+                    startTime = listOfOnlyEvents[0].startTime,
+                    endTime =  listOfOnlyEvents[0].endTime
+                )
+
+                newList.add(a)
+                newList.add(b)
+
+                return recommendedScheduleString(newList)
+            }
+        }
+
+        //This if statement executes if we are dealing with
+        //only scheduled event and more than one assignment.
+        if(listOfOnlyEvents.size == 1 && listOfOnlyAssignments.size > 1){
+
+            val eventStartTime = LocalTime.parse(listOfOnlyEvents[0].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+            val eventEndTime = LocalTime.parse(listOfOnlyEvents[0].endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+
+            if((eventStartTime == scheduleStartTime) && (eventEndTime == scheduleEndTime)) {
+                loopTest.text = "There is no extra blank space to assign the assignments."
+                return startTimeValue + " - " + endTimeValue + ": " + listOfAssignments[0].name
+            }
+            else if (scheduleStartTime.isBefore(eventStartTime) && scheduleEndTime.isAfter(eventEndTime)) {
+
+                val newList : ArrayList<AssignmentClass> = ArrayList()
+
+                val a = AssignmentClass(
+                    difficulty = 0,
+                    name = "Blank",
+                    booleanClass = true,
+                    startTime = startTimeValue.toString(),
+                    endTime = listOfOnlyEvents[0].startTime
+                )
+
+                val b = AssignmentClass(
+                    difficulty = 0,
+                    name = listOfOnlyEvents[0].name,
+                    booleanClass = false,
+                    startTime = listOfOnlyEvents[0].startTime,
+                    endTime = listOfOnlyEvents[0].endTime
+                )
+
+                val c = AssignmentClass(
+                    difficulty = 0,
+                    name = "Blank",
+                    booleanClass = true,
+                    startTime =  listOfOnlyEvents[0].endTime,
+                    endTime = endTimeValue.toString()
+                )
+
+                newList.add(a)
+                newList.add(b)
+                newList.add(c)
+
+                var totalMinutes = mixedOnlyTotalMinutesDeterminer(newList)
+
+
+                return recommendedScheduleString(newList) + "\n" + totalMinutes.toString()
+            }
+            else if (eventStartTime == scheduleStartTime) {
+                return startTimeValue + " - " + listOfOnlyEvents[0].endTime + ": " + listOfOnlyEvents[0].name + "\n" + listOfOnlyEvents[0].endTime + " - " + endTimeValue + ": Blank"
+            }
+            else {
+                return startTimeValue + " - " + listOfOnlyEvents[0].startTime + ": Blank\n" + listOfOnlyEvents[0].startTime + " - " + listOfOnlyEvents[0].endTime + ": " + listOfOnlyEvents[0].name
+            }
+        }
+
+        var loopBoolean = 1
+
+        //In this while loop we first sort the scheduled events.
+        while (loopBoolean <= 5) {
+
+            for (i in listOfOnlyEvents.indices) {
+
+                val outerStringTime = LocalTime.parse(listOfOnlyEvents[i].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+
+                for (j in i until listOfOnlyEvents.size) {
+
+                    val innerStringTime = LocalTime.parse(listOfOnlyEvents[j].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+
+                    if (outerStringTime.isAfter(innerStringTime)) {
+                        val temp = listOfOnlyEvents[i]
+                        listOfOnlyEvents[i] = listOfOnlyEvents[j]
+                        listOfOnlyEvents[j] = temp
+                    }
+                }
+            }
+
+            loopBoolean++
+        }
+
+        //In this for loop we check to see if there are any unscheduled times between the scheduled events.
+        for (i in listOfOnlyEvents.indices) {
+
+            val outerStringTime = LocalTime.parse(listOfOnlyEvents[i].endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+            val innerStringTime = LocalTime.parse(listOfOnlyEvents[i+1].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+
+            if (outerStringTime != innerStringTime) {
+                val c = AssignmentClass(
+                    difficulty = 0,
+                    name = "Blank",
+                    booleanClass = true,
+                    startTime = listOfOnlyEvents[i].endTime,
+                    endTime = listOfOnlyEvents[i+1].startTime
+                )
+
+                listOfOnlyEvents.add(i+1, c)
+            }
+        }
+
+        val passedStartTimeValue = LocalTime.parse(startTimeValue, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+        val passedEndTimeValue = LocalTime.parse(endTimeValue, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+        val sortedStartTimeValue = LocalTime.parse(listOfOnlyEvents[0].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+        val sortedEndTimeValue = LocalTime.parse(listOfOnlyEvents[listOfOnlyEvents.size - 1].endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+
+        //We check to see if there is an unscheduled time at the beginning of the schedule
+        if(passedStartTimeValue != sortedStartTimeValue){
+            val c = AssignmentClass(
+                difficulty = 0,
+                name = "Blank",
+                booleanClass = true,
+                startTime = startTimeValue.toString(),
+                endTime = listOfOnlyEvents[0].startTime
+            )
+
+            listOfOnlyEvents.add(0, c)
+        }
+
+        //We check to see if there is an unscheduled time at the end of the schedule
+        if(passedEndTimeValue != sortedEndTimeValue){
+            val c = AssignmentClass(
+                difficulty = 0,
+                name = "Blank",
+                booleanClass = true,
+                startTime = listOfOnlyEvents[listOfOnlyEvents.size - 1].endTime,
+                endTime = endTimeValue.toString()
+            )
+
+            listOfOnlyEvents.add(listOfOnlyEvents.size, c)
+        }
+
+        val sameIntAcrossAllAssignments : Int = listOfAssignments[0].difficulty
+        val sameIntOperationBoolean : Boolean = sameIntAcrossAllAssignmentsDeterminer(sameIntAcrossAllAssignments, listOfOnlyAssignments)
+        val totalMinutes : Int = mixedOnlyTotalMinutesDeterminer(listOfOnlyEvents)
+
+        //This else if statement executes if we are dealing with
+        //only 1 assignment and more than 1 scheduled event.
+        if(listOfOnlyEvents.size > 1 && listOfOnlyAssignments.size == 1){
+
+        }
+        //This else if statement executes if we are dealing with
+        //more than 1 assignment and only 1 scheduled event.
+        else if(listOfOnlyEvents.size == 1 && listOfOnlyAssignments.size > 1){
+
+        }
+        //This else statement executes if we are dealing with more
+        //than 1 assignment and more than 1 scheduled event.
+        else{
+
+        }
+       /* if(checkForNoLeftoverTime(listOfOnlyEvents)){
+            loopTest.text = "Something"
+            return  recommendedScheduleString(listOfOnlyEvents)
+        } */
+
+        if(sameIntOperationBoolean){
+
+        }
+        else{
+
+        }
+
+        return recommendedScheduleString(listOfOnlyEvents) + "\n" + totalMinutes.toString()
+    }
+
+    private fun checkForNoLeftoverTime(
+        listOfOnlyEvents: ArrayList<AssignmentClass>
+    ): Boolean {
+
+        for(currentIndex in listOfOnlyEvents){
+
+            if(currentIndex.name == "Blank"){
+                return false
+            }
+        }
+
+        return true
+    }
+
+    //This function is used when we are dealing with a mix of assignments and
+    //scheduled events. We return back an ArrayList of scheduled Events.
+    private fun grabEvents(
         listOfAssignments: MutableList<AssignmentClass>
-    ): Boolean{
+    ): ArrayList<AssignmentClass> {
 
-        var indicator = 0
+        val listOfOnlyEvents : ArrayList<AssignmentClass> = ArrayList()
 
-        for (currentIndex in listOfAssignments) {
+        for(currentIndex in listOfAssignments){
 
             if(!currentIndex.booleanClass){
-                indicator = 1
+                listOfOnlyEvents.add(currentIndex)
             }
         }
 
-        return indicator == 0
+        return listOfOnlyEvents
     }
 
-    //Checks to see if there are only scheduled events in the schedule.
-    private fun onlyEventsDeterminer(
+    //This function is used when we are dealing with a mix of assignments and
+    //scheduled events. We return back an ArrayList of assignments.
+    private fun grabAssignments(
         listOfAssignments: MutableList<AssignmentClass>
-    ): Boolean{
+    ): ArrayList<AssignmentClass> {
 
-        var indicator = 0
+        val listOfOnlyAssignments : ArrayList<AssignmentClass> = ArrayList()
 
-        for (currentIndex in listOfAssignments) {
+        for(currentIndex in listOfAssignments){
 
             if(currentIndex.booleanClass){
-                indicator = 1
+                listOfOnlyAssignments.add(currentIndex)
             }
         }
 
-        return indicator == 0
+        return listOfOnlyAssignments
+    }
+
+    //This function is used when we are dealing with only assignments.
+    //This returns how many total minutes there are in the schedule.
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun assignmentsOnlyTotalMinutesDeterminer(
+        startTimeValue: String?,
+        endTimeValue: String?
+    ): Int {
+
+        val scheduleStartTime = LocalTime.parse(startTimeValue, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+        val scheduleEndTime = LocalTime.parse(endTimeValue, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+
+        if(scheduleStartTime.minute.toString() == "30" && scheduleEndTime.minute.toString() != "30"){
+            val difference = scheduleEndTime.hour - scheduleStartTime.hour + 1
+            val finalDifference = difference - 1
+            return finalDifference * 60 - 30
+        }
+        else if(scheduleStartTime.minute.toString() != "30" && scheduleEndTime.minute.toString() == "30"){
+            val difference = scheduleEndTime.hour - scheduleStartTime.hour
+            return difference * 60 + 30
+        }
+        else{
+            val difference = scheduleEndTime.hour - scheduleStartTime.hour
+            return difference * 60
+        }
+    }
+
+    //This function is used when we are dealing with a mix of assignments and scheduled events. This is used
+    //to determine how many total minutes there are for the assignments outside of the scheduled events.
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun mixedOnlyTotalMinutesDeterminer(
+        listOfEvents: MutableList<AssignmentClass>
+    ): Int {
+
+        var totalMinutes = 0
+
+        for(currentIndex in listOfEvents){
+
+            if(currentIndex.name == "Blank"){
+                val currentIndexStartTime = LocalTime.parse(currentIndex.startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                val currentIndexEndTime = LocalTime.parse(currentIndex.endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+
+                var finalHour = currentIndexEndTime.hour - currentIndexStartTime.hour
+                var finalMinute = currentIndexEndTime.minute - currentIndexStartTime.minute
+
+                if(finalMinute < 0){
+                    finalMinute = finalMinute + 60
+                    finalHour = finalHour - 1
+                }
+
+                totalMinutes = totalMinutes + (finalHour * 60) + finalMinute
+            }
+        }
+
+        return totalMinutes
+    }
+
+    //This function is used when we are dealing with assignments. We're
+    //assigning total minutes to each assignment based on difficulty.
+    private fun difficultyMinuteAssigner(
+        difficultyArrayList: ArrayList<Int>,
+        totalMinutes: Int,
+    ): ArrayList<Int> {
+
+        val timeArrayList = arrayListOf<Int>()
+
+        for(i in difficultyArrayList){
+
+            if(i == 1){
+                timeArrayList.add(1)
+            }
+            else if(i == 2){
+                timeArrayList.add(2)
+            }
+            else if(i == 3){
+                timeArrayList.add(4)
+            }
+            else if(i == 4){
+                timeArrayList.add(7)
+            }
+            else{//(i == 5)
+                timeArrayList.add(10)
+            }
+        }
+
+        while(timeArrayList.sum() != totalMinutes){
+
+            for(i in timeArrayList.indices){
+                timeArrayList[i]++
+
+                if(timeArrayList.sum() == totalMinutes){
+                    break
+                }
+            }
+        }
+
+        return timeArrayList
+    }
+
+    //This function is used to add minutes onto a given time.
+    //(Ex. Adding 30 minutes to '11:45 AM' should give '12:15 PM'.
+    private fun addTime(
+        currentTime: String,
+        minutes: Int
+    ): String {
+
+        val previousHourSubstring : String
+        val previousMinuteSubstring : String
+        var previousAbbreviationSubstring : String
+
+        if(currentTime.length == 7){
+
+            previousHourSubstring = currentTime.substring(0,1)			//Ex. Grabs the '3' part in '3:00 PM'
+            previousMinuteSubstring = currentTime.substring(2,4)		//Ex. Grabs the '00' part in '3:00 PM'
+            previousAbbreviationSubstring = currentTime.substring(5,7)	//Ex. Grabs the 'PM' part in '3:00 PM'
+        }
+        else{
+            previousHourSubstring = currentTime.substring(0,2)          //Ex. Grabs the '10' part in '10:00 PM'
+            previousMinuteSubstring = currentTime.substring(3,5)        //Ex. Grabs the '00' part in '10:00 PM'
+            previousAbbreviationSubstring = currentTime.substring(6,8)  //Ex. Grabs the 'PM' part in '10:00 PM'
+        }
+
+        val newMinute : Int = previousMinuteSubstring.toInt() + minutes
+
+        val remainderHours : Int
+        val remainderMinutes : Int
+
+        var finalHour : String
+        var finalMinute : String
+
+        if(newMinute >= 60){
+
+            remainderHours = newMinute / 60
+            remainderMinutes = newMinute % 60
+
+            finalHour = (remainderHours + previousHourSubstring.toInt()).toString()
+            finalMinute = remainderMinutes.toString()
+
+            if(finalHour.toInt() >= 12){
+                previousAbbreviationSubstring = "PM"
+            }
+
+            if(finalHour.toInt() > 12){
+                finalHour = (finalHour.toInt() - 12).toString()
+            }
+
+            if(finalMinute.toInt() <= 9){
+                finalMinute = "0" + finalMinute
+            }
+
+            return "$finalHour:$finalMinute $previousAbbreviationSubstring"
+        }
+        else{
+
+            finalHour = previousHourSubstring
+            finalMinute = newMinute.toString()
+
+            if(finalMinute.toInt() <= 9){
+                finalMinute = "0" + finalMinute
+            }
+
+            return "$finalHour:$finalMinute $previousAbbreviationSubstring"
+        }
+    }
+
+    //This function is used when we are dealing with only assignments. We check to see if
+    //all assignments share the same difficulty. If so return true otherwise return false.
+    private fun sameIntAcrossAllAssignmentsDeterminer(
+        sameIntAcrossAllAssignments: Int,
+        listOfAssignments: MutableList<AssignmentClass>
+    ): Boolean {
+
+        for(currentIndex in listOfAssignments){
+
+            if(currentIndex.difficulty == sameIntAcrossAllAssignments){
+                continue
+            }
+            else{
+                return false
+            }
+        }
+
+        return true
     }
 
     //This function is used to print out and display the recommended schedule.

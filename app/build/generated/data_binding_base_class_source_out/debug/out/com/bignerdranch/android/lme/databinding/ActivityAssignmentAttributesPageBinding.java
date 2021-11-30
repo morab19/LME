@@ -28,6 +28,9 @@ public final class ActivityAssignmentAttributesPageBinding implements ViewBindin
   public final TextView attributeTextViewInfo;
 
   @NonNull
+  public final TextView currentList;
+
+  @NonNull
   public final EditText difficultyOfAssignmentEditText;
 
   @NonNull
@@ -39,17 +42,23 @@ public final class ActivityAssignmentAttributesPageBinding implements ViewBindin
   @NonNull
   public final Button nextButton;
 
+  @NonNull
+  public final TextView timeSchedule;
+
   private ActivityAssignmentAttributesPageBinding(@NonNull LinearLayout rootView,
       @NonNull TextView attributeTextView, @NonNull TextView attributeTextViewInfo,
-      @NonNull EditText difficultyOfAssignmentEditText, @NonNull TextView difficultyTextView,
-      @NonNull EditText nameOfAssignmentEditText, @NonNull Button nextButton) {
+      @NonNull TextView currentList, @NonNull EditText difficultyOfAssignmentEditText,
+      @NonNull TextView difficultyTextView, @NonNull EditText nameOfAssignmentEditText,
+      @NonNull Button nextButton, @NonNull TextView timeSchedule) {
     this.rootView = rootView;
     this.attributeTextView = attributeTextView;
     this.attributeTextViewInfo = attributeTextViewInfo;
+    this.currentList = currentList;
     this.difficultyOfAssignmentEditText = difficultyOfAssignmentEditText;
     this.difficultyTextView = difficultyTextView;
     this.nameOfAssignmentEditText = nameOfAssignmentEditText;
     this.nextButton = nextButton;
+    this.timeSchedule = timeSchedule;
   }
 
   @Override
@@ -91,6 +100,12 @@ public final class ActivityAssignmentAttributesPageBinding implements ViewBindin
         break missingId;
       }
 
+      id = R.id.current_list;
+      TextView currentList = ViewBindings.findChildViewById(rootView, id);
+      if (currentList == null) {
+        break missingId;
+      }
+
       id = R.id.difficulty_of_assignment_edit_text;
       EditText difficultyOfAssignmentEditText = ViewBindings.findChildViewById(rootView, id);
       if (difficultyOfAssignmentEditText == null) {
@@ -115,9 +130,15 @@ public final class ActivityAssignmentAttributesPageBinding implements ViewBindin
         break missingId;
       }
 
+      id = R.id.time_schedule;
+      TextView timeSchedule = ViewBindings.findChildViewById(rootView, id);
+      if (timeSchedule == null) {
+        break missingId;
+      }
+
       return new ActivityAssignmentAttributesPageBinding((LinearLayout) rootView, attributeTextView,
-          attributeTextViewInfo, difficultyOfAssignmentEditText, difficultyTextView,
-          nameOfAssignmentEditText, nextButton);
+          attributeTextViewInfo, currentList, difficultyOfAssignmentEditText, difficultyTextView,
+          nameOfAssignmentEditText, nextButton, timeSchedule);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));
