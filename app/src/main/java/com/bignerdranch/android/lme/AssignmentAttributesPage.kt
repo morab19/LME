@@ -164,6 +164,9 @@ class AssignmentAttributesPage : AppCompatActivity() {
             if(index.booleanClass){
                 varStr = varStr + index.name + ": Difficulty: " + index.difficulty + "\n"
             }
+            else{
+                continue
+            }
         }
 
         return varStr

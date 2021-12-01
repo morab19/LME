@@ -330,10 +330,12 @@ class RecommendedSchedulePage : AppCompatActivity() {
             val eventStartTime = LocalTime.parse(listOfOnlyEvents[0].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
             val eventEndTime = LocalTime.parse(listOfOnlyEvents[0].endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
 
+            //This if statement executes if the scheduled event takes up the entire schedule.
             if((eventStartTime == scheduleStartTime) && (eventEndTime == scheduleEndTime)){
                 loopTest.text = "There is no extra blank space to assign the assignments."
                 return startTimeValue + " - " + endTimeValue + ": " + listOfAssignments[0].name
             }
+            //This else if statement executes if the schedule event is in the middle of the schedule.
             else if(scheduleStartTime.isBefore(eventStartTime) && scheduleEndTime.isAfter(eventEndTime)){
 
                 val newList : ArrayList<AssignmentClass> = ArrayList()
@@ -368,6 +370,8 @@ class RecommendedSchedulePage : AppCompatActivity() {
 
                 return recommendedScheduleString(newList)
             }
+            //This else if statement executes if the scheduled event
+            //begins at the beginning of the schedule but ends in the middle.
             else if(eventStartTime == scheduleStartTime){
 
                 val newList : ArrayList<AssignmentClass> = ArrayList()
@@ -393,6 +397,8 @@ class RecommendedSchedulePage : AppCompatActivity() {
 
                 return recommendedScheduleString(newList)
             }
+            //This else statement executes if the scheduled
+            //event begins in the middle of the schedule.
             else {
 
                 val newList : ArrayList<AssignmentClass> = ArrayList()
@@ -427,10 +433,12 @@ class RecommendedSchedulePage : AppCompatActivity() {
             val eventStartTime = LocalTime.parse(listOfOnlyEvents[0].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
             val eventEndTime = LocalTime.parse(listOfOnlyEvents[0].endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
 
+            //This if statement executes if the scheduled event takes up the entire schedule.
             if((eventStartTime == scheduleStartTime) && (eventEndTime == scheduleEndTime)) {
                 loopTest.text = "There is no extra blank space to assign the assignments."
                 return startTimeValue + " - " + endTimeValue + ": " + listOfAssignments[0].name
             }
+            //This else if statement executes if the schedule event is in the middle of the schedule.
             else if (scheduleStartTime.isBefore(eventStartTime) && scheduleEndTime.isAfter(eventEndTime)) {
 
                 val newList : ArrayList<AssignmentClass> = ArrayList()
@@ -463,10 +471,43 @@ class RecommendedSchedulePage : AppCompatActivity() {
                 newList.add(b)
                 newList.add(c)
 
-                var totalMinutes = mixedOnlyTotalMinutesDeterminer(newList)
+                var sameIntAcrossAllAssignments : Int = listOfOnlyAssignments[0].difficulty
+                var sameIntOperationBoolean : Boolean = sameIntAcrossAllAssignmentsDeterminer(sameIntAcrossAllAssignments, listOfOnlyAssignments )
+                var totalMinutes : Int = mixedOnlyTotalMinutesDeterminer(newList)
+
+                //If statement executes if all assignments have matching difficulties
+                if(sameIntOperationBoolean){
+
+                    newList[0].name = listOfOnlyAssignments[0].name
+                    newList[2].name = listOfOnlyAssignments[1].name
+
+                    //If statement executes if the user only put 2 assignments
+                    if(listOfOnlyAssignments.size == 2){
+
+                        val minutesPerAssignment : Int = totalMinutes / 2
+
+                        for(i in newList.indices){
+
+                            if(i == newList.size - 1){
+                                break
+                            }
 
 
-                return recommendedScheduleString(newList) + "\n" + totalMinutes.toString()
+
+                            newList[i].endTime = addTime(newList[i].startTime, minutesPerAssignment)
+                        }
+                    }
+                    //Else statement executes if the user put more than 2 assignments.
+                    else{
+
+                    }
+                }
+                //Else statement executes if we're dealing with only more than 1 unique difficulty.
+                else{
+
+                }
+
+                return recommendedScheduleString(newList)
             }
             else if (eventStartTime == scheduleStartTime) {
                 return startTimeValue + " - " + listOfOnlyEvents[0].endTime + ": " + listOfOnlyEvents[0].name + "\n" + listOfOnlyEvents[0].endTime + " - " + endTimeValue + ": Blank"

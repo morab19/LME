@@ -316,6 +316,9 @@ class OtherAttributesPage : AppCompatActivity() {
             if(!index.booleanClass){
                 varStr = varStr + index.name + ": " + index.startTime + " - " + index.endTime + "\n"
             }
+            else{
+                continue
+            }
         }
 
         return varStr
