@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
 
         for(index in listOfAssignments){
 
-            if(index.booleanClass){
+            if(index.isAssignmentClass){
                 varStr = varStr + index.name + ": Difficulty: " + index.difficulty + "\n"
             }
             else{
