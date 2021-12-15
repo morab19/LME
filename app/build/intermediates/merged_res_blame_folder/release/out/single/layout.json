@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "C:\\Users\\Bryan\\Desktop\\AndroidStudioProjects\\LME\\app\\build\\intermediates\\incremental\\mergeReleaseResources\\stripped.dir\\layout\\activity_time_schedule_page.xml",
+        "source": "C:\\Users\\Bryan\\Desktop\\AndroidStudioProjects\\LME\\app\\src\\main\\res\\layout\\activity_time_schedule_page.xml"
+    },
+    {
+        "merged": "C:\\Users\\Bryan\\Desktop\\AndroidStudioProjects\\LME\\app\\build\\intermediates\\incremental\\mergeReleaseResources\\stripped.dir\\layout\\activity_recommended_schedule_page.xml",
+        "source": "C:\\Users\\Bryan\\Desktop\\AndroidStudioProjects\\LME\\app\\src\\main\\res\\layout\\activity_recommended_schedule_page.xml"
+    },
+    {
+        "merged": "C:\\Users\\Bryan\\Desktop\\AndroidStudioProjects\\LME\\app\\build\\intermediates\\incremental\\mergeReleaseResources\\stripped.dir\\layout\\activity_other_attributes_page.xml",
+        "source": "C:\\Users\\Bryan\\Desktop\\AndroidStudioProjects\\LME\\app\\src\\main\\res\\layout\\activity_other_attributes_page.xml"
+    },
+    {
+        "merged": "C:\\Users\\Bryan\\Desktop\\AndroidStudioProjects\\LME\\app\\build\\intermediates\\incremental\\mergeReleaseResources\\stripped.dir\\layout\\activity_assignment_attributes_page.xml",
+        "source": "C:\\Users\\Bryan\\Desktop\\AndroidStudioProjects\\LME\\app\\src\\main\\res\\layout\\activity_assignment_attributes_page.xml"
+    },
+    {
+        "merged": "C:\\Users\\Bryan\\Desktop\\AndroidStudioProjects\\LME\\app\\build\\intermediates\\incremental\\mergeReleaseResources\\stripped.dir\\layout\\activity_main.xml",
+        "source": "C:\\Users\\Bryan\\Desktop\\AndroidStudioProjects\\LME\\app\\src\\main\\res\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\Bryan\\Desktop\\AndroidStudioProjects\\LME\\app\\build\\intermediates\\incremental\\mergeReleaseResources\\stripped.dir\\layout\\activity_add_more_page.xml",
+        "source": "C:\\Users\\Bryan\\Desktop\\AndroidStudioProjects\\LME\\app\\src\\main\\res\\layout\\activity_add_more_page.xml"
+    }
+]
