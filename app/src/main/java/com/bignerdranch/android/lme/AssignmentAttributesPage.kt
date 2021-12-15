@@ -118,7 +118,7 @@ class AssignmentAttributesPage : AppCompatActivity() {
                 val c = AssignmentClass(
                     difficulty = difficultyValue.text.toString().toInt(),
                     name = nameOfAssignment.text.toString(),
-                    booleanClass = true,
+                    isAssignmentClass = true,
                     startTime = "Blank",
                     endTime = "Blank"
                 )
@@ -161,8 +161,11 @@ class AssignmentAttributesPage : AppCompatActivity() {
 
         for(index in listOfAssignments){
 
-            if(index.booleanClass){
+            if(index.isAssignmentClass){
                 varStr = varStr + index.name + ": Difficulty: " + index.difficulty + "\n"
+            }
+            else{
+                continue
             }
         }
 

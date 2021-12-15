@@ -46,11 +46,11 @@ class RecommendedSchedulePage : AppCompatActivity() {
         val scheduleEndTime = LocalTime.parse(endTimeValue, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
 
         //If statement executes if the user only inputs 1 assignment.
-        if ((listOfAssignments.size == 1) && (listOfAssignments[0].booleanClass)) {
+        if ((listOfAssignments.size == 1) && (listOfAssignments[0].isAssignmentClass)) {
             recommendedSchedule.text = startTimeValue + " - " + endTimeValue + ": " + listOfAssignments[0].name
         }
         //Else if statement executes if the user only inputs 1 scheduled event.
-        else if ((listOfAssignments.size == 1) && (!listOfAssignments[0].booleanClass)) {
+        else if ((listOfAssignments.size == 1) && (!listOfAssignments[0].isAssignmentClass)) {
 
             val eventStartTime = LocalTime.parse(listOfAssignments[0].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
             val eventEndTime = LocalTime.parse(listOfAssignments[0].endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
@@ -98,7 +98,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
 
         for (currentIndex in listOfAssignments) {
 
-            if(currentIndex.booleanClass){
+            if(currentIndex.isAssignmentClass){
                 indicator = 1
             }
         }
@@ -115,7 +115,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
 
         for (currentIndex in listOfAssignments) {
 
-            if(!currentIndex.booleanClass){
+            if(!currentIndex.isAssignmentClass){
                 indicator = 1
             }
         }
@@ -165,7 +165,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
                 val c = AssignmentClass(
                     difficulty = 0,
                     name = "Blank",
-                    booleanClass = true,
+                    isAssignmentClass = true,
                     startTime = listOfAssignments[i].endTime,
                     endTime = listOfAssignments[i+1].startTime
                 )
@@ -184,7 +184,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
             val c = AssignmentClass(
                 difficulty = 0,
                 name = "Blank",
-                booleanClass = true,
+                isAssignmentClass = true,
                 startTime = startTimeValue.toString(),
                 endTime = listOfAssignments[0].startTime
             )
@@ -197,7 +197,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
             val c = AssignmentClass(
                 difficulty = 0,
                 name = "Blank",
-                booleanClass = true,
+                isAssignmentClass = true,
                 startTime = listOfAssignments[listOfAssignments.size - 1].endTime,
                 endTime = endTimeValue.toString()
             )
@@ -330,10 +330,12 @@ class RecommendedSchedulePage : AppCompatActivity() {
             val eventStartTime = LocalTime.parse(listOfOnlyEvents[0].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
             val eventEndTime = LocalTime.parse(listOfOnlyEvents[0].endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
 
+            //This if statement executes if the scheduled event takes up the entire schedule.
             if((eventStartTime == scheduleStartTime) && (eventEndTime == scheduleEndTime)){
                 loopTest.text = "There is no extra blank space to assign the assignments."
                 return startTimeValue + " - " + endTimeValue + ": " + listOfAssignments[0].name
             }
+            //This else if statement executes if the schedule event is in the middle of the schedule.
             else if(scheduleStartTime.isBefore(eventStartTime) && scheduleEndTime.isAfter(eventEndTime)){
 
                 val newList : ArrayList<AssignmentClass> = ArrayList()
@@ -341,7 +343,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
                 val a = AssignmentClass(
                     difficulty = 0,
                     name = listOfOnlyAssignments[0].name,
-                    booleanClass = true,
+                    isAssignmentClass = true,
                     startTime = startTimeValue.toString(),
                     endTime = listOfOnlyEvents[0].startTime
                 )
@@ -349,7 +351,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
                 val b = AssignmentClass(
                     difficulty = 0,
                     name = listOfOnlyEvents[0].name,
-                    booleanClass = true,
+                    isAssignmentClass = true,
                     startTime = listOfOnlyEvents[0].startTime,
                     endTime = listOfOnlyEvents[0].endTime
                 )
@@ -357,7 +359,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
                 val c = AssignmentClass(
                     difficulty = 0,
                     name = listOfOnlyAssignments[0].name,
-                    booleanClass = true,
+                    isAssignmentClass = true,
                     startTime =  listOfOnlyEvents[0].endTime,
                     endTime = endTimeValue.toString()
                 )
@@ -368,6 +370,8 @@ class RecommendedSchedulePage : AppCompatActivity() {
 
                 return recommendedScheduleString(newList)
             }
+            //This else if statement executes if the scheduled event
+            //begins at the beginning of the schedule but ends in the middle.
             else if(eventStartTime == scheduleStartTime){
 
                 val newList : ArrayList<AssignmentClass> = ArrayList()
@@ -375,7 +379,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
                 val a = AssignmentClass(
                     difficulty = 0,
                     name = listOfOnlyEvents[0].name,
-                    booleanClass = true,
+                    isAssignmentClass = true,
                     startTime = listOfOnlyEvents[0].startTime,
                     endTime = listOfOnlyEvents[0].endTime
                 )
@@ -383,7 +387,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
                 val b = AssignmentClass(
                     difficulty = 0,
                     name = listOfOnlyAssignments[0].name,
-                    booleanClass = true,
+                    isAssignmentClass = true,
                     startTime = listOfOnlyEvents[0].endTime,
                     endTime = endTimeValue.toString()
                 )
@@ -393,6 +397,8 @@ class RecommendedSchedulePage : AppCompatActivity() {
 
                 return recommendedScheduleString(newList)
             }
+            //This else statement executes if the scheduled
+            //event begins in the middle of the schedule.
             else {
 
                 val newList : ArrayList<AssignmentClass> = ArrayList()
@@ -400,7 +406,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
                 val a = AssignmentClass(
                     difficulty = 0,
                     name = listOfOnlyAssignments[0].name,
-                    booleanClass = true,
+                    isAssignmentClass = true,
                     startTime = startTimeValue.toString(),
                     endTime = listOfOnlyEvents[0].startTime
                 )
@@ -408,7 +414,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
                 val b = AssignmentClass(
                     difficulty = 0,
                     name = listOfOnlyEvents[0].name,
-                    booleanClass = true,
+                    isAssignmentClass = true,
                     startTime = listOfOnlyEvents[0].startTime,
                     endTime =  listOfOnlyEvents[0].endTime
                 )
@@ -427,10 +433,12 @@ class RecommendedSchedulePage : AppCompatActivity() {
             val eventStartTime = LocalTime.parse(listOfOnlyEvents[0].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
             val eventEndTime = LocalTime.parse(listOfOnlyEvents[0].endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
 
+            //This if statement executes if the scheduled event takes up the entire schedule.
             if((eventStartTime == scheduleStartTime) && (eventEndTime == scheduleEndTime)) {
                 loopTest.text = "There is no extra blank space to assign the assignments."
                 return startTimeValue + " - " + endTimeValue + ": " + listOfAssignments[0].name
             }
+            //This else if statement executes if the schedule event is in the middle of the schedule.
             else if (scheduleStartTime.isBefore(eventStartTime) && scheduleEndTime.isAfter(eventEndTime)) {
 
                 val newList : ArrayList<AssignmentClass> = ArrayList()
@@ -438,7 +446,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
                 val a = AssignmentClass(
                     difficulty = 0,
                     name = "Blank",
-                    booleanClass = true,
+                    isAssignmentClass = true,
                     startTime = startTimeValue.toString(),
                     endTime = listOfOnlyEvents[0].startTime
                 )
@@ -446,7 +454,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
                 val b = AssignmentClass(
                     difficulty = 0,
                     name = listOfOnlyEvents[0].name,
-                    booleanClass = false,
+                    isAssignmentClass = false,
                     startTime = listOfOnlyEvents[0].startTime,
                     endTime = listOfOnlyEvents[0].endTime
                 )
@@ -454,7 +462,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
                 val c = AssignmentClass(
                     difficulty = 0,
                     name = "Blank",
-                    booleanClass = true,
+                    isAssignmentClass = true,
                     startTime =  listOfOnlyEvents[0].endTime,
                     endTime = endTimeValue.toString()
                 )
@@ -463,16 +471,182 @@ class RecommendedSchedulePage : AppCompatActivity() {
                 newList.add(b)
                 newList.add(c)
 
-                var totalMinutes = mixedOnlyTotalMinutesDeterminer(newList)
+                var sameIntAcrossAllAssignments : Int = listOfOnlyAssignments[0].difficulty
+                var sameIntOperationBoolean : Boolean = sameIntAcrossAllAssignmentsDeterminer(sameIntAcrossAllAssignments, listOfOnlyAssignments )
+                var totalMinutes : Int = mixedOnlyTotalMinutesDeterminer(newList)
 
+                //If statement executes if all assignments have matching difficulties
+                if(sameIntOperationBoolean){
 
-                return recommendedScheduleString(newList) + "\n" + totalMinutes.toString()
+                    newList[0].name = listOfOnlyAssignments[0].name
+                    newList[2].name = listOfOnlyAssignments[1].name
+
+                    //If statement executes if the user only put 2 assignments
+                    if(listOfOnlyAssignments.size == 2){
+
+                        val minutesPerAssignment : Int = totalMinutes / 2
+
+                        for(i in newList.indices){
+
+                            if(i == newList.size - 1){
+                                break
+                            }
+
+                            if(newList[i].isAssignmentClass) {
+
+                                var newTime = addTime(newList[i].startTime, minutesPerAssignment)
+                                val newCompareTime = LocalTime.parse(newTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                                val timeInNextIndex = LocalTime.parse(newList[i + 1].startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+
+                                if (newCompareTime.isAfter(timeInNextIndex)) {
+                                    continue
+                                }
+                                else {
+                                    return "FALSEHELLO" + newCompareTime.toString() + timeInNextIndex.toString()
+                                }
+                            }
+                        }
+
+                        newList[newList.size - 1].endTime = endTimeValue.toString()
+
+                        return recommendedScheduleString(newList)
+                    }
+                    //Else statement executes if the user put more than 2 assignments.
+                    else{
+
+                    }
+                }
+                //Else statement executes if we're dealing with only more than 1 unique difficulty.
+                else{
+
+                }
+
+                return recommendedScheduleString(newList)
             }
+            //This else if statement executes if the scheduled event
+            //begins at the beginning of the schedule but ends in the middle.
             else if (eventStartTime == scheduleStartTime) {
-                return startTimeValue + " - " + listOfOnlyEvents[0].endTime + ": " + listOfOnlyEvents[0].name + "\n" + listOfOnlyEvents[0].endTime + " - " + endTimeValue + ": Blank"
+
+                val newList : ArrayList<AssignmentClass> = ArrayList()
+
+                val a = AssignmentClass(
+                    difficulty = 0,
+                    name = listOfOnlyEvents[0].name,
+                    isAssignmentClass = false,
+                    startTime = listOfOnlyEvents[0].startTime,
+                    endTime = listOfOnlyEvents[0].endTime
+                )
+                val b = AssignmentClass(
+                    difficulty = 0,
+                    name = "Blank",
+                    isAssignmentClass = true,
+                    startTime = listOfOnlyEvents[0].endTime,
+                    endTime = endTimeValue.toString()
+                )
+
+                newList.add(a)
+                newList.add(b)
+
+                var sameIntAcrossAllAssignments : Int = listOfOnlyAssignments[0].difficulty
+                var sameIntOperationBoolean : Boolean = sameIntAcrossAllAssignmentsDeterminer(sameIntAcrossAllAssignments, listOfOnlyAssignments )
+                var totalMinutes : Int = mixedOnlyTotalMinutesDeterminer(newList)
+
+                if(sameIntOperationBoolean){
+
+                    if(listOfOnlyAssignments.size == 2){
+
+                        val minutesPerAssignment : Int = totalMinutes / 2
+
+                        newList.remove(b)
+
+                        val c = AssignmentClass(
+                            difficulty = 0,
+                            name = listOfOnlyAssignments[0].name,
+                            isAssignmentClass = true,
+                            startTime = listOfOnlyEvents[0].endTime,
+                            endTime = addTime(listOfOnlyEvents[0].endTime, minutesPerAssignment)
+                        )
+                        val d = AssignmentClass(
+                            difficulty = 0,
+                            name = listOfOnlyAssignments[1].name,
+                            isAssignmentClass = true,
+                            startTime = c.endTime,
+                            endTime = endTimeValue.toString()
+                        )
+
+                        newList.add(c)
+                        newList.add(d)
+
+                        return recommendedScheduleString(newList)
+                    }
+                    else{
+
+                        val minutesPerAssignment : Int = totalMinutes / listOfOnlyAssignments.size
+
+                        newList.remove(b)
+
+                        for(i in listOfOnlyAssignments.indices){
+
+                            val newObject = AssignmentClass(
+                                difficulty = 0,
+                                name = listOfOnlyAssignments[i].name,
+                                isAssignmentClass = true,
+                                startTime = newList[i].endTime,
+                                endTime = addTime(newList[i].endTime, minutesPerAssignment)
+                            )
+
+                            newList.add(newObject)
+                        }
+
+                        return recommendedScheduleString(newList)
+                    }
+                }
+                else{
+
+                    if(listOfOnlyAssignments.size == 2){
+
+                    }
+                    else{
+
+                    }
+                }
+
+                return totalMinutes.toString() + "\n" + sameIntAcrossAllAssignments.toString() + "\n" + sameIntOperationBoolean.toString()
             }
+            //This else statement executes if the scheduled
+            //event begins in the middle of the schedule.
             else {
-                return startTimeValue + " - " + listOfOnlyEvents[0].startTime + ": Blank\n" + listOfOnlyEvents[0].startTime + " - " + listOfOnlyEvents[0].endTime + ": " + listOfOnlyEvents[0].name
+
+                val newList : ArrayList<AssignmentClass> = ArrayList()
+
+                val a = AssignmentClass(
+                    difficulty = 0,
+                    name = "Blank",
+                    isAssignmentClass = true,
+                    startTime = startTimeValue.toString(),
+                    endTime = listOfOnlyEvents[0].startTime
+                )
+                val b = AssignmentClass(
+                    difficulty = 0,
+                    name = listOfOnlyEvents[0].name,
+                    isAssignmentClass = false,
+                    startTime = listOfOnlyEvents[0].startTime,
+                    endTime = listOfOnlyEvents[0].endTime
+                )
+
+                newList.add(a)
+                newList.add(b)
+
+                var sameIntAcrossAllAssignments : Int = listOfOnlyAssignments[0].difficulty
+                var sameIntOperationBoolean : Boolean = sameIntAcrossAllAssignmentsDeterminer(sameIntAcrossAllAssignments, listOfOnlyAssignments )
+                var totalMinutes : Int = mixedOnlyTotalMinutesDeterminer(newList)
+
+                if(sameIntOperationBoolean){
+
+                }
+                else{
+
+                }
             }
         }
 
@@ -510,7 +684,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
                 val c = AssignmentClass(
                     difficulty = 0,
                     name = "Blank",
-                    booleanClass = true,
+                    isAssignmentClass = true,
                     startTime = listOfOnlyEvents[i].endTime,
                     endTime = listOfOnlyEvents[i+1].startTime
                 )
@@ -529,7 +703,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
             val c = AssignmentClass(
                 difficulty = 0,
                 name = "Blank",
-                booleanClass = true,
+                isAssignmentClass = true,
                 startTime = startTimeValue.toString(),
                 endTime = listOfOnlyEvents[0].startTime
             )
@@ -542,7 +716,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
             val c = AssignmentClass(
                 difficulty = 0,
                 name = "Blank",
-                booleanClass = true,
+                isAssignmentClass = true,
                 startTime = listOfOnlyEvents[listOfOnlyEvents.size - 1].endTime,
                 endTime = endTimeValue.toString()
             )
@@ -554,6 +728,8 @@ class RecommendedSchedulePage : AppCompatActivity() {
         val sameIntOperationBoolean : Boolean = sameIntAcrossAllAssignmentsDeterminer(sameIntAcrossAllAssignments, listOfOnlyAssignments)
         val totalMinutes : Int = mixedOnlyTotalMinutesDeterminer(listOfOnlyEvents)
 
+        return sameIntAcrossAllAssignments.toString() + sameIntOperationBoolean.toString() + totalMinutes.toString()
+
         //This else if statement executes if we are dealing with
         //only 1 assignment and more than 1 scheduled event.
         if(listOfOnlyEvents.size > 1 && listOfOnlyAssignments.size == 1){
@@ -561,27 +737,12 @@ class RecommendedSchedulePage : AppCompatActivity() {
         }
         //This else if statement executes if we are dealing with
         //more than 1 assignment and only 1 scheduled event.
-        else if(listOfOnlyEvents.size == 1 && listOfOnlyAssignments.size > 1){
-
-        }
-        //This else statement executes if we are dealing with more
-        //than 1 assignment and more than 1 scheduled event.
-        else{
-
-        }
-       /* if(checkForNoLeftoverTime(listOfOnlyEvents)){
-            loopTest.text = "Something"
-            return  recommendedScheduleString(listOfOnlyEvents)
-        } */
-
-        if(sameIntOperationBoolean){
-
-        }
+        //(listOfOnlyEvents.size > 1 && listOfOnlyAssignments.size > 1)
         else{
 
         }
 
-        return recommendedScheduleString(listOfOnlyEvents) + "\n" + totalMinutes.toString()
+        return "Blank"
     }
 
     private fun checkForNoLeftoverTime(
@@ -608,7 +769,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
 
         for(currentIndex in listOfAssignments){
 
-            if(!currentIndex.booleanClass){
+            if(!currentIndex.isAssignmentClass){
                 listOfOnlyEvents.add(currentIndex)
             }
         }
@@ -626,7 +787,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
 
         for(currentIndex in listOfAssignments){
 
-            if(currentIndex.booleanClass){
+            if(currentIndex.isAssignmentClass){
                 listOfOnlyAssignments.add(currentIndex)
             }
         }
@@ -873,7 +1034,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
 
         for (currentIndex in listOfAssignments){
 
-            if(!currentIndex.booleanClass){
+            if(!currentIndex.isAssignmentClass){
 
                 count++
             }
@@ -891,7 +1052,7 @@ class RecommendedSchedulePage : AppCompatActivity() {
 
         for (currentIndex in listOfAssignments){
 
-            if(currentIndex.booleanClass){
+            if(currentIndex.isAssignmentClass){
 
                 count++
             }

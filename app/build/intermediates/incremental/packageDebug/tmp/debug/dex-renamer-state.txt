@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #Tue Dec 14 21:11:48 EST 2021
+=======
+#Tue Dec 07 14:37:24 EST 2021
+>>>>>>> e674a30c74293bb3f99f96da38b1c9b63e3e835f
 base.0=C\:\\Users\\Bryan\\Desktop\\AndroidStudioProjects\\LME\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 renamed.0=classes.dex
 path.0=classes.dex

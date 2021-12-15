@@ -208,7 +208,7 @@ class OtherAttributesPage : AppCompatActivity() {
                 val c = AssignmentClass(
                     difficulty = 0,
                     name = nameOfEvent.text.toString(),
-                    booleanClass = false,
+                    isAssignmentClass = false,
                     startTime = userStartTime,
                     endTime = userEndTime
                 )
@@ -283,7 +283,7 @@ class OtherAttributesPage : AppCompatActivity() {
 
             for(currentIndex in listOfAssignments){
 
-                if(!currentIndex.booleanClass) {
+                if(!currentIndex.isAssignmentClass) {
 
                     val currentIndexStartTime = LocalTime.parse(currentIndex.startTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
                     val currentIndexEndTime = LocalTime.parse(currentIndex.endTime, DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
@@ -313,8 +313,11 @@ class OtherAttributesPage : AppCompatActivity() {
 
         for(index in listOfAssignments){
 
-            if(!index.booleanClass){
+            if(!index.isAssignmentClass){
                 varStr = varStr + index.name + ": " + index.startTime + " - " + index.endTime + "\n"
+            }
+            else{
+                continue
             }
         }
 

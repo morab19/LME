@@ -11,7 +11,7 @@ import java.io.Serializable
 data class AssignmentClass(
     @ColumnInfo(name = "id") var difficulty: Int,
     @ColumnInfo(name = "name") var name: String,
-    @ColumnInfo(name = "booleanClass") var booleanClass: Boolean,
+    @ColumnInfo(name = "booleanClass") var isAssignmentClass: Boolean,
     @ColumnInfo(name = "startTime") var startTime: String,
     @ColumnInfo(name = "endTime") var endTime : String
 ): Serializable {
